@@ -12,7 +12,7 @@ class Unit extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'hide', 'grade_id'];
+    protected $fillable = ['name', 'hide', 'grade_id', 'image'];
     public $timestamps = false;
     public function lessons(){
         return $this -> hasMany('App\Models\Lesson','unit_id','id');

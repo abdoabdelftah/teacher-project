@@ -12,8 +12,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Grade;
 use Illuminate\Support\Facades\Hash;
+use App\Traits\ImageTrait;
 class gradesController extends Controller
 {
+
+    use ImageTrait;
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +24,10 @@ class gradesController extends Controller
      */
     public function index()
     {
-        $data = Grade::get();
-   
-        return view('admin.grades', compact('data'));
+
+        $grades = Grade::with('units.lessons.lessonsections')->get();
+
+        return view('admin.new.grades', compact('grades'));
     }
 
     /**
@@ -31,7 +35,7 @@ class gradesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Store a newly created resource in storage.
@@ -41,14 +45,23 @@ class gradesController extends Controller
      */
     public function store(Request $request)
     {
-       
-       
 
-        Grade::create([
-          
-            'name' => $request->name,
-          
-        ]);
+
+        $grade = new Grade;
+
+        $grade->name = $request->name;
+
+        if ($request->has('image')) {
+            $grade->image = $this->saveImage($request->image, 'images/grades');
+        }
+
+        if ($request->has('hide')) {
+            $grade->hide = 1;
+        }else{
+            $grade->hide = 0;
+        }
+
+        $grade->save();
 
         return redirect()->back()->with(['message' => 'تم اضافه كورس جديد ']);
     }
@@ -74,7 +87,8 @@ class gradesController extends Controller
     {
         $data = Grade::find($id);
       //return $data;
-        return view('admin.editgrade', compact('data'));
+        //return view('admin.editgrade', compact('data'));
+        return response()->json($data);
     }
 
     /**
@@ -86,17 +100,31 @@ class gradesController extends Controller
      */
     public function update(Request $request)
     {
+
         $grade = Grade::find($request->id);
         if (!$grade)
             return redirect()->back();
 
-        //update data
+        $grade->name = $request->name;
 
-        $grade->update($request->all());
-       
+        if ($request->has('image')) {
+
+            !empty($grade->image) ? $this->deleteImage($grade->image, 'grades'): '';
+
+            $grade->image = $this->saveImage($request->image, 'images/grades');
+        }
+
+        if ($request->has('hide')) {
+
+            $grade->hide = 1;
+        }else{
+            $grade->hide = 0;
+        }
+
+        $grade->save();
 
         return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
-   
+
     }
 
     /**

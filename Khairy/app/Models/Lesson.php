@@ -15,7 +15,7 @@ class Lesson extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'hide', 'unit_id', 'forum_id'];
+    protected $fillable = ['name', 'hide', 'unit_id', 'forum_id', 'image'];
     public $timestamps = false;
 
     public function lessonsections(){

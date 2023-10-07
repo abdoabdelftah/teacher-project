@@ -183,9 +183,9 @@ Route::group(['middleware' => ['auth:admin'],'prefix' => 'admin'], function() {
   ///////////////////////////////////////////////////////Students routes////////////////////////////////
   //  Route::view('/students','admin.students');
     Route::get('/students/{activeFilter?}/{gradeFilter?}/{search?}', 'Admin\studentsController@index')->name('allStudents');
-    Route::get('/students/edit/{id}', 'Admin\studentsController@edit');
-    Route::post('/students/search', 'Admin\studentsController@search')->name('search.student');
-    Route::post('/students/update', 'Admin\studentsController@update')->name('update.student');
+    Route::get('/student/edit/{id}', 'Admin\studentsController@edit');
+    Route::post('/student/search', 'Admin\studentsController@search')->name('search.student');
+    Route::post('/student/update', 'Admin\studentsController@update')->name('update.student');
     Route::get('/addstudent', 'Admin\studentsController@showgrade');
     Route::post('/storestudent', 'Admin\studentsController@store')->name('store.student');
 
@@ -282,7 +282,7 @@ Route::post('/edit/forum', 'Admin\forumsController@editforums')->name('edit.foru
 
 //////////////////////////////////////////////////////////Unit route/////////////////////////////////////
 
-Route::get('/units/{id}', 'Admin\unitsController@index');
+Route::get('/units/{id}', 'Admin\unitsController@index')->name('grade.units');
 Route::get('/units/edit/{id}', 'Admin\unitsController@edit');
 
 Route::post('/units/update', 'Admin\unitsController@update')->name('update.unit');

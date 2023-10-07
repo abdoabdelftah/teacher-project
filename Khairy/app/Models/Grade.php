@@ -13,7 +13,7 @@ class Grade extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'hide'];
+    protected $fillable = ['name', 'hide', 'admin_id', 'image', 'hide'];
 
     public $timestamps = false;
     public function units(){

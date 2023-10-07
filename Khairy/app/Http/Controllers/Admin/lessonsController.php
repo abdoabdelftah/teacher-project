@@ -14,9 +14,11 @@ use App\Models\Grade;
 use App\Models\Unit;
 use App\Models\Unitexamsection;
 use App\Models\Lesson;
+use App\Traits\ImageTrait;
 use Illuminate\Support\Facades\Hash;
 class lessonsController extends Controller
 {
+    use ImageTrait;
     /**
      * Display a listing of the resource.
      *
@@ -25,15 +27,13 @@ class lessonsController extends Controller
     public function index($id)
     {
 
-        $unit = Unit::where('id', $id)->first();
-        
-        $grade = Grade::where('id', $unit->grade_id)->first();
-        
-        $data = Lesson::where('unit_id', $id)->get();
 
-        $examsection = Unitexamsection::where('unit_id', $id)->get();
-   
-        return view('admin.lessons', compact('data','examsection', 'unit', 'grade'));
+        $grades = Grade::with('units.lessons.lessonsections')->get();
+
+        $lessons = Lesson::where('unit_id', $id)->get();
+
+
+        return view('admin.new.lessons', compact('lessons', 'grades', 'id'));
     }
 
     /**
@@ -41,7 +41,7 @@ class lessonsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Store a newly created resource in storage.
@@ -51,15 +51,22 @@ class lessonsController extends Controller
      */
     public function store(Request $request)
     {
-       
-       
 
-        Lesson::create([
-          
-            'name' => $request->name,
-            'unit_id' => $request->unit_id,
-          
-        ]);
+        $lesson = new Lesson;
+
+        $lesson->name = $request->name;
+        $lesson->unit_id = $request->unit_id;
+        if ($request->has('image')) {
+            $lesson->image = $this->saveImage($request->image, 'images/grades');
+        }
+
+        if ($request->has('hide')) {
+            $lesson->hide = 1;
+        }else{
+            $lesson->hide = 0;
+        }
+
+        $lesson->save();
 
         return redirect()->back()->with(['message' => 'تم اضافه درس جديد ']);
     }
@@ -73,7 +80,7 @@ class lessonsController extends Controller
     public function show($id)
     {
         $unit = Unit::where('id', $id)->first();
-        
+
         $grade = Grade::where('id', $unit->grade_id)->first();
 
         $mainid = Unit::find($id);
@@ -88,13 +95,10 @@ class lessonsController extends Controller
      */
     public function edit($id)
     {
-
         $data = Lesson::find($id);
-        $unit = Unit::where('id', $data->unit_id)->first();
-        
-        $grade = Grade::where('id', $unit->grade_id)->first();
-        //return $data;
-        return view('admin.editlesson', compact('data', 'unit', 'grade'));
+
+          return response()->json($data);
+
     }
 
     /**
@@ -106,17 +110,32 @@ class lessonsController extends Controller
      */
     public function update(Request $request)
     {
+
         $lesson = Lesson::find($request->id);
         if (!$lesson)
             return redirect()->back();
 
-        //update data
+        $lesson->name = $request->name;
 
-        $lesson->update($request->all());
-       
+        if ($request->has('image')) {
+
+            !empty($lesson->image) ? $this->deleteImage($lesson->image, 'grades'): '';
+
+            $lesson->image = $this->saveImage($request->image, 'images/grades');
+        }
+
+        if ($request->has('hide')) {
+
+            $lesson->hide = 1;
+        }else{
+            $lesson->hide = 0;
+        }
+
+        $lesson->save();
+
 
         return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
-   
+
     }
 
     /**
