@@ -69,7 +69,16 @@
   <!-- Users List Table -->
   <div class="card">
     <div class="card-header border-bottom">
+        <div class="row">
+            <div class="col-sm-3 col-xl-9">
       <h5 class="card-title">البحث</h5>
+            </div>
+            <div class="col-sm-3 col-xl-3">
+      <button type="button" class="btn rounded-pill btn-label-secondary waves-effect" data-bs-toggle="modal" data-bs-target="#basicModal">
+        تسجيل طالب جديد
+      </button>
+            </div>
+    </div>
       <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">
 
         <div class="col-sm-6 col-xl-3">
@@ -125,7 +134,7 @@
                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></button>
                         <div class="dropdown-menu">
 
-                          <a href="<?php echo e(url('admin/students/edit/'.$dat -> id)); ?>" class="btn rounded-pill btn-label-info waves-effect">تعديل</a>
+                          <a href="<?php echo e(url('admin/student/edit/'.$dat -> id)); ?>" class="btn rounded-pill btn-label-info waves-effect">تعديل</a>
 
                           <a href="<?php echo e(url('admin/allowlogin/'.$dat -> id)); ?>" class="btn rounded-pill btn-label-secondary waves-effect">السماح بتسجيل الدخول</a>
 
@@ -159,10 +168,87 @@
 
   </div>
 
+<!-- Modal -->
+<div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="POST" action="<?php echo e(route('store.student')); ?>">
+            <?php echo csrf_field(); ?>
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel1">اضافة طالب جديد</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+                  <input type="text" id="nameBasic" name="name" class="form-control" placeholder="اسم الطالب">
+
+                <label for="nameBasic">الاسم</label>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-2">
+              <div class="form-floating form-floating-outline">
+                <input type="text" name="phone_number" id="aemailBasic" class="form-control" placeholder="01093934554">
+                <label for="aemailBasic">رقم الهاتف</label>
+              </div>
+            </div>
+
+            <div class="col mb-2">
+              <div class="form-floating form-floating-outline">
+                <input type="password" name="password" id="dobBasic" class="form-control" placeholder="*********">
+                <label for="dobBasic">كلمة المرور</label>
+              </div>
+            </div>
+          </div>
+          <hr class="my-4 mx-n4" />
+          <div class="col mb-2">
+
+                <label>السنة الدراسية</label>
+                <div class="row">
+            <?php $__currentLoopData = $grades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $grade): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="col-sm-6 col-xl-6">
+            <div class="form-check">
+              <label style ="font-size:20px; bold">
+                &nbsp; &nbsp;  &nbsp;  &nbsp;<input type="checkbox"   name = "grade_id[]"  value = "<?php echo e($grade->id); ?>" >  &nbsp;  &nbsp;<?php echo e($grade->name); ?></label>
+              </div>
+            </div>
+              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+          </div>
+        </div>
+        <hr class="my-4 mx-n4" />
+
+        <div class="row g-2">
+            <div class="col mb-2">
+                <label for="emailBasic">تاريخ انتهاء الاشتراك</label>
+
+                <input type="date" name="subscription_end_date" id="emailBasic" class="form-control" value="<?php echo e($plusMonth); ?>">
+
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">الغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+
 
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
+
+<script src="<?php echo e(asset('admin/assets/js/ui-modals.js')); ?>"></script>
 
 <script src="<?php echo e(asset('admin/assets/js/app-user-list.js')); ?>"></script>
 <script>

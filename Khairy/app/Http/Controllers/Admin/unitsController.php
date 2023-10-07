@@ -12,9 +12,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Grade;
 use App\Models\Unit;
+use App\Traits\ImageTrait;
 use Illuminate\Support\Facades\Hash;
 class unitsController extends Controller
 {
+    use ImageTrait;
     /**
      * Display a listing of the resource.
      *
@@ -23,11 +25,9 @@ class unitsController extends Controller
     public function index($id)
     {
 
-        $grade = Grade::where('id', $id)->first();
+        $grades = Grade::with('units.lessons.lessonsections')->get();
 
-        $data = Unit::where('grade_id', $id)->get();
-   
-        return view('admin.units', compact('data', 'grade'));
+        return view('admin.new.units', compact('id', 'grades'));
     }
 
     /**
@@ -35,7 +35,7 @@ class unitsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Store a newly created resource in storage.
@@ -45,15 +45,23 @@ class unitsController extends Controller
      */
     public function store(Request $request)
     {
-       
-       
 
-        Unit::create([
-          
-            'name' => $request->name,
-            'grade_id' => $request->grade_id,
-          
-        ]);
+        $unit = new Unit;
+
+        $unit->name = $request->name;
+        $unit->grade_id = $request->grade_id;
+        if ($request->has('image')) {
+            $unit->image = $this->saveImage($request->image, 'images/grades');
+        }
+
+        if ($request->has('hide')) {
+            $unit->hide = 1;
+        }else{
+            $unit->hide = 0;
+        }
+
+        $unit->save();
+
 
         return redirect()->back()->with(['message' => 'تم اضافه وحدة جديد ']);
     }
@@ -67,7 +75,7 @@ class unitsController extends Controller
     public function show($id)
     {
         $grade = Grade::where('id', $id)->first();
-        
+
 
         $mainid = Grade::find($id);
         return view('admin.addunit', compact('mainid' , 'grade'));
@@ -81,11 +89,11 @@ class unitsController extends Controller
      */
     public function edit($id)
     {
-        
+
         $data = Unit::find($id);
-        $grade = Grade::where('id', $data->grade_id)->first();
-      //return $data;
-        return view('admin.editunit', compact('data' , 'grade'));
+
+          return response()->json($data);
+
     }
 
     /**
@@ -101,13 +109,26 @@ class unitsController extends Controller
         if (!$unit)
             return redirect()->back();
 
-        //update data
+        $unit->name = $request->name;
 
-        $unit->update($request->all());
-       
+        if ($request->has('image')) {
+
+            !empty($unit->image) ? $this->deleteImage($unit->image, 'grades'): '';
+
+            $unit->image = $this->saveImage($request->image, 'images/grades');
+        }
+
+        if ($request->has('hide')) {
+
+            $unit->hide = 1;
+        }else{
+            $unit->hide = 0;
+        }
+
+        $unit->save();
 
         return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
-   
+
     }
 
     /**

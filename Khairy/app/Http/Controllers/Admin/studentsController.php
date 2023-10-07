@@ -22,7 +22,7 @@ use App\Models\GradeUser;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\Auth;
 class studentsController extends Controller
 {
     /**
@@ -64,7 +64,8 @@ class studentsController extends Controller
 
     $grades = Grade::get();
 
-    return view('admin.new.students', compact('data', 'totalUsers', 'activeUsers', 'grades', 'activeFilter', 'gradeFilter', 'search'));
+    $plusMonth =  Carbon::now()->addMonth()->format('Y-m-d');
+    return view('admin.new.students', compact('data', 'totalUsers', 'activeUsers', 'grades', 'activeFilter', 'gradeFilter', 'search', 'plusMonth'));
     }
 
 
@@ -239,7 +240,7 @@ class studentsController extends Controller
     {
         $student = User::where('phone_number',$request->phone_number)->first();
         if ($student)
-            return redirect()->back()->with(['message' => 'فشلت العملية. هذا الكود قد تم استخدامه من قبل']);
+            return redirect()->back()->with(['message' => 'فشلت العملية. هذا الرقم قد تم استخدامه من قبل']);
 
         $password = Hash::make($request->password);
 
@@ -251,7 +252,8 @@ class studentsController extends Controller
             'phone_number' => $request->phone_number,
             'password' => $password,
             'last_login_date' => '2020-1-1',
-            //'subscription_end_date' => $subscription_end_date,
+            'subscription_end_date' => $request->subscription_end_date,
+            'admin_id' => Auth::user()->id,
         ]);
 
         $student_id = User::max('id');
