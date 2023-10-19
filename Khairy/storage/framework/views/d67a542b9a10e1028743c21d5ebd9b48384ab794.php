@@ -117,7 +117,9 @@
 
      <a href="/admin/units/<?php echo e($grade->id); ?>"> <img src="<?php echo e(asset('admin/assets/img/folder.png')); ?>" alt="" class="mx-auto d-block" >
 
-     <center> <h5 class="mb-1"><?php echo e($grade->name); ?></h5> </center>
+     <center> <h5 class="mb-1"><?php echo e($grade->name); ?></h5> <?php if($grade->hide == 1): ?> <i class="mdi mdi-eye-off-outline"></i>
+
+        <?php endif; ?></center>
 
     </a>
             </p>

@@ -26,19 +26,16 @@ class lessonsectionsController extends Controller
     public function index($id)
     {
 
+        $grades = Grade::with('units.lessons.lessonsections')->get();
 
-        $lesson =  Lesson::where('id', $id)->first();
+        $data = Lessonsection::where('lesson_id', $id)->withCount('sectionFollowup')->orderBy('priority', 'ASC')->get();
+
+        $userCount = User::whereHas('grades.units.lessons', function($query) use ($id) {
+            $query->where('lessons.id', $id);
+        })->count();
 
 
-        $unit = Unit::where('id', $lesson->unit_id)->first();
-        
-        $grade = Grade::where('id', $unit->grade_id)->first();
-
-     
-
-        $data = Lessonsection::where('lesson_id', $id)->orderBy('priority', 'ASC')->get();
-   
-        return view('admin.lessonsections', compact('data', 'lesson', 'unit', 'grade'));
+        return view('admin.new.lessonsections', compact('data', 'grades', 'id', 'userCount'));
     }
 
     /**
@@ -46,7 +43,7 @@ class lessonsectionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Store a newly created resource in storage.
@@ -56,35 +53,35 @@ class lessonsectionsController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $type = $request->section_type;
 
         if($type == 5){
 
             Lessonsection::create([
-          
+
                 'name' => $request->name,
                 'lesson_id' => $request->lesson_id,
                 'section_type' => $request->section_type,
                 'priority' => $request->priority,
-              
+
             ]);
 
             $lesson_section_id = Lessonsection::max('id');
 
             Lecture::create([
-          
+
                 'name' => $request->name,
                 'lesson_id' => $request->lesson_id,
                 'lesson_section_id' => $lesson_section_id,
-                
-              
+
+
             ]);
 
         }else{
 
         Lessonsection::create([
-          
+
             'name' => $request->name,
             'lesson_id' => $request->lesson_id,
             'section_type' => $request->section_type,
@@ -94,7 +91,7 @@ class lessonsectionsController extends Controller
 
 
             //'stop_watch' => $request->stop_watch,
-          
+
         ]);
 
         }
@@ -114,7 +111,7 @@ class lessonsectionsController extends Controller
 
 
         $unit = Unit::where('id', $lesson->unit_id)->first();
-        
+
         $grade = Grade::where('id', $unit->grade_id)->first();
 
         $mainid = Lesson::find($id);
@@ -129,19 +126,11 @@ class lessonsectionsController extends Controller
      */
     public function edit($id)
     {
-       
+
 
         $data = Lessonsection::find($id);
 
-        $lesson =  Lesson::where('id', $data->lesson_id)->first();
-
-
-        $unit = Unit::where('id', $lesson->unit_id)->first();
-        
-        $grade = Grade::where('id', $unit->grade_id)->first();
-
-      //return $data;
-        return view('admin.editlessonsection', compact('data', 'lesson', 'unit', 'grade'));
+        return response()->json($data);
     }
 
     /**
@@ -153,17 +142,32 @@ class lessonsectionsController extends Controller
      */
     public function update(Request $request)
     {
+
         $lessonsection = Lessonsection::find($request->id);
         if (!$lessonsection)
             return redirect()->back();
 
-        //update data
+        $lessonsection->name = $request->name;
 
-        $lessonsection->update($request->all());
-       
+        if ($request->has('hide')) {
 
-        return redirect('admin/lessonsections/'.$lessonsection->lesson_id)->with(['message' => ' تم التحديث بنجاح ']);
-   
+            $lessonsection->hide = 1;
+        }else{
+            $lessonsection->hide = 0;
+        }
+
+        if ($request->has('block')) {
+
+            $lessonsection->block = 1;
+        }else{
+            $lessonsection->block = 0;
+        }
+
+        $lessonsection->save();
+
+
+        return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
+
     }
 
     /**
@@ -172,6 +176,27 @@ class lessonsectionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function updateOrder(Request $request)
+    {
+
+
+        $priorities = $request->input('priorities');
+
+        foreach ($priorities as $index => $priorityData) {
+            $sectionId = $priorityData['id'];
+            $priority = $index + 1;
+
+            // Update the priority in the database
+            // Assuming you have a Section model and a priority column
+            Lessonsection::where('id', $sectionId)->update(['priority' => $priority]);
+        }
+
+        return response()->json(['success' => true]);
+
+    }
+
+
     public function destroy($id)
     {
         //

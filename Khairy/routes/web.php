@@ -317,7 +317,7 @@ Route::get('/addlessonsection/{id}', 'Admin\lessonsectionsController@show');
 
 Route::post('/storelessonsections', 'Admin\lessonsectionsController@store')->name('store.lessonsection');
 
-
+Route::post('/update-card-order', 'Admin\lessonsectionsController@updateOrder')->name('update.order');
 
 /////////////////////////////Lecture//////////////////////
 Route::get('/lectureedit/{id}', 'Admin\lecturesController@edit');
@@ -349,6 +349,10 @@ Route::get('/addlessonhomework/{id}', 'Admin\lessonhomeworksController@show');
 
 Route::post('/storelessonhomeworks', 'Admin\lessonhomeworksController@store')->name('store.lessonhomework');
 
+
+Route::get('/getUnits/{gradeId}', 'Admin\lessonhomeworksController@getUnits');
+Route::get('/getLessons/{unitId}', 'Admin\lessonhomeworksController@getLessons');
+Route::get('/getLessonSections/{lessonId}', 'Admin\lessonhomeworksController@getLessonSections');
 
 
 /////////////////////////////lesson  text exam//////////////////////

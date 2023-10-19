@@ -28,7 +28,7 @@ class lecturesController extends Controller
     public function index($id)
     {
 
-      
+
     }
 
     /**
@@ -36,7 +36,7 @@ class lecturesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Store a newly created resource in storage.
@@ -46,7 +46,7 @@ class lecturesController extends Controller
      */
     public function upload(Request $request)
     {
-       
+
         if($request->hasFile('upload')) {
             $originName = $request->file('upload')->getClientOriginalName();
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
@@ -54,12 +54,12 @@ class lecturesController extends Controller
             $fileName = $fileName.'_'.time().'.'.$extension;
             $request->file('upload')->move(public_path('images/lectures'), $fileName);
             $CKEditorFuncNum = $request->input('CKEditorFuncNum');
-            $url = asset('images/lectures/'.$fileName); 
-            $msg = 'Image successfully uploaded'; 
+            $url = asset('images/lectures/'.$fileName);
+            $msg = 'Image successfully uploaded';
             $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
-               
-           // @header('Content-type: text/html; charset=utf-8'); 
-           echo $url; 
+
+           // @header('Content-type: text/html; charset=utf-8');
+           echo $url;
            echo $response;
         }
 
@@ -73,7 +73,7 @@ class lecturesController extends Controller
      */
     public function show($id)
     {
-      
+
     }
 
     /**
@@ -84,19 +84,14 @@ class lecturesController extends Controller
      */
     public function edit($id)
     {
-
-        $lessonsection =  Lessonsection::where('id', $id)->first();
-
-        $lesson =  Lesson::where('id', $lessonsection->lesson_id)->first();
-
-
-        $unit = Unit::where('id', $lesson->unit_id)->first();
-        
-        $grade = Grade::where('id', $unit->grade_id)->first();
+        $grades = Grade::with('units.lessons.lessonsections')->get();
 
         $data = Lecture::where('lesson_section_id', $id)->first();
-      //return $data;
-        return view('admin.editlecture', compact('data', 'lessonsection', 'lesson', 'unit', 'grade'));
+
+        if (!$data){
+           $data = Lecture::Create(['lesson_section_id' => $id]);
+        }
+        return view('admin.new.editlecture', compact('data', 'grades', 'id'));
     }
 
     /**
@@ -108,98 +103,26 @@ class lecturesController extends Controller
      */
     public function update(Request $request)
     {
-      
+        $request->validate([
+            'content' => 'required',
+        ]);
+
+        $lecture = Lecture::where('lesson_section_id', $request->id)->first();
+        if (!$lecture)
+            return redirect()->back();
+
+            !empty($lecture->content) && ($lecture->type == 2 || $lecture->type == 3) ? $this->deleteImage($lecture->content, 'lectures'): '';
+
+            $lecture->content = $request->type == 3 || $request->type == 2 ? $this->saveImage($request->content, 'images/lectures') : $request->content ;
+
+            $lecture->type = $request->type;
+
+            $lecture->save();
 
 
-        if($request->type == 3 || $request->type == 2 ){
-
-            if(! empty($request->content)){
-            $content = $this->saveImage($request->content, 'images/lectures');
+        return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
 
 
-            
-          $lecture = Lecture::find($request->id);
-          if (!$lecture)
-              return redirect()->back();
-  
-          //update data
-  
-        $lecture->update([
-                'name' => $request->name,
-                'type' => $request->type,
-                'content' => $content,
-            ]);
-            return redirect('admin/lessonsections/'.$lecture->lesson_id)->with(['message' => ' تم التحديث بنجاح ']);
-     
-          }else{
-
-          $lecture = Lecture::find($request->id);
-          if (!$lecture)
-              return redirect()->back();
-  
-          //update data
-  
-        $lecture->update([
-                'name' => $request->name,
-                'type' => $request->type,
-               
-            ]);
-
-            return redirect('admin/lessonsections/'.$lecture->lesson_id)->with(['message' => ' تم التحديث بنجاح ']);
-        }
-         
-        }elseif($request->type = 1){
-             
-            $content = $request->content;
-        
-            $lecture = Lecture::find($request->id);
-            if (!$lecture)
-                return redirect()->back();
-    
-            //update data
-    
-          $lecture->update([
-                  'name' => $request->name,
-                  'type' => $request->type,
-                  'content' => $request->content,
-              ]);
-
-            return redirect('admin/lessonsections/'.$lecture->lesson_id)->with(['message' => ' تم التحديث بنجاح ']);
-        }else{
-
-         
-
-            $lecture = Lecture::find($request->id);
-            if (!$lecture)
-                return redirect()->back();
-    
-            //update data
-    
-          $lecture->update([
-                  'name' => $request->name,
-                  'type' => $request->type,
-                  
-              ]);
-
-              //return redirect()->back()->with(['message' => ' الرجاء اضافة المحتوى بالاسفل ']);
-              
-            return redirect('admin/lectureedit/'.$lecture->lesson_section_id)->with(['message' => '  الرجاء اضافة المحتوى بالاسفل']);
-
-        }
-
-
-      
-       
-    
-     //   if($lecture->content != 'Null'){
-      
-      //  }
-
-
-      
- 
-
-      
     }
 
     /**
