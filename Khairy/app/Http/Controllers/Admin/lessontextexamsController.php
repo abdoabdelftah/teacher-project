@@ -37,11 +37,11 @@ class lessontextexamsController extends Controller
 
 
         $unit = Unit::where('id', $lesson->unit_id)->first();
-        
+
         $grade = Grade::where('id', $unit->grade_id)->first();
 
         $data = Exam::where('lesson_section_id', $id)->where('type' , '6')->get();
-   
+
         return view('admin.lessontextexams', compact('data', 'lessonsection', 'lesson', 'unit', 'grade'));
     }
 
@@ -50,7 +50,7 @@ class lessontextexamsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Store a newly created resource in storage.
@@ -60,7 +60,7 @@ class lessontextexamsController extends Controller
      */
     public function store(Request $request)
     {
-       
+
 
         Exam::create($request->all());
 
@@ -83,7 +83,7 @@ class lessontextexamsController extends Controller
 
 
         $unit = Unit::where('id', $lesson->unit_id)->first();
-        
+
         $grade = Grade::where('id', $unit->grade_id)->first();
 
         $mainid = Lessonsection::find($id);
@@ -106,7 +106,7 @@ class lessontextexamsController extends Controller
 
 
         $unit = Unit::where('id', $lesson->unit_id)->first();
-        
+
         $grade = Grade::where('id', $unit->grade_id)->first();
 
       //return $data;
@@ -123,7 +123,7 @@ class lessontextexamsController extends Controller
     public function update(Request $request)
     {
 
-        
+
 
         $exam = Exam::find($request->id);
         if (!$exam)
@@ -131,7 +131,7 @@ class lessontextexamsController extends Controller
 
         //update data
 
-     
+
         if($exam->question_type == 1){
          $question = $request->question;
 
@@ -141,25 +141,25 @@ class lessontextexamsController extends Controller
         }
 
 
-       
+
 
 
 
         $exam->update([
             'name' => $request->name,
-         
+
             'points' => $request->points,
             'question' => $question,
-           
+
             'hide' => $request->hide,
-        
+
             ]);
 
-     
-       
+
+
 
         return redirect('admin/lessontextexams/'.$exam->lesson_section_id)->with(['message' => ' تم التحديث بنجاح ']);
-   
+
     }
 
     /**
@@ -168,8 +168,8 @@ class lessontextexamsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function indexPdf($id)
     {
-        //
+        return "NEEDED";
     }
 }

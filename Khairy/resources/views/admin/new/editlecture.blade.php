@@ -105,17 +105,17 @@
                                             class="tf-icons mdi mdi-account-outline me-1"></i> ملف</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="button" class="nav-link @if ($data->type == 3) active @endif"
+                                    <button type="button" class="nav-link @if ($data->type == 1) active @endif"
                                         role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-messages"
                                         aria-controls="navs-justified-messages"
-                                        aria-selected="@if ($data->type == 3) true @else false @endif"><i
+                                        aria-selected="@if ($data->type == 1) true @else false @endif"><i
                                             class="tf-icons mdi mdi-message-text-outline me-1"></i> صورة</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="button" class="nav-link @if ($data->type == 4) active @endif"
+                                    <button type="button" class="nav-link @if ($data->type == 3) active @endif"
                                         role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-home"
                                         aria-controls="navs-justified-home"
-                                        aria-selected="@if ($data->type == 4) true @else false @endif"><i
+                                        aria-selected="@if ($data->type == 3) true @else false @endif"><i
                                             class="tf-icons mdi mdi-message-text-outline me-1"></i> فديو</button>
                                 </li>
                             </ul>
@@ -156,7 +156,7 @@
 
 
                             </div>
-                            <div class="tab-pane @if ($data->type == 3) show active @else fade @endif"
+                            <div class="tab-pane @if ($data->type == 1) show active @else fade @endif"
                                 id="navs-justified-messages" role="tabpanel">
 
                                 <div class="col-md">
@@ -181,7 +181,7 @@
                                     </div>
                                 </div>
 
-                                @if ($data->type == 3 && !empty($data->content))
+                                @if ($data->type == 1 && !empty($data->content))
                                     <img src="{{ $data->content }}" alt="image" style=" max-width: 100%;
                                     height: auto;">
                                 @endif
@@ -189,7 +189,7 @@
 
                             </div>
 
-                            <div class="tab-pane @if ($data->type == 4) show active @else fade @endif"
+                            <div class="tab-pane @if ($data->type == 3) show active @else fade @endif"
                                 id="navs-justified-home" role="tabpanel">
 
                                 <div class="row">

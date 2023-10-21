@@ -22,7 +22,6 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 
-
 <div class="row g-4 mb-4">
 
     <div class="col-sm-6 col-xl-12">
@@ -249,9 +248,8 @@
 <div class="modal fade" id="copy-question" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="POST" action="<?php echo e(route('store.lessonhomework')); ?>" enctype="multipart/form-data">
+            <form method="POST" action="<?php echo e(route('move.exam')); ?>" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
-                <input type="hidden" value ="<?php echo e($lessonsection->id); ?>" name="section_id" id="section-id">
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalLabel1">نسخ السؤال</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -283,7 +281,7 @@
                         <!-- Select Lesson Section (Initially hidden) -->
                         <div id="lessonSectionDiv" style="display:none;">
                             <br>
-                            <select id="lessonSections" class="form-select"></select>
+                            <select id="lessonSections" name="section_id" class="form-select"></select>
                         </div>
 
 
@@ -313,7 +311,7 @@
  <div class="modal fade" id="addQuestion" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="POST" action="<?php echo e(route('store.lessonhomework')); ?>" enctype="multipart/form-data">
+            <form method="POST" action="<?php echo e(route('store.exam')); ?>" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" value ="<?php echo e($lessonsection->id); ?>" name="section_id" id="section-id">
                 <div class="modal-header">
@@ -506,6 +504,12 @@
 
 
 
+<?php if(Session::has('target')): ?>
+
+    <script>
+         window.open('/admin/exams/<?php echo e(Session::get('target')); ?>', '_blank');
+    </script>
+<?php endif; ?>
 
 
 
@@ -676,13 +680,15 @@
             var examId = $(this).data('question-id');
             $('<input>').attr({
                 type: 'hidden',
-                name: 'section_id',
+                name: 'exam_id',
                 value: examId
             }).appendTo('#lessonSectionDiv');
-            console.log(examId);
+
         });
 
     });
+
+
 </script>
 
 

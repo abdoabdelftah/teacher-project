@@ -105,17 +105,17 @@
                                             class="tf-icons mdi mdi-account-outline me-1"></i> ملف</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="button" class="nav-link <?php if($data->type == 3): ?> active <?php endif; ?>"
+                                    <button type="button" class="nav-link <?php if($data->type == 1): ?> active <?php endif; ?>"
                                         role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-messages"
                                         aria-controls="navs-justified-messages"
-                                        aria-selected="<?php if($data->type == 3): ?> true <?php else: ?> false <?php endif; ?>"><i
+                                        aria-selected="<?php if($data->type == 1): ?> true <?php else: ?> false <?php endif; ?>"><i
                                             class="tf-icons mdi mdi-message-text-outline me-1"></i> صورة</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="button" class="nav-link <?php if($data->type == 4): ?> active <?php endif; ?>"
+                                    <button type="button" class="nav-link <?php if($data->type == 3): ?> active <?php endif; ?>"
                                         role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-home"
                                         aria-controls="navs-justified-home"
-                                        aria-selected="<?php if($data->type == 4): ?> true <?php else: ?> false <?php endif; ?>"><i
+                                        aria-selected="<?php if($data->type == 3): ?> true <?php else: ?> false <?php endif; ?>"><i
                                             class="tf-icons mdi mdi-message-text-outline me-1"></i> فديو</button>
                                 </li>
                             </ul>
@@ -156,7 +156,7 @@
 
 
                             </div>
-                            <div class="tab-pane <?php if($data->type == 3): ?> show active <?php else: ?> fade <?php endif; ?>"
+                            <div class="tab-pane <?php if($data->type == 1): ?> show active <?php else: ?> fade <?php endif; ?>"
                                 id="navs-justified-messages" role="tabpanel">
 
                                 <div class="col-md">
@@ -181,7 +181,7 @@
                                     </div>
                                 </div>
 
-                                <?php if($data->type == 3 && !empty($data->content)): ?>
+                                <?php if($data->type == 1 && !empty($data->content)): ?>
                                     <img src="<?php echo e($data->content); ?>" alt="image" style=" max-width: 100%;
                                     height: auto;">
                                 <?php endif; ?>
@@ -189,7 +189,7 @@
 
                             </div>
 
-                            <div class="tab-pane <?php if($data->type == 4): ?> show active <?php else: ?> fade <?php endif; ?>"
+                            <div class="tab-pane <?php if($data->type == 3): ?> show active <?php else: ?> fade <?php endif; ?>"
                                 id="navs-justified-home" role="tabpanel">
 
                                 <div class="row">

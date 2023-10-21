@@ -14,7 +14,7 @@ return array(
     'App\\Http\\Controllers\\Admin\\gradesController' => $baseDir . '/app/Http/Controllers/Admin/gradesController.php',
     'App\\Http\\Controllers\\Admin\\lecturesController' => $baseDir . '/app/Http/Controllers/Admin/lecturesController.php',
     'App\\Http\\Controllers\\Admin\\lessonexamsController' => $baseDir . '/app/Http/Controllers/Admin/lessonexamsController.php',
-    'App\\Http\\Controllers\\Admin\\lessonhomeworksController' => $baseDir . '/app/Http/Controllers/Admin/lessonhomeworksController.php',
+    'App\\Http\\Controllers\\Admin\\examsController' => $baseDir . '/app/Http/Controllers/Admin/examsController.php',
     'App\\Http\\Controllers\\Admin\\lessonsController' => $baseDir . '/app/Http/Controllers/Admin/lessonsController.php',
     'App\\Http\\Controllers\\Admin\\lessonsectionsController' => $baseDir . '/app/Http/Controllers/Admin/lessonsectionsController.php',
     'App\\Http\\Controllers\\Admin\\lessontextexamsController' => $baseDir . '/app/Http/Controllers/Admin/lessontextexamsController.php',

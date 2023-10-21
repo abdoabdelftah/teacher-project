@@ -111,9 +111,9 @@ class lecturesController extends Controller
         if (!$lecture)
             return redirect()->back();
 
-            !empty($lecture->content) && ($lecture->type == 2 || $lecture->type == 3) ? $this->deleteImage($lecture->content, 'lectures'): '';
+            !empty($lecture->content) && ($lecture->type == 1 || $lecture->type == 2) ? $this->deleteImage($lecture->content, 'lectures'): '';
 
-            $lecture->content = $request->type == 3 || $request->type == 2 ? $this->saveImage($request->content, 'images/lectures') : $request->content ;
+            $lecture->content = $request->type == 1 || $request->type == 2 ? $this->saveImage($request->content, 'images/lectures') : $request->content ;
 
             $lecture->type = $request->type;
 

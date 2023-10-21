@@ -115,6 +115,11 @@
                                                     <a class="dropdown-item edit-section"
                                                         data-section-id="<?php echo e($section->id); ?>"
                                                         href="javascript:void(0);">تعديل</a>
+
+                                                        <a class="dropdown-item copy-questiona"
+                                                        data-section-id="<?php echo e($section->id); ?>"
+                                                        data-bs-toggle="modal" data-bs-target="#copy-question"
+                                                        href="javascript:void(0);" >نسخ</a>
                                                 </div>
                                             </div>
 
@@ -128,58 +133,86 @@
                                             </div>
                                             <div class="d-flex align-items-center mt-3">
 
-                                                <?php if($section->section_type == 5 || $section->section_type == 7): ?>
-                                                    <!-- شرح -->
-                                                    <?php if($section->lecture && $section->lecture->type == 2): ?><span class="mdi mdi-panorama-variant-outline mdi-48px"></span>
-                                                    <?php elseif($section->lecture && $section->lecture->type == 3): ?>  <span class="mdi mdi-file-pdf-box mdi-48px"></span>
-                                                    <?php elseif($section->lecture && $section->lecture->type == 4): ?>  <span class="mdi mdi-video-outline mdi-48px"></span>
-                                                    <?php else: ?>  <span class="mdi mdi-book-open-page-variant-outline mdi-48px"></span>
-                                                    <?php endif; ?>
+                                                  <!--
+                                                Old ->
 
-                                                <?php endif; ?>
+                                                1 exam with no time
+                                                2 exam with time
+                                                3
+                                                4
+                                                5 or 7 Picture or video or pdf
+                                                6  text exam
+                                                ---------------------------------------------------
+                                                New ->
+
+                                                1 exam with no time
+                                                2 exam with time
+                                                3 text exam
+                                                4 PDF exam
+                                                5 Picture or video or pdf
+
+
+                                                -->
 
                                                 <?php if($section->section_type == 1): ?>
-                                                    <!-- واجب-->
+                                                    <!-- امتحان الاختيار من متعدد بدون وقت-->
                                                     <span class="mdi mdi-table-check mdi-48px"></span>
                                                 <?php endif; ?>
 
                                                 <?php if($section->section_type == 2): ?>
-                                                    <!-- امتحان الاختيار من متعدد-->
+                                                    <!--  بوقتامتحان الاختيار من متعدد-->
                                                     <span class="mdi mdi-timetable mdi-48px"></span>
                                                 <?php endif; ?>
 
-                                                <?php if($section->section_type == 6): ?>
+                                                <?php if($section->section_type == 3): ?>
                                                     <!--  امتحان الاجابة المقالية-->
                                                     <span class="mdi mdi-pencil-box-outline mdi-48px"></span>
+                                                <?php endif; ?>
+
+                                                <?php if($section->section_type == 4): ?>
+                                                <!-- PDF امتحان الاجابة ب-->
+                                                <span class="mdi mdi-pencil-box-outline mdi-48px"></span>
+                                                <?php endif; ?>
+
+                                                <?php if($section->section_type == 5): ?>
+                                                <!-- شرح -->
+                                                <?php if($section->lecture && $section->lecture->type == 1): ?><span class="mdi mdi-panorama-variant-outline mdi-48px"></span>
+                                                <?php elseif($section->lecture && $section->lecture->type == 2): ?>  <span class="mdi mdi-file-pdf-box mdi-48px"></span>
+                                                <?php elseif($section->lecture && $section->lecture->type == 3): ?>  <span class="mdi mdi-video-outline mdi-48px"></span>
+                                                <?php else: ?>  <span class="mdi mdi-book-open-page-variant-outline mdi-48px"></span>
+                                                <?php endif; ?>
+
                                                 <?php endif; ?>
 
                                                 <div class="d-flex flex-column w-100 ms-4">
                                                     <h6 class="mb-3">
 
-                                                        <?php if($section->section_type == 5 || $section->section_type == 7): ?>
-                                                        <?php echo e($section->lecture && $section->lecture->type == 2 ?'صورة' : ''); ?>
-
-                                                        <?php echo e($section->lecture && $section->lecture->type == 3 ?'ملف' : ''); ?>
-
-                                                        <?php echo e($section->lecture && $section->lecture->type == 4 ?'فديو' : ''); ?>
-
-                                                        <?php echo e(!$section->lecture || $section->lecture->type == Null ?'صورة او فديو او ملف' : ''); ?>
-
-                                                        <?php endif; ?>
-
                                                         <?php if($section->section_type == 1): ?>
-                                                            امتحان الاختيار من متعدد بدون وقت
+                                                            امتحان الاختيار من متعدد
                                                         <?php endif; ?>
 
                                                         <?php if($section->section_type == 2): ?>
                                                             امتحان الاختيار من متعدد بوقت
                                                         <?php endif; ?>
 
-                                                        <?php if($section->section_type == 6): ?>
+                                                        <?php if($section->section_type == 3): ?>
                                                             امتحان الاجابة المقالية
                                                         <?php endif; ?>
 
+                                                        <?php if($section->section_type == 4): ?>
+                                                            امتحان يتم الاجابة عنه برفع ملف
+                                                        <?php endif; ?>
 
+                                                        <?php if($section->section_type == 5): ?>
+                                                        <?php echo e($section->lecture && $section->lecture->type == 1 ?'صورة' : ''); ?>
+
+                                                        <?php echo e($section->lecture && $section->lecture->type == 2 ?'ملف' : ''); ?>
+
+                                                        <?php echo e($section->lecture && $section->lecture->type == 3 ?'فديو' : ''); ?>
+
+                                                        <?php echo e(!$section->lecture || $section->lecture->type == Null ?'صورة او فديو او ملف' : ''); ?>
+
+                                                        <?php endif; ?>
 
                                                     </h6>
                                                     <div class="row d-flex flex-wrap justify-content-between">
@@ -213,33 +246,29 @@
                                             <div class="mt-3 pt-1">
                                                 <div class="text-end">
 
-                                                    <?php if($section->section_type == 5 || $section->section_type == 7): ?>
+                                                    <?php if($section->section_type == 1 || $section->section_type == 2): ?>
+                                                        <a href="<?php echo e(url('admin/exams/' . $section->id)); ?>"
+                                                            type="button"
+                                                            class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
+                                                    <?php endif; ?>
+
+                                                    <?php if($section->section_type == 3): ?>
+                                                        <a href="<?php echo e(url('admin/lessontextexam/' . $section->id)); ?>"
+                                                            type="button"
+                                                            class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
+                                                    <?php endif; ?>
+
+                                                    <?php if($section->section_type == 4): ?>
+                                                    <a href="<?php echo e(url('admin/lessonpdfexam/' . $section->id)); ?>"
+                                                        type="button"
+                                                        class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
+                                                    <?php endif; ?>
+
+                                                    <?php if($section->section_type == 5): ?>
                                                     <a href="<?php echo e(url('admin/lectureedit/' . $section->id)); ?>"
                                                         type="button"
                                                         class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
-
-
                                                     <?php endif; ?>
-
-                                                    <?php if($section->section_type == 1): ?>
-                                                        <a href="<?php echo e(url('admin/lessonhomeworks/' . $section->id)); ?>"
-                                                            type="button"
-                                                            class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
-                                                    <?php endif; ?>
-
-                                                    <?php if($section->section_type == 2): ?>
-                                                        <a href="<?php echo e(url('admin/lessonexams/' . $section->id)); ?>"
-                                                            type="button"
-                                                            class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
-                                                    <?php endif; ?>
-
-
-                                                    <?php if($section->section_type == 6): ?>
-                                                        <a href="<?php echo e(url('admin/lessontextexams/' . $section->id)); ?>"
-                                                            type="button"
-                                                            class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
-                                                    <?php endif; ?>
-
 
                                                     </td>
 
@@ -297,13 +326,31 @@
                                     <label for="hide">اخفاء</label>
                                 </div>
                             </div>
+                            <div class="row" id="timeRow" style="display:none;">
+                                <div class="col mb-4 mt-2">
+                                    <input type="checkbox" id="time" class="form-check-input" name="time">
+                                    <label for="time">امتحان بوقت </label>
+                                </div>
+                            </div>
+
+
+                            <div class="row" id="minutesRow" style="display:none;">
+                                <div class="col mb-4 mt-2">
+                                    <div class="form-floating form-floating-outline">
+                                        <input type="number" id="minutes" name="minutes" class="form-control">
+                                        <label for="minutes">الدقائق</label>
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary"
-                                data-bs-dismiss="modal">الغاء</button>
-                            <button type="submit" class="btn btn-primary">حفظ</button>
+                            <button type="button" class="btn rounded-pill btn-label-secondary waves-effect"
+                        data-bs-dismiss="modal">الغاء</button>
+                        <button type="submit"
+                        class="btn rounded-pill btn-label-success waves-effect">حفظ</button>
                         </div>
                     </form>
                 </div>
@@ -315,13 +362,13 @@
 
         <!-- Modal -->
         <div class="modal fade" id="addGradeModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <form method="POST" action="<?php echo e(route('store.lessonsection')); ?>" enctype="multipart/form-data">
                         <?php echo csrf_field(); ?>
-                        <input type="hidden" value ="" name="grade_id" id="section-id">
+                        <input type="hidden" value ="<?php echo e($id); ?>" name="lesson_id" id="section-id">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="exampleModalLabel1">اضافة وحدة</h4>
+                            <h4 class="modal-title" id="exampleModalLabel1">اضافة جزء للدرس</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
@@ -329,25 +376,110 @@
 
 
                             <div class="row">
+
+                                <div class="col-md mb-md-0 mb-3" >
+                                    <div class="form-check custom-option custom-option-icon custom-option-label" style=" height: 160px;">
+                                      <label class="form-check-label custom-option-content" for="customRadioOffice">
+                                        <span class="custom-option-body">
+                                          <i class='mdi mdi-book-open-page-variant-outline mdi-48px'></i>
+                                          <span class="custom-option-title"> شرح </span>
+
+                                        </span>
+                                        <input name="add_section_type" value = "5" class="form-check-input" type="radio"  id="customRadioOffice" />
+                                      </label>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md mb-md-0 mb-3">
+                                    <div class="form-check custom-option custom-option-icon custom-option-label" style=" height: 160px;">
+                                      <label class="form-check-label custom-option-content" for="customRadioOffice1">
+                                        <span class="custom-option-body">
+                                          <i class='mdi mdi-table-check mdi-48px'></i>
+                                          <span class="custom-option-title"> امتحان الاختيار من متعدد </span>
+
+                                        </span>
+                                        <input name="add_section_type" value = "1" class="form-check-input" type="radio"  id="customRadioOffice1" />
+                                      </label>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md mb-md-0 mb-3">
+                                    <div class="form-check custom-option custom-option-icon custom-option-label" style=" height: 160px;">
+                                      <label class="form-check-label custom-option-content" for="customRadioHome">
+                                        <span class="custom-option-body">
+                                          <i class="mdi mdi-pencil-box-outline mdi-48px"></i>
+                                          <span class="custom-option-title">امتحان الاجابة المقالية</span>
+
+                                        </span>
+                                        <input name="add_section_type" value = "3" class="form-check-input" type="radio"  id="customRadioHome" />
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md mb-md-0 mb-3">
+                                    <div class="form-check custom-option custom-option-icon custom-option-label" style=" height: 160px;">
+                                      <label class="form-check-label custom-option-content" for="customRadioOffice2">
+                                        <span class="custom-option-body">
+                                          <i class='mdi mdi-file-pdf-box mdi-48px'></i>
+                                          <span class="custom-option-title"> امتحان بواسطة رفع ملف </span>
+
+                                        </span>
+                                        <input name="add_section_type" value = "4" class="form-check-input" type="radio"  id="customRadioOffice2" />
+                                      </label>
+                                    </div>
+                                  </div>
+
+
+                              </div>
+
+                            <div class="row">
+
+                                <div class="mt-2">
+                                    <label for="roundedInput" class="form-label">الاسم</label>
+                                    <input id="roundedInput" name="name" class="form-control rounded-pill" type="text"  />
+                                  </div>
+
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col mb-4 mt-2">
+                                    <input type="checkbox" id="block" class="form-check-input" name="block">
+                                    <label for="block">ضرورى للاستمرار</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-4 mt-2">
+                                    <input type="checkbox" id="hide" class="form-check-input" name="hide">
+                                    <label for="hide">اخفاء</label>
+                                </div>
+                            </div>
+                            <div class="row" id="addtimeRow" style="display:none;">
+                                <div class="col mb-4 mt-2">
+                                    <input type="checkbox" id="addtime" class="form-check-input" name="time">
+                                    <label for="time">امتحان بوقت </label>
+                                </div>
+                            </div>
+
+
+                            <div class="row" id="addminutesRow" style="display:none;">
                                 <div class="col mb-4 mt-2">
                                     <div class="form-floating form-floating-outline">
-                                        <input type="text" name="name" class="form-control">
-
-                                        <label for="name">الاسم</label>
+                                        <input type="number" id="minutes" name="minutes" class="form-control">
+                                        <label for="minutes">الدقائق</label>
                                     </div>
                                 </div>
                             </div>
 
-                            <input type="checkbox" class="form-check-input" name="hide">
-                            <label for="hide">اخفاء</label>
 
 
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary"
-                                data-bs-dismiss="modal">الغاء</button>
-                            <button type="submit" class="btn btn-primary">حفظ</button>
+                            <button type="button" class="btn rounded-pill btn-label-secondary waves-effect"
+                        data-bs-dismiss="modal">الغاء</button>
+                        <button type="submit"
+                        class="btn rounded-pill btn-label-success waves-effect">حفظ</button>
                         </div>
                     </form>
                 </div>
@@ -355,6 +487,62 @@
         </div>
 
 
+
+
+        <div class="modal fade" id="copy-question" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form method="POST" action="<?php echo e(route('move.section')); ?>" enctype="multipart/form-data">
+                        <?php echo csrf_field(); ?>
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel1">نسخ جزء من درس</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <!-- Select Grade -->
+                                <select id="grades" class="form-select">
+                                    <option value="">اختر الكورس</option>
+                                    <?php $__currentLoopData = $grades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $grade): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($grade->id); ?>"><?php echo e($grade->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+
+                                <!-- Select Unit (Initially hidden) -->
+                                <div id="unitDiv" style="display:none;">
+                                    <br>
+                                    <select id="units" class="form-select"></select>
+                                </div>
+
+                                <!-- Select Lesson (Initially hidden) -->
+                                <div id="lessonDiv" style="display:none;">
+                                    <br>
+                                    <select id="lessons" name="lesson_id" class="form-select"></select>
+                                </div>
+
+
+
+
+
+
+                                </div>
+                                <br>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn rounded-pill btn-label-secondary waves-effect"
+                                data-bs-dismiss="modal">الغاء</button>
+
+                                <div id="submitButtonDiv" style="display:none;">
+                                <button type="submit" id="submitButton"
+                                class="btn rounded-pill btn-label-success waves-effect">حفظ</button>
+                                </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -443,6 +631,13 @@
             });
 
 
+            $('#time').change(function() {
+            if(this.checked) {
+                $('#minutesRow').show();
+            } else {
+                $('#minutesRow').hide();
+            }
+            });
 
             $('.edit-section').click(function() {
 
@@ -457,6 +652,14 @@
                         $('#section-id').val(sectionId);
                         $('#hide').prop('checked', data.hide);
                         $('#block').prop('checked', data.block);
+                        if (data.section_type == 1 || data.section_type == 2 || data.section_type == 3 || data.section_type == 4) {
+                            $('#timeRow').show();
+                        }
+                        if(data.has_time == 1){
+                            $('#minutes').val(data.stop_watch);
+                            $('#minutesRow').show();
+                        }
+                        $('#time').prop('checked', data.has_time);
                         // Step 5: Open the modal
                         $('#editGradeModal').modal('show');
                     }
@@ -464,6 +667,108 @@
             });
 
 
+       $('input[name="add_section_type"]').change(function(){
+        var selectedValue = $(this).val();
+        if(selectedValue == '1' || selectedValue == '3' || selectedValue == '4') {
+            $('#addtimeRow').show();
+        } else {
+            $('#addtimeRow').hide();
+            $('#addminutesRow').hide();
+        }
+        });
+
+
+        $('#addtime').change(function() {
+            if(this.checked) {
+                $('#addminutesRow').show();
+            } else {
+                $('#addminutesRow').hide();
+            }
+            });
+
+
+
+            $(document).ready(function() {
+        $('#grades').change(function() {
+            var gradeId = $(this).val();
+
+            if(gradeId) {
+                // Make an AJAX request to fetch units for the selected grade
+                $.ajax({
+                    url: '/admin/getUnits/' + gradeId,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if(data) {
+                            $('#unitDiv').show();
+                            $('#units').empty();
+                            $('#units').append('<option value="">اختر الوحدة</option>');
+                            $.each(data, function(key, value) {
+                                $('#units').append('<option value="'+ key +'">'+ value +'</option>');
+                            });
+                        } else {
+                            $('#unitDiv').hide();
+                            $('#lessonDiv').hide();
+
+                            $('#submitButtonDiv').hide();
+                        }
+                    }
+                });
+            } else {
+                $('#unitDiv').hide();
+                $('#lessonDiv').hide();
+
+                $('#submitButtonDiv').hide();
+            }
+        });
+
+        $('#units').change(function() {
+            var unitId = $(this).val();
+
+            if(unitId) {
+                // Make an AJAX request to fetch lessons for the selected unit
+                $.ajax({
+                    url: '/admin/getLessons/' + unitId,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if(data) {
+                            $('#lessonDiv').show();
+                            $('#lessons').empty();
+                            $('#lessons').append('<option value="">اختر الدرس</option>');
+                            $.each(data, function(key, value) {
+                                $('#lessons').append('<option value="'+ key +'">'+ value +'</option>');
+                            });
+                        } else {
+                            $('#lessonDiv').hide();
+
+                            $('#submitButtonDiv').hide();
+                        }
+                    }
+                });
+            } else {
+                $('#lessonDiv').hide();
+
+                $('#submitButtonDiv').hide();
+            }
+        });
+
+
+        $('#lessons').change(function() {
+            $('#submitButtonDiv').show();
+        });
+
+        $('.copy-questiona').click(function(){
+            var sectionId = $(this).data('section-id');
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'section_id',
+                value: sectionId
+            }).appendTo('#lessonDiv');
+
+        });
+
+    });
         </script>
 
         <script src="<?php echo e(asset('admin/assets/vendor/libs/sortablejs/sortable.js')); ?>"></script>
