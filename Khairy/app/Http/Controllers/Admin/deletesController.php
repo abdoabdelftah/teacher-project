@@ -44,25 +44,26 @@ class deletesController extends Controller
         if (!$exam)
             return redirect()->back();
 
-        
+            $questionCount = Exam::where('question', $exam->question)->count();
+            if($questionCount == 1){
             $q = $this->deleteExampic($exam->question);
             $c1 = $this->deleteExampic($exam->choose1);
             $c2 = $this->deleteExampic($exam->choose2);
             $c3 = $this->deleteExampic($exam->choose3);
-            $c4 = $this->deleteExampic($exam->choose4);    
-
+            $c4 = $this->deleteExampic($exam->choose4);
+            }
         ////////////////Delete the student answers/////////////////
             $studentexamanswers = Studentexamanswer::where('exam_id',$id)->get();
             foreach($studentexamanswers as $sanswer){
 
                 if(!empty($sanswer->student_answer_picture)){
                     $ans = $this->deleteExamans($sanswer->student_answer_picture);
-                   
+
                 }
 
                 if(!empty($sanswer->right_answer_picture)){
                     $ans = $this->deleteExamright($sanswer->right_answer_picture);
-                   
+
                 }
 
                 Studentexamanswer::where('id', $sanswer->id)->forceDelete();
@@ -91,14 +92,14 @@ public function lessonsection($id)
 
         ///////////////Delete questions of exam///////////////
         $lessoncontent = Exam::where('lesson_section_id', $id)->get();
-    
+
         foreach ($lessoncontent as $content){
             $dcontent = $this->question($content->id);
         }
-         
+
         //////Delete lecture content////////////////
         $lessonlecture = Lecture::where('lesson_section_id', $id)->get();
-    
+
         foreach ($lessonlecture as $lcontent){
             $lfile = $this->deleteLec($lcontent->content);
 
@@ -117,10 +118,10 @@ public function lessonsection($id)
 
 
         return redirect()->back()->with(['message' => ' تم المسح بنجاح ']);
-        
-    
 
-    
+
+
+
 }
 
 public function lesson($id)
@@ -134,7 +135,7 @@ public function lesson($id)
 
         ///////////////Delete sections of lesson///////////////
         $lessonc = lessonsection::where('lesson_id', $id)->get();
-    
+
         foreach ($lessonc as $contentc){
             $ccontent = $this->lessonsection($contentc->id);
         }
@@ -152,7 +153,7 @@ public function unitexam($id)
 {
 
 
-    
+
        $unitexamsection = Unitexamsection::find($id);
        if (!$unitexamsection)
        return redirect()->back();
@@ -160,12 +161,12 @@ public function unitexam($id)
 
         ///////////////Delete questions of exam///////////////
         $unitcontent = Exam::where('unit_exam_section_id', $id)->get();
-    
+
         foreach ($unitcontent as $ucontent){
             $ucontent = $this->question($ucontent->id);
         }
-         
-        
+
+
 
 
         //////Delete Student Unit Section Follow up//////////
@@ -182,7 +183,7 @@ public function unitexam($id)
 
 
 
-    
+
 }
 
 
@@ -197,19 +198,19 @@ public function unit($id)
 
      ///////////////Delete Lessons of the Unit///////////////
      $unitlessons = Lesson::where('unit_id', $id)->get();
- 
+
      foreach ($unitlessons as $ulesson){
          $ualesson = $this->lesson($ulesson->id);
      }
 
-     
+
      ///////////////Delete Unit Exams of the Unit///////////////
      $unitexams = Unitexamsection::where('unit_id', $id)->get();
- 
+
      foreach ($unitexams as $uexam){
          $uaexam = $this->unitexam($uexam->id);
      }
- 
+
 
      Unit::where('id', $id)->forceDelete();
 
@@ -218,8 +219,8 @@ public function unit($id)
 
 
 
-    
-    
+
+
 }
 
 
@@ -235,7 +236,7 @@ public function grade($id)
 
      ///////////////Delete Lessons of the Unit///////////////
      $gradeunits = Unit::where('grade_id', $id)->get();
- 
+
      foreach ($gradeunits as $gunit){
          $gu = $this->unit($gunit->id);
      }
@@ -247,7 +248,7 @@ public function grade($id)
 
      return redirect()->back()->with(['message' => ' تم المسح بنجاح ']);
 
-    
+
 }
 
 

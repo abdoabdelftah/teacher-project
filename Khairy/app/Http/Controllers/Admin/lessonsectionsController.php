@@ -4,6 +4,7 @@
 
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 
 
@@ -16,6 +17,7 @@ use App\Models\Lesson;
 use App\Models\Lecture;
 use App\Models\Lessonsection;
 use Illuminate\Support\Facades\Hash;
+
 class lessonsectionsController extends Controller
 {
     /**
@@ -30,7 +32,7 @@ class lessonsectionsController extends Controller
 
         $data = Lessonsection::where('lesson_id', $id)->withCount('sectionFollowup')->orderBy('priority', 'ASC')->get();
 
-        $userCount = User::whereHas('grades.units.lessons', function($query) use ($id) {
+        $userCount = User::whereHas('grades.units.lessons', function ($query) use ($id) {
             $query->where('lessons.id', $id);
         })->count();
 
@@ -54,49 +56,52 @@ class lessonsectionsController extends Controller
     public function store(Request $request)
     {
 
-        $type = $request->section_type;
-
-        if($type == 5){
-
-            Lessonsection::create([
-
-                'name' => $request->name,
-                'lesson_id' => $request->lesson_id,
-                'section_type' => $request->section_type,
-                'priority' => $request->priority,
-
-            ]);
-
-            $lesson_section_id = Lessonsection::max('id');
-
-            Lecture::create([
-
-                'name' => $request->name,
-                'lesson_id' => $request->lesson_id,
-                'lesson_section_id' => $lesson_section_id,
-
-
-            ]);
-
-        }else{
-
-        Lessonsection::create([
-
-            'name' => $request->name,
-            'lesson_id' => $request->lesson_id,
-            'section_type' => $request->section_type,
-            'priority' => $request->priority,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-
-
-            //'stop_watch' => $request->stop_watch,
-
+        $request->validate([
+            'name' => 'required',
         ]);
 
+        $lessonsection = new Lessonsection;
+
+
+        $lessonsection->name = $request->name;
+
+        $lessonsection->lesson_id = $request->lesson_id;
+        $lessonsection->section_type = $request->add_section_type;
+
+        if ($request->has('hide')) {
+
+            $lessonsection->hide = 1;
+        } else {
+            $lessonsection->hide = 0;
         }
 
-        return redirect('admin/lessonsections/'.$request->lesson_id)->with(['message' => 'تم اضافه فقرة جديدة  ']);
+        if ($request->has('block')) {
+
+            $lessonsection->block = 1;
+        } else {
+            $lessonsection->block = 0;
+        }
+
+        if ($request->has('time')) {
+            $lessonsection->has_time = 1;
+            $lessonsection->stop_watch = $request->minutes;
+        } else {
+            $lessonsection->has_time = 0;
+        }
+        $lessonsection->save();
+
+        if ($request->add_section_type == 1) {
+            return redirect()->intended('/admin/exams/' . $lessonsection->id);
+        }
+        if ($request->add_section_type == 3) {
+            return redirect()->intended('/admin/lessontextexams/' . $lessonsection->id);
+        }
+        if ($request->add_section_type == 4) {
+            return redirect()->intended('/admin/lessonpdfexam/' . $lessonsection->id);
+        }
+        if ($request->add_section_type == 5) {
+            return redirect()->intended('/admin/lectureedit/' . $lessonsection->id);
+        }
     }
 
     /**
@@ -152,22 +157,28 @@ class lessonsectionsController extends Controller
         if ($request->has('hide')) {
 
             $lessonsection->hide = 1;
-        }else{
+        } else {
             $lessonsection->hide = 0;
         }
 
         if ($request->has('block')) {
 
             $lessonsection->block = 1;
-        }else{
+        } else {
             $lessonsection->block = 0;
+        }
+
+        if ($request->has('time')) {
+            $lessonsection->has_time = 1;
+            $lessonsection->stop_watch = $request->minutes;
+        } else {
+            $lessonsection->has_time = 0;
         }
 
         $lessonsection->save();
 
 
         return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
-
     }
 
     /**
@@ -177,7 +188,7 @@ class lessonsectionsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function updateOrder(Request $request)
+    public function updateOrder(Request $request)
     {
 
 
@@ -193,7 +204,6 @@ class lessonsectionsController extends Controller
         }
 
         return response()->json(['success' => true]);
-
     }
 
 
@@ -201,4 +211,53 @@ class lessonsectionsController extends Controller
     {
         //
     }
+
+
+    public function moveSection(Request $request) {
+
+        $to_lesson_id = $request->lesson_id;
+
+         $section = Lessonsection::find($request->section_id);
+
+         $newSection = $section->replicate()->fill(
+            [
+                'lesson_id' => $to_lesson_id,
+            ]
+        );
+
+         $newSection->save();
+
+         if($section->section_type == 1){
+         foreach($section->exams()->get() as $exam){
+
+            $newExam = $exam->replicate()->fill(
+                [
+                    'lesson_section_id' => $newSection->id,
+                ]
+            );
+
+             $newExam->save();
+
+           }
+          }
+
+          if($section->section_type == 5){
+
+            $newExam = $section->lecture()->first()->replicate()->fill(
+                [
+                    'lesson_section_id' => $newSection->id,
+                ]
+            );
+
+             $newExam->save();
+
+          }
+
+
+
+         return redirect()->back()->with(['message' => ' تم النسخ بنجاح ', 'target' => $to_lesson_id]);
+
+    }
+
+
 }

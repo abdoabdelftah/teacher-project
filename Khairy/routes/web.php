@@ -319,6 +319,10 @@ Route::post('/storelessonsections', 'Admin\lessonsectionsController@store')->nam
 
 Route::post('/update-card-order', 'Admin\lessonsectionsController@updateOrder')->name('update.order');
 
+
+Route::post('/movesection', 'Admin\lessonsectionsController@moveSection')->name('move.section');
+
+
 /////////////////////////////Lecture//////////////////////
 Route::get('/lectureedit/{id}', 'Admin\lecturesController@edit');
 Route::post('/lecture/update', 'Admin\lecturesController@update')->name('update.lecture');
@@ -337,27 +341,28 @@ Route::get('/addlessonexam/{id}', 'Admin\lessonexamsController@show');
 Route::post('/storelessonexams', 'Admin\lessonexamsController@store')->name('store.lessonexam');
 
 
+/////////////////////////////exam//////////////////////
 
-/////////////////////////////Lessonhomework//////////////////////
+Route::get('/exams/{id}', 'Admin\examsController@index');
+Route::get('/exams/edit/{id}', 'Admin\examsController@edit');
 
-Route::get('/lessonhomeworks/{id}', 'Admin\lessonhomeworksController@index');
-Route::get('/lessonhomeworks/edit/{id}', 'Admin\lessonhomeworksController@edit');
+Route::post('/exams/update', 'Admin\examsController@update')->name('update.exam');
 
-Route::post('/lessonhomeworks/update', 'Admin\lessonhomeworksController@update')->name('update.lessonhomework');
+Route::get('/addexam/{id}', 'Admin\examsController@show');
 
-Route::get('/addlessonhomework/{id}', 'Admin\lessonhomeworksController@show');
-
-Route::post('/storelessonhomeworks', 'Admin\lessonhomeworksController@store')->name('store.lessonhomework');
+Route::post('/storeexams', 'Admin\examsController@store')->name('store.exam');
 
 
-Route::get('/getUnits/{gradeId}', 'Admin\lessonhomeworksController@getUnits');
-Route::get('/getLessons/{unitId}', 'Admin\lessonhomeworksController@getLessons');
-Route::get('/getLessonSections/{lessonId}', 'Admin\lessonhomeworksController@getLessonSections');
+Route::get('/getUnits/{gradeId}', 'Admin\examsController@getUnits');
+Route::get('/getLessons/{unitId}', 'Admin\examsController@getLessons');
+Route::get('/getLessonSections/{lessonId}', 'Admin\examsController@getLessonSections');
+
+Route::post('/moveexam', 'Admin\examsController@moveExam')->name('move.exam');
 
 
 /////////////////////////////lesson  text exam//////////////////////
 
-Route::get('/lessontextexams/{id}', 'Admin\lessontextexamsController@index');
+Route::get('/lessontextexam/{id}', 'Admin\lessontextexamsController@index');
 Route::get('/lessontextexams/edit/{id}', 'Admin\lessontextexamsController@edit');
 
 Route::post('/lessontextexams/update', 'Admin\lessontextexamsController@update')->name('update.lessontextexam');
@@ -366,7 +371,9 @@ Route::get('/addlessontextexam/{id}', 'Admin\lessontextexamsController@show');
 
 Route::post('/storelessontextexams', 'Admin\lessontextexamsController@store')->name('store.lessontextexam');
 
+////////////////////////////lesson PDf exam///////////////////////////////
 
+Route::get('/lessonpdfexam/{id}', 'Admin\lessontextexamsController@indexPdf');
 
 /////////////////////////////Unit exam section///////////////////////////
 
