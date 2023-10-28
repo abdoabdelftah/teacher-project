@@ -94,7 +94,7 @@ class lessonsectionsController extends Controller
             return redirect()->intended('/admin/exams/' . $lessonsection->id);
         }
         if ($request->add_section_type == 3) {
-            return redirect()->intended('/admin/lessontextexams/' . $lessonsection->id);
+            return redirect()->intended('/admin/exams/' . $lessonsection->id);
         }
         if ($request->add_section_type == 4) {
             return redirect()->intended('/admin/lessonpdfexam/' . $lessonsection->id);

@@ -213,6 +213,9 @@ Route::get('/lessonresult/delete/{lesson_section_id}/{student_id}', 'Admin\stude
 Route::get('/lcheckanswers/{student_id}/{lesson_section_id}', 'Admin\studentsController@lcheckanswers');
 
 
+Route::get('/ltextcheckanswers/{student_id}/{lesson_section_id}', 'Admin\studentsController@ltextcheckanswers');
+
+
 Route::get('/ucheckanswers/{student_id}/{unit_exam_section_id}', 'Admin\studentsController@ucheckanswers');
 
 
@@ -271,7 +274,7 @@ Route::post('/edit/forum', 'Admin\forumsController@editforums')->name('edit.foru
 
     //////////////////////////////////////////////////////Grades route//////////////////////////////////////
 
-    Route::get('/grades', 'Admin\gradesController@index');
+    Route::get('/grades', 'Admin\gradesController@index')->name('allGrades');
     Route::get('/grades/edit/{id}', 'Admin\gradesController@edit');
 
     Route::post('/grades/update', 'Admin\gradesController@update')->name('update.grade');
@@ -357,12 +360,13 @@ Route::get('/getUnits/{gradeId}', 'Admin\examsController@getUnits');
 Route::get('/getLessons/{unitId}', 'Admin\examsController@getLessons');
 Route::get('/getLessonSections/{lessonId}', 'Admin\examsController@getLessonSections');
 
+Route::get('/gettextSections/{lessonId}', 'Admin\examsController@gettextSections');
 Route::post('/moveexam', 'Admin\examsController@moveExam')->name('move.exam');
 
 
 /////////////////////////////lesson  text exam//////////////////////
 
-Route::get('/lessontextexam/{id}', 'Admin\lessontextexamsController@index');
+Route::get('/lessontextexam/{id}', 'Admin\examsController@index');
 Route::get('/lessontextexams/edit/{id}', 'Admin\lessontextexamsController@edit');
 
 Route::post('/lessontextexams/update', 'Admin\lessontextexamsController@update')->name('update.lessontextexam');
@@ -374,6 +378,7 @@ Route::post('/storelessontextexams', 'Admin\lessontextexamsController@store')->n
 ////////////////////////////lesson PDf exam///////////////////////////////
 
 Route::get('/lessonpdfexam/{id}', 'Admin\lessontextexamsController@indexPdf');
+Route::post('/updatepdfexam', 'Admin\lessontextexamsController@updatePdfExam')->name('update.pdfExam');
 
 /////////////////////////////Unit exam section///////////////////////////
 

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Fluid - Layouts | Materialize - Material Design HTML Admin Template</title>
+    <title>لوحة تحكم منصة الاستاذ خيرى</title>
 
 
     <meta name="description" content="Materialize – is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
@@ -74,7 +74,7 @@
 
 
   <div class="app-brand demo ">
-    <a href="index-2.html" class="app-brand-link">
+    <a href="/admin/students" class="app-brand-link">
       <span class="app-brand-logo demo">
 <span style="color:var(--bs-primary);">
   <svg width="268" height="150" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -97,7 +97,7 @@
   </svg>
 </span>
 </span>
-      <span class="app-brand-text demo menu-text fw-bold ms-2">Materialize</span>
+      <span class="app-brand-text demo menu-text fw-bold ms-2">Khairy</span>
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -118,6 +118,13 @@
         <a href="<?php echo e(route('allStudents')); ?>" class="menu-link">
           <i class="menu-icon tf-icons mdi mdi-account-outline"></i>
           <div data-i18n="الطلاب">الطلاب</div>
+        </a>
+      </li>
+
+      <li class="menu-item">
+        <a href="<?php echo e(route('allGrades')); ?>" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-content-save-all-outline"></i>
+          <div data-i18n="المنهج">المنهج</div>
         </a>
       </li>
 
@@ -178,61 +185,6 @@
 
 
 
-          <!-- Language -->
-          <li class="nav-item dropdown-language dropdown me-1 me-xl-0">
-            <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-              <i class='mdi mdi-translate mdi-24px'></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-language="en">
-                  <span class="align-middle">English</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-language="fr">
-                  <span class="align-middle">French</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-language="de">
-                  <span class="align-middle">German</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-language="pt">
-                  <span class="align-middle">Portuguese</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <!--/ Language -->
-
-          <!-- Style Switcher -->
-          <li class="nav-item dropdown-style-switcher dropdown me-1 me-xl-0">
-            <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-              <i class='mdi mdi-24px'></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
-                  <span class="align-middle"><i class='mdi mdi-weather-sunny me-2'></i>Light</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
-                  <span class="align-middle"><i class="mdi mdi-weather-night me-2"></i>Dark</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
-                  <span class="align-middle"><i class="mdi mdi-monitor me-2"></i>System</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-            <!-- / Style Switcher-->
-
             <!-- Quick links  -->
           <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-1 me-xl-0">
             <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -241,9 +193,8 @@
             <div class="dropdown-menu dropdown-menu-end py-0">
               <div class="dropdown-menu-header border-bottom">
                 <div class="dropdown-header d-flex align-items-center py-3">
-                  <h5 class="text-body mb-0 me-auto">Shortcuts</h5>
-                  <a href="javascript:void(0)" class="dropdown-shortcuts-add text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Add shortcuts"><i class="mdi mdi-view-grid-plus-outline mdi-24px"></i></a>
-                </div>
+                  <h5 class="text-body mb-0 me-auto">اختصارات</h5>
+                  </div>
               </div>
               <div class="dropdown-shortcuts-list scrollable-container">
                 <div class="row row-bordered overflow-visible g-0">
@@ -338,147 +289,20 @@
                         </div>
                       </div>
                       <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">Congratulation Lettie 🎉</h6>
-                        <small class="text-truncate text-body">Won the monthly best seller gold badge</small>
+                        <h6 class="mb-1 text-truncate">قام الطالب بالاجابة على الامتحان</h6>
+                        <small class="text-truncate text-body">جارى</small>
                       </div>
                       <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">1h ago</small>
+                        <small class="text-muted">منذ دقيقة</small>
                       </div>
                     </div>
                   </li>
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                    <div class="d-flex gap-2">
-                      <div class="flex-shrink-0">
-                        <div class="avatar me-1">
-                          <span class="avatar-initial rounded-circle bg-label-danger">CF</span>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">Charles Franklin</h6>
-                        <small class="text-truncate text-body">Accepted your connection</small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">12hr ago</small>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                    <div class="d-flex gap-2">
-                      <div class="flex-shrink-0">
-                        <div class="avatar me-1">
-                          <img src="<?php echo e(asset('admin/assets/img/avatars/2.png')); ?>" alt class="w-px-40 h-auto rounded-circle">
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">New Message ✉️</h6>
-                        <small class="text-truncate text-body">You have new message from Natalie</small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">1h ago</small>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                    <div class="d-flex gap-2">
-                      <div class="flex-shrink-0">
-                        <div class="avatar me-1">
-                          <span class="avatar-initial rounded-circle bg-label-success"><i class="mdi mdi-cart-outline"></i></span>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">Whoo! You have new order 🛒 </h6>
-                        <small class="text-truncate text-body">ACME Inc. made new order $1,154</small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">1 day ago</small>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                    <div class="d-flex gap-2">
-                      <div class="flex-shrink-0">
-                        <div class="avatar me-1">
-                          <img src="<?php echo e(asset('admin/assets/img/avatars/9.png')); ?>" alt class="w-px-40 h-auto rounded-circle">
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">Application has been approved 🚀 </h6>
-                        <small class="text-truncate text-body">Your ABC project application has been approved.</small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">2 days ago</small>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                    <div class="d-flex gap-2">
-                      <div class="flex-shrink-0">
-                        <div class="avatar me-1">
-                          <span class="avatar-initial rounded-circle bg-label-success"><i class="mdi mdi-chart-pie-outline"></i></span>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">Monthly report is generated</h6>
-                        <small class="text-truncate text-body">July monthly financial report is generated </small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">3 days ago</small>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                    <div class="d-flex gap-2">
-                      <div class="flex-shrink-0">
-                        <div class="avatar me-1">
-                          <img src="<?php echo e(asset('admin/assets/img/avatars/5.png')); ?>" alt class="w-px-40 h-auto rounded-circle">
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">Send connection request</h6>
-                        <small class="text-truncate text-body">Peter sent you connection request</small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">4 days ago</small>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                    <div class="d-flex gap-2">
-                      <div class="flex-shrink-0">
-                        <div class="avatar me-1">
-                          <img src="<?php echo e(asset('admin/assets/img/avatars/6.png')); ?>" alt class="w-px-40 h-auto rounded-circle">
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">New message from Jane</h6>
-                        <small class="text-truncate text-body">Your have new message from Jane</small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">5 days ago</small>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                    <div class="d-flex gap-2">
-                      <div class="flex-shrink-0">
-                        <div class="avatar me-1">
-                          <span class="avatar-initial rounded-circle bg-label-warning"><i class="mdi mdi-alert-circle-outline"></i></span>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1">CPU is running high</h6>
-                        <small class="text-truncate text-body">CPU Utilization Percent is currently at 88.63%,</small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">5 days ago</small>
-                      </div>
-                    </div>
-                  </li>
+
                 </ul>
               </li>
               <li class="dropdown-menu-footer border-top p-2">
                 <a href="javascript:void(0);" class="btn btn-primary d-flex justify-content-center">
-                  View all notifications
+                  الاطلاع على الكل
                 </a>
               </li>
             </ul>
@@ -489,21 +313,21 @@
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
               <div class="avatar avatar-online">
-                <img src="<?php echo e(asset('admin/assets/img/avatars/1.png')); ?>" alt class="w-px-40 h-auto rounded-circle">
+                <img src="<?php echo e(asset('assets/images/faces/face8.jpg')); ?>" alt class="w-px-40 h-auto rounded-circle">
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
-                <a class="dropdown-item" href="pages-account-settings-account.html">
+                <a class="dropdown-item" href="#">
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
-                        <img src="<?php echo e(asset('admin/assets/img/avatars/1.png')); ?>" alt class="w-px-40 h-auto rounded-circle">
+                        <img src="<?php echo e(asset('assets/images/faces/face8.jpg')); ?>" alt class="w-px-40 h-auto rounded-circle">
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                      <span class="fw-medium d-block">John Doe</span>
-                      <small class="text-muted">Admin</small>
+                      <span class="fw-medium d-block">محمد خيرى</span>
+                      <small class="text-muted">ادمن</small>
                     </div>
                   </div>
                 </a>
@@ -511,49 +335,11 @@
               <li>
                 <div class="dropdown-divider"></div>
               </li>
+
               <li>
-                <a class="dropdown-item" href="pages-profile-user.html">
-                  <i class="mdi mdi-account-outline me-2"></i>
-                  <span class="align-middle">My Profile</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="pages-account-settings-account.html">
-                  <i class="mdi mdi-cog-outline me-2"></i>
-                  <span class="align-middle">Settings</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="pages-account-settings-billing.html">
-                  <span class="d-flex align-items-center align-middle">
-                    <i class="flex-shrink-0 mdi mdi-credit-card-outline me-2"></i>
-                    <span class="flex-grow-1 align-middle ms-1">Billing</span>
-                    <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <div class="dropdown-divider"></div>
-              </li>
-              <li>
-                <a class="dropdown-item" href="pages-faq.html">
-                  <i class="mdi mdi-help-circle-outline me-2"></i>
-                  <span class="align-middle">FAQ</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="pages-pricing.html">
-                  <i class="mdi mdi-currency-usd me-2"></i>
-                  <span class="align-middle">Pricing</span>
-                </a>
-              </li>
-              <li>
-                <div class="dropdown-divider"></div>
-              </li>
-              <li>
-                <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
+                <a class="dropdown-item" href="#" >
                   <i class="mdi mdi-logout me-2"></i>
-                  <span class="align-middle">Log Out</span>
+                  <span class="align-middle">تسجيل الخروج</span>
                 </a>
               </li>
             </ul>
@@ -607,17 +393,10 @@
               © <script>
               document.write(new Date().getFullYear())
 
-              </script>, made with <span class="text-danger"><i class="tf-icons mdi mdi-heart"></i></span> by <a href="https://pixinvent.com/" target="_blank" class="footer-link fw-medium">Pixinvent</a>
+              </script> By Abdelfattah</a>
             </div>
             <div class="d-none d-lg-inline-block">
 
-              <a href="https://themeforest.net/licenses/standard" class="footer-link me-4" target="_blank">License</a>
-              <a href="https://1.envato.market/pixinvent_portfolio" target="_blank" class="footer-link me-4">More Themes</a>
-
-              <a href="https://demos.pixinvent.com/materialize-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a>
-
-
-              <a href="https://pixinvent.ticksy.com/" target="_blank" class="footer-link d-none d-sm-inline-block">Support</a>
 
             </div>
           </div>

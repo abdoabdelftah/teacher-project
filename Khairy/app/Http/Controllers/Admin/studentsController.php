@@ -167,19 +167,38 @@ class studentsController extends Controller
     {
 
 
-        $exam = Exam::where('lesson_section_id', $lesson_section_id) ->whereIn('id', function ($query)  use($lesson_section_id, $student_id) {
-            $query->select('exam_id')
-                ->from('studentexamanswers')->where('lesson_section_id', $lesson_section_id)->where('student_id', $student_id)->get();
-                //->where('lesson_section_id',1);
-        })->get();
+        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->first();
 
-          $studentanswer = Studentexamanswer::where('lesson_section_id', $lesson_section_id)->where('student_id', $student_id)->get();
+        $grades = Grade::with('units.lessons.lessonsections')->get();
 
 
-          return view('admin.lcheckanswers', compact('exam', 'studentanswer'));
+        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function($q) use ($student_id){
+            $q->where('student_id', $student_id);
+        }])->get();
+
+
+    return view('admin.new.studentAnswer', compact('data', 'grades', 'lessonsection'));
 
     }
 
+
+    public function ltextcheckanswers($student_id ,$lesson_section_id)
+    {
+
+
+        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->first();
+
+        $grades = Grade::with('units.lessons.lessonsections')->get();
+
+
+        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function($q) use ($student_id){
+            $q->where('student_id', $student_id);
+        }])->get();
+
+
+    return view('admin.new.studentTextAnswer', compact('data', 'grades', 'lessonsection'));
+
+    }
 
 
 
@@ -216,17 +235,18 @@ class studentsController extends Controller
 
     public function studentresults($id)
     {
-     //   $examname = Studentlessonsectionfollowup::with('lessonsection', 'studentanswer', 'exam')->where('student_id', $id)->get();
-
-     $examname = Studentlessonsectionfollowup::with('lessonsection:id,name', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('student_id', $id)->get();
-
-   $unitname = Unitexamsectionfollowup::with('unitexamsection:id,name', 'studentanswer:unit_exam_section_id,points,student_id', 'exam:unit_exam_section_id,points')->where('student_id', $id)->get();
 
 
+     $grades = Grade::with('units.lessons.lessonsections')->get();
+
+     $student = User::find($id);
+
+     $content = Studentlessonsectionfollowup::whereHas('lessonsection' , function($q){
+         $q->where('section_type', '!=',5);
+     })->with('lessonsection:id,name,section_type', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('student_id', $id)->paginate(10);
 
 
-    //return $unitname;
-     return view('admin.studentresults', compact('examname', 'unitname'));
+     return view('admin.new.studentProgress', compact('grades', 'content', 'student'));
     }
 
 

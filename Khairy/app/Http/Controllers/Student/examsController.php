@@ -39,36 +39,36 @@ class examsController extends Controller
      */
     public function homework($grade_id, $unit_id, $lesson_id, $lesson_section_id)
     {
-       
+
       $exam = Exam::where('lesson_section_id', $lesson_section_id)->where('hide', 0)->get();
       $doneexam = Studentlessonsectionfollowup::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->count();
 
         $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('hide', 0)->count();
 
       $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
-        
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();  
-        
+
+      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+
       $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
- 
+
       if ($lessonsectionlesson < 1) {
         return redirect('/grades');
-     
+
     }
 
       if ($gradeuser < 1) {
         return redirect('/grades');
-     
+
     }
-    
+
    if ($unitgrade < 1) {
         return redirect('/grades');
-     
+
     }
-      
+
     if ($lessonunit < 1) {
         return redirect('/grades');
-     
+
     }
     $lessonname = Lesson::where('id', $lesson_id)->first();
     $data = Lessonsection::where('lesson_id', $lesson_id)->where('hide', 0)->select('name', 'id', 'section_type')->orderBy('priority', 'asc')->get();
@@ -86,8 +86,8 @@ class examsController extends Controller
     })->get();
 
       $studentanswer = Studentexamanswer::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->get();
-     
-   
+
+
       return view('student.lessonsectionhomework', compact('data', 'lessonname', 'doneexam', 'exam', 'studentanswer'));
    }
 
@@ -98,7 +98,7 @@ class examsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Store a newly created resource in storage.
@@ -106,12 +106,12 @@ class examsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-  
-    
-   
-      
-        
-     
+
+
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -121,14 +121,14 @@ class examsController extends Controller
      */
     public function posthomework(Request $request)
     {
-       
-       
+
+
         $questionnumber = count($request->question);
 
-      
+
         for ($i = 0; $i < $questionnumber; $i++) {
 
-          //  return $request->question[$i]; 
+          //  return $request->question[$i];
 
           $exam_id = $request->question[$i];
 
@@ -139,12 +139,12 @@ class examsController extends Controller
             }else{
               $student_answer = Null;
             }
-         
+
           $lesson_section_id = $request->lesson_section_id[$i];
 
 
-         
-          
+
+
         $allpoints = $request->points[$i];
 
           if($student_answer == $right_answer){
@@ -157,7 +157,7 @@ class examsController extends Controller
             $points = 0;
           }
            Studentexamanswer::create([
-          
+
 
               'student_id' => auth()->user()->id,
               'exam_id' =>   $exam_id,
@@ -168,13 +168,13 @@ class examsController extends Controller
               'points' =>   $points,
           ]);
 
-          
+
         }
         Studentlessonsectionfollowup::create([
-          
+
           'student_id' => auth()->user()->id,
           'lesson_section_id' =>   $request->lesson_section_id[0],
-          
+
       ]);
 
         return redirect()->back();
@@ -189,7 +189,7 @@ class examsController extends Controller
      */
     public function lessonexam($grade_id, $unit_id, $lesson_id, $lesson_section_id)
     {
-    
+
       $now = Carbon::now();
 
         $doneexam = Studentlessonsectionfollowup::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->count();
@@ -197,45 +197,45 @@ class examsController extends Controller
         $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->where('hide', 0)->count();
 
       $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
-        
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();  
-        
+
+      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+
       $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
- 
+
       if ($lessonsectionlesson < 1) {
         return redirect('/grades');
-     
+
     }
 
       if ($gradeuser < 1) {
         return redirect('/grades');
-     
+
     }
-    
+
    if ($unitgrade < 1) {
         return redirect('/grades');
-     
+
     }
-      
+
     if ($lessonunit < 1) {
         return redirect('/grades');
-     
+
     }
-    
+
 
     $lessonname = Lesson::where('id', $lesson_id)->first();
     $data = Lessonsection::where('lesson_id', $lesson_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->select('name', 'id', 'section_type')->orderBy('priority', 'asc')->get();
 
     $time = Lessonsection::where('id', $lesson_section_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->select('start_time','end_time')->first();
 
-    
+
     if($doneexam == 0){
-      
+
        return view('student.lessonsectionexam', compact('data', 'lessonname', 'doneexam', 'time'));
     }
 
     if($doneexam != 0){
-    
+
       $exam = Exam::where('lesson_section_id', $lesson_section_id)->whereIn('id', function ($query)  use($lesson_section_id) {
         $query->select('exam_id')
             ->from('studentexamanswers')->where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->get();
@@ -243,8 +243,8 @@ class examsController extends Controller
     })->get();
 
       $studentanswer = Studentexamanswer::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->where('student_id', auth()->user()->id)->get();
-     
-    
+
+
        return view('student.lessonsectionexam', compact('data', 'lessonname', 'doneexam', 'exam', 'studentanswer', 'time'));
    }
 
@@ -259,7 +259,7 @@ class examsController extends Controller
      */
     public function lessonexamstart($grade_id, $unit_id, $lesson_id, $lesson_section_id)
     {
-       
+
     $now = Carbon::now();
 
       $exam = Exam::where('lesson_section_id', $lesson_section_id)->where('hide', 0)->get();
@@ -268,37 +268,37 @@ class examsController extends Controller
       $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->count();
 
       $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
-        
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();  
-        
+
+      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+
       $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
- 
+
       if ($lessonsectionlesson < 1) {
         return redirect('/grades');
-     
+
     }
 
       if ($gradeuser < 1) {
         return redirect('/grades');
-     
+
     }
-    
+
    if ($unitgrade < 1) {
         return redirect('/grades');
-     
+
     }
-      
+
     if ($lessonunit < 1) {
         return redirect('/grades');
-     
+
     }
     $lessonname = Lesson::where('id', $lesson_id)->first();
     $data = Lessonsection::where('id', $lesson_section_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->first();
 
     if($doneexam != 0){
 
-     
-    
+
+
       return redirect('/grade/'.$grade_id.'/unit/'.$unit_id.'/lesson/'.$lesson_id.'/lessonsectionexam/'.$lesson_section_id);
    }
 
@@ -306,17 +306,17 @@ class examsController extends Controller
    if($doneexam == 0){
 /*
     Studentlessonsectionfollowup::create([
-        
+
       'student_id' => auth()->user()->id,
       'lesson_section_id' =>   $lesson_section_id,
-      
-  ]); 
+
+  ]);
   */
 
   $datetime1 = strtotime($now); // convert to timestamps
   $datetime2 = strtotime($data->end_time); // convert to timestamps
   $mins = (int)(($datetime2 - $datetime1)/60); // will give the difference in days , 86400 is the timestamp difference of a day
-  
+
 
   return view('student.lessonsectionexamstart', compact('data', 'lessonname','exam', 'mins'));
   }
@@ -330,25 +330,25 @@ class examsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
 
     public function lessonexampost(Request $request)
     {
-  
-      
+
+
     Studentlessonsectionfollowup::create([
-        
+
       'student_id' => auth()->user()->id,
       'lesson_section_id' =>   $request->lesson_section_id[0],
-      
+
   ]);
-       
+
         $questionnumber = count($request->question);
 
-      
+
         for ($i = 0; $i < $questionnumber; $i++) {
 
-          //  return $request->question[$i]; 
+          //  return $request->question[$i];
 
           $exam_id = $request->question[$i];
 
@@ -359,12 +359,12 @@ class examsController extends Controller
             }else{
               $student_answer = Null;
             }
-         
+
           $lesson_section_id = $request->lesson_section_id[$i];
 
 
-         
-          
+
+
         $allpoints = $request->points[$i];
 
           if($student_answer == $right_answer){
@@ -377,7 +377,7 @@ class examsController extends Controller
             $points = 0;
           }
            Studentexamanswer::create([
-          
+
 
               'student_id' => auth()->user()->id,
               'exam_id' =>   $exam_id,
@@ -388,9 +388,9 @@ class examsController extends Controller
               'points' =>   $points,
           ]);
 
-          
+
         }
-       
+
 
         return redirect()->back();
 
@@ -403,7 +403,7 @@ class examsController extends Controller
 
 public function lessontextexam($grade_id, $unit_id, $lesson_id, $lesson_section_id)
 {
-   
+
   $now = Carbon::now();
 
     $doneexam = Studentlessonsectionfollowup::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->count();
@@ -411,29 +411,29 @@ public function lessontextexam($grade_id, $unit_id, $lesson_id, $lesson_section_
     $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->count();
 
   $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
-    
-  $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();  
-    
+
+  $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+
   $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
 
   if ($lessonsectionlesson < 1) {
     return redirect('/grades');
- 
+
 }
 
   if ($gradeuser < 1) {
     return redirect('/grades');
- 
+
 }
 
 if ($unitgrade < 1) {
     return redirect('/grades');
- 
+
 }
-  
+
 if ($lessonunit < 1) {
     return redirect('/grades');
- 
+
 }
 $lessonname = Lesson::where('id', $lesson_id)->first();
 $data = Lessonsection::where('lesson_id', $lesson_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->select('name', 'id', 'section_type')->orderBy('priority', 'asc')->get();
@@ -442,7 +442,7 @@ $time = Lessonsection::where('id', $lesson_section_id)->where('hide', 0)->where(
 
 
 if($doneexam == 0){
-  
+
    return view('student.lessonsectiontextexam', compact('data', 'lessonname', 'doneexam', 'time'));
 }
 
@@ -455,7 +455,7 @@ if($doneexam != 0){
 })->get();
 
   $studentanswer = Studentexamanswer::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->get();
- 
+
 
    return view('student.lessonsectiontextexam', compact('data', 'lessonname', 'doneexam', 'exam', 'studentanswer', 'time'));
 }
@@ -471,45 +471,45 @@ public function lessontextexamstart($grade_id, $unit_id, $lesson_id, $lesson_sec
     {
 
       $now = Carbon::now();
-       
+
       $exam = Exam::where('lesson_section_id', $lesson_section_id)->where('hide', 0)->get();
       $doneexam = Studentlessonsectionfollowup::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->count();
 
         $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->where('hide', 0)->count();
 
       $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
-        
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();  
-        
+
+      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+
       $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
- 
+
       if ($lessonsectionlesson < 1) {
         return redirect('/grades');
-     
+
     }
 
       if ($gradeuser < 1) {
         return redirect('/grades');
-     
+
     }
-    
+
    if ($unitgrade < 1) {
         return redirect('/grades');
-     
+
     }
-      
+
     if ($lessonunit < 1) {
         return redirect('/grades');
-     
+
     }
     $lessonname = Lesson::where('id', $lesson_id)->first();
     $data = Lessonsection::where('id', $lesson_section_id)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->where('hide', 0)->first();
 
-    
+
     if($doneexam != 0){
 
-     
-    
+
+
       return redirect('/grade/'.$grade_id.'/unit/'.$unit_id.'/lesson/'.$lesson_id.'/lessonsectiontextexam/'.$lesson_section_id);
    }
 
@@ -518,13 +518,13 @@ public function lessontextexamstart($grade_id, $unit_id, $lesson_id, $lesson_sec
 
     /*
     Studentlessonsectionfollowup::create([
-      
+
       'student_id' => auth()->user()->id,
       'lesson_section_id' =>   $lesson_section_id,
-      
+
   ]);
   */
-  
+
      return view('student.lessonsectiontextexamstart', compact('data', 'lessonname','exam', 'data'));
   }
 
@@ -542,71 +542,71 @@ public function lessontextexamstart($grade_id, $unit_id, $lesson_id, $lesson_sec
 
 public function lessontextexampost(Request $request)
 {
-   
+
   Studentlessonsectionfollowup::create([
-      
+
     'student_id' => auth()->user()->id,
     'lesson_section_id' =>   $request->lesson_section_id[0],
-    
+
 ]);
-   
+
     $questionnumber = count($request->question);
 
-  
+
     for ($i = 0; $i < $questionnumber; $i++) {
 
-      //  return $request->question[$i]; 
+      //  return $request->question[$i];
 
       $exam_id = $request->question[$i];
 
-      
+
 
       if(!empty($request->answer[$exam_id])){
         $student_answer = $request->answer[$exam_id];
         }else{
           $student_answer = Null;
         }
-        
-        
+
+
       $lesson_section_id = $request->lesson_section_id[$i];
 
 
-     
+
       if(empty($request->student_answer_picture[$exam_id])){
 
        Studentexamanswer::create([
-      
+
 
           'student_id' => auth()->user()->id,
           'exam_id' =>   $exam_id,
           'student_answer' =>  $student_answer,
           'lesson_section_id' => $lesson_section_id,
-         
+
       ]);
-       
+
         }
-      
+
         if(!empty($request->student_answer_picture[$exam_id])){
 
           $student_answer_picture = $this->saveImage($request->student_answer_picture[$exam_id], 'images/studentanswers');
 
           Studentexamanswer::create([
-         
-   
+
+
              'student_id' => auth()->user()->id,
              'exam_id' =>   $exam_id,
              'student_answer' =>  $student_answer,
              'lesson_section_id' => $lesson_section_id,
              'student_answer_picture' => $student_answer_picture,
-            
+
          ]);
-          
+
            }
 
 
 
     }
-  
+
 
     return redirect()->back();
 
@@ -625,8 +625,8 @@ public function studentresults()
 
     //return $unitname;
      return view('student.studentresults', compact('examname', 'unitname'));
-    
-    
+
+
     }
 
 
@@ -673,23 +673,23 @@ public function studentresults()
     public function ltextcheckanswers($lesson_section_id)
     {
 
-      
+
     $exam = Exam::where('lesson_section_id', $lesson_section_id)->whereIn('id', function ($query)  use($lesson_section_id) {
       $query->select('exam_id')
           ->from('studentexamanswers')->where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->get();
           //->where('lesson_section_id',1);
   })->get();
-  
+
     $studentanswer = Studentexamanswer::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->get();
-   
-  
+
+
      return view('student.ltextcheckanswers', compact('exam', 'studentanswer'));
 
 
     }
 
 
-    
+
     public function utextcheckanswers($unit_exam_section_id)
     {
 
@@ -698,10 +698,10 @@ public function studentresults()
             ->from('studentexamanswers')->where('unit_exam_section_id', $unit_exam_section_id)->where('student_id',  auth()->user()->id)->get();
             //->where('lesson_section_id',1);
     })->get();
-    
+
       $studentanswer = Studentexamanswer::where('unit_exam_section_id', $unit_exam_section_id)->where('student_id', auth()->user()->id)->get();
-     
-    
+
+
        return view('student.utextcheckanswers', compact('exam', 'studentanswer'));
 
     }

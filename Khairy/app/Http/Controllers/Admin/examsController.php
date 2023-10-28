@@ -39,7 +39,13 @@ class examsController extends Controller
 
         $data = Exam::where('lesson_section_id', $id)->get();
 
+
+        if($lessonsection->section_type == 1 || $lessonsection->section_type == 2){
         return view('admin.new.exam', compact('data', 'lessonsection', 'grades'));
+        }elseif($lessonsection->section_type == 3){
+        return view('admin.new.textExam', compact('data', 'lessonsection', 'grades'));
+        }
+
     }
 
     /**
@@ -65,14 +71,16 @@ class examsController extends Controller
 
         $exam->lesson_section_id = $request->section_id;
         $exam->question_type = $request->question_type;
-        $exam->choose_type = $request->choose_type;
-
 
         if ($request->question_type == 1) {
             $exam->question = $request->question_text;
         } elseif ($request->question_type == 2) {
             $exam->question = $this->saveImage($request->question_image, 'images/exams');
         }
+
+        $lesson_section = Lessonsection::find($request->section_id);
+        if ($lesson_section->section_type != 3){
+        $exam->choose_type = $request->choose_type;
 
         if ($request->choose_type == 1) {
             $exam->choose1 = $request->choose1_text;
@@ -85,9 +93,9 @@ class examsController extends Controller
             $exam->choose3 = $this->saveImage($request->choose3_image, 'images/exams');
             $exam->choose4 = $this->saveImage($request->choose4_image, 'images/exams');
         }
-
-        $exam->points = $request->points;
         $exam->right_answer = $request->right_answer;
+        }
+        $exam->points = $request->points;
 
         $exam->save();
 
@@ -250,6 +258,18 @@ public function getLessons($unitId) {
 
 public function getLessonSections($lessonId) {
     $lessonSections = Lesson::find($lessonId)->lessonsections()->whereIn('section_type', [1, 2])->get();
+    $lessonSectionArray = [];
+
+    foreach ($lessonSections as $section) {
+        $lessonSectionArray[$section->id] = $section->name;
+    }
+
+    return response()->json($lessonSectionArray);
+}
+
+public function gettextSections($lessonId) {
+    $lessonSections = Lesson::find($lessonId)->lessonsections()->where('section_type', 3)->get();
+
     $lessonSectionArray = [];
 
     foreach ($lessonSections as $section) {
