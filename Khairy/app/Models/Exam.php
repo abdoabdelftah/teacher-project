@@ -41,7 +41,7 @@ class Exam extends Model
     public function lessonsection(){
         return $this -> belongsTo('App\Models\Lessonsection','lesson_section_id','id');
     }
-    
+
     public function lesson(){
         return $this -> belongsTo('App\Models\Lesson','lesson_id','id');
     }

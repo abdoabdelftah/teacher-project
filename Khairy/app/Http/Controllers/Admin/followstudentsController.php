@@ -40,18 +40,13 @@ class followstudentsController extends Controller
      */
     public function lessonsectionanswered($id)
     {
+        $grades = Grade::with('units.lessons.lessonsections')->get();
+
         $lessonsection =  Lessonsection::where('id', $id)->first();
 
-        $lesson =  Lesson::where('id', $lessonsection->lesson_id)->first();
+        $content = Studentlessonsectionfollowup::with('student:id,name', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('lesson_section_id', $id)->paginate(10);
 
-
-        $unit = Unit::where('id', $lesson->unit_id)->first();
-
-        $grade = Grade::where('id', $unit->grade_id)->first();
-
-        $examname = Studentlessonsectionfollowup::with('student:id,name', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('lesson_section_id', $id)->paginate(10);
-
-        return view('admin.lessonsectionanswered', compact('examname', 'lessonsection', 'lesson', 'unit', 'grade'));
+        return view('admin.new.viewed', compact('grades', 'lessonsection', 'content'));
     }
 
     /**
@@ -72,12 +67,8 @@ class followstudentsController extends Controller
 
         $lessonsection =  Lessonsection::where('id', $id)->first();
 
-        $lesson =  Lesson::where('id', $lessonsection->lesson_id)->first();
+        $grades = Grade::with('units.lessons.lessonsections')->get();
 
-
-        $unit = Unit::where('id', $lesson->unit_id)->first();
-
-        $grade = Grade::where('id', $unit->grade_id)->first();
 
         $lesson_id = Lessonsection::where('id', $id)->select('lesson_id')->first();
 
@@ -89,7 +80,7 @@ class followstudentsController extends Controller
 
 
 
-            $students = User::whereIn('id', function ($query)  use($grade_id) {
+            $content = User::whereIn('id', function ($query)  use($grade_id) {
                 $query->select('user_id')
                     ->from('grade_user')->where('grade_id', $grade_id->grade_id)->get();
                     //->where('lesson_section_id',1);
@@ -103,7 +94,7 @@ class followstudentsController extends Controller
                 ->paginate(10);
 
 
-         return view('admin.lessonsectionnotanswered', compact('students', 'lessonsection', 'lesson', 'unit', 'grade'));
+         return view('admin.new.notviewed', compact('content', 'lessonsection','grades'));
     }
 
     /**
@@ -129,11 +120,11 @@ class followstudentsController extends Controller
         return view('admin.unitsectionanswered', compact('examname', 'unitexamsection', 'unit', 'grade'));
     }
 
-    public function unitanswerexport($id) 
+    public function unitanswerexport($id)
 {
 
-    
-   
+
+
 
     $examname = Unitexamsectionfollowup::with('student:id,name', 'studentanswer:unit_exam_section_id,points,student_id', 'exam:unit_exam_section_id,points')->where('unit_exam_section_id', $id)->get();
 
@@ -143,16 +134,16 @@ $downloadname = Unitexamsection::where('id', $id)->first();
 
 
 
-public function lessonanswerexport($id) 
+public function lessonanswerexport($id)
 {
 
-    
-   
+
+
 
     $examname = Studentlessonsectionfollowup::with('student:id,name', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('lesson_section_id', $id)->get();
 
-  
-   
+
+
 $downloadname = Lessonsection::where('id', $id)->first();
 
 return Excel::download(new ResultsExport($examname), ' درجات الطلاب فى '.$downloadname->name.'.xlsx');

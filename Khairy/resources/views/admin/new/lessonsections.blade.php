@@ -249,7 +249,7 @@
                                                     @endif
 
                                                     @if ($section->section_type == 3)
-                                                        <a href="{{ url('admin/lessontextexam/' . $section->id) }}"
+                                                        <a href="{{ url('admin/exams/' . $section->id) }}"
                                                             type="button"
                                                             class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
                                                     @endif

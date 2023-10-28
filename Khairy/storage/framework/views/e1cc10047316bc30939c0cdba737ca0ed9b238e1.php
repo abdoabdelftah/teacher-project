@@ -253,7 +253,7 @@
                                                     <?php endif; ?>
 
                                                     <?php if($section->section_type == 3): ?>
-                                                        <a href="<?php echo e(url('admin/lessontextexam/' . $section->id)); ?>"
+                                                        <a href="<?php echo e(url('admin/exams/' . $section->id)); ?>"
                                                             type="button"
                                                             class="btn rounded-pill btn-label-info waves-effect">المحتوى</a>
                                                     <?php endif; ?>

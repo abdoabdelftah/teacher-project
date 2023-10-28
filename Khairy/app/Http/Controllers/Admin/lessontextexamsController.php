@@ -170,6 +170,41 @@ class lessontextexamsController extends Controller
      */
     public function indexPdf($id)
     {
-        return "NEEDED";
+
+        $grades = Grade::with('units.lessons.lessonsections')->get();
+
+
+        $exam = Exam::where('lesson_section_id', $id)->first();
+
+        if (!$exam){
+            $exam = Exam::Create(['lesson_section_id' => $id]);
+         }
+
+        return view('admin.new.pdfExam', compact('exam', 'id', 'grades'));
+
     }
+
+    public function updatePdfExam(Request $request)
+    {
+
+        $request->validate([
+            'pdf' => 'required',
+        ]);
+
+        $exam = Exam::where('lesson_section_id', $request->id)->first();
+        if (!$exam)
+            return redirect()->back();
+
+            !empty($exam->question)  ? $this->deleteImage($exam->question, 'exams'): '';
+
+            $exam->question = $this->saveImage($request->pdf, 'images/exams');
+
+            $exam->save();
+
+
+        return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
+
+
+    }
+
 }
