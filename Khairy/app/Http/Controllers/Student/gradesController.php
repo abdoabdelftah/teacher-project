@@ -31,11 +31,11 @@ class gradesController extends Controller
     public function grades()
     {
         $student = auth()->user();
-        
-        $data = $student->grades;
-   
-       
-        return view('student.grades', compact('data'));
+
+        $grades = $student->grades()->with('units')->get();
+
+
+        return view('student.new.grades', compact('grades'));
     }
 
     /**
@@ -43,7 +43,7 @@ class gradesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Store a newly created resource in storage.
@@ -53,20 +53,20 @@ class gradesController extends Controller
      */
     public function units($grade_id)
     {
-       
+
         $data = Unit::where('grade_id', $grade_id)->where('hide', 0)->get();
-        
+
       $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
 
-    
+
       if ($gradeuser < 1) {
         return redirect('/grades');
-     
+
     }
-    
-   
-      
-        
+
+
+
+
        return view('student.units', compact('data'));
 
     }
@@ -85,22 +85,22 @@ class gradesController extends Controller
 
         $unitdata = Unitexamsection::where('unit_id', $unit_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->get();
 
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();  
-        
+      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+
       $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
 
 
       if ($gradeuser < 1) {
         return redirect('/grades');
-     
+
     }
-    
+
    if ($unitgrade < 1) {
         return redirect('/grades');
-     
+
     }
-      
-        
+
+
        return view('student.lessons', compact('data', 'unitdata'));
 
     }
@@ -113,35 +113,35 @@ class gradesController extends Controller
      */
     public function lecture($grade_id, $unit_id, $lesson_id, $lesson_section_id)
     {
-       
+
         $lecture = Lecture::where('lesson_section_id', $lesson_section_id)->first();
 
         $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('hide', 0)->count();
 
       $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
-        
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();  
-        
+
+      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+
       $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
- 
+
       if ($lessonsectionlesson < 1) {
         return redirect('/grades');
-     
+
     }
 
       if ($gradeuser < 1) {
         return redirect('/grades');
-     
+
     }
-    
+
    if ($unitgrade < 1) {
         return redirect('/grades');
-     
+
     }
-      
+
     if ($lessonunit < 1) {
         return redirect('/grades');
-     
+
     }
     $lessonname = Lesson::where('id', $lesson_id)->first();
     $data = Lessonsection::where('lesson_id', $lesson_id)->where('hide', 0)->select('name', 'id', 'section_type')->orderBy('priority', 'asc')->get();
@@ -163,28 +163,28 @@ class gradesController extends Controller
         $data = Lessonsection::where('lesson_id', $lesson_id)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->where('hide', 0)->orderBy('priority', 'asc')->get();
 
       $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
-        
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();  
-        
+
+      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+
       $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
- 
-      
+
+
       if ($gradeuser < 1) {
         return redirect('/grades');
-     
+
     }
-    
+
    if ($unitgrade < 1) {
         return redirect('/grades');
-     
+
     }
-      
+
     if ($lessonunit < 1) {
         return redirect('/grades');
-     
+
     }
     $lessonname = Lesson::where('id', $lesson_id)->first();
-        
+
        return view('student.lessonsections', compact('data', 'lessonname'));
 
     }
