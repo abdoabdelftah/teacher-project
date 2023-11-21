@@ -12,7 +12,7 @@ class Unit extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'hide', 'grade_id', 'image'];
+    protected $fillable = ['name', 'description','hide', 'grade_id', 'image'];
     public $timestamps = false;
     public function lessons(){
         return $this -> hasMany('App\Models\Lesson','unit_id','id');
@@ -26,4 +26,9 @@ class Unit extends Model
     public function grade(){
         return $this -> belongsTo('App\Models\Grade','grade_id','id');
     }
+
+    public function userLessons(){
+        return $this -> hasMany('App\Models\Lesson','unit_id','id')->where('hide', 0);
+    }
+
 }

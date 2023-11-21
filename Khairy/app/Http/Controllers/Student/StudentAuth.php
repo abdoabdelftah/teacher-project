@@ -23,7 +23,7 @@ class StudentAuth extends Controller
         $date = Carbon::now()->subDay(7);
 
    $check = User::where('phone_number', $request->phone_number)->first();
-   
+
    if(isset($check)){
    if($check->last_login_date > $date){
 
@@ -48,9 +48,9 @@ class StudentAuth extends Controller
             //    $user->save();
 
 
-            
+
            Auth::guard('web')->logout();
- 
+
                 //$user->session()->invalidate();
 
                // $user->session()->regenerateToken();
@@ -59,7 +59,7 @@ class StudentAuth extends Controller
                return redirect()->back()->withErrors(['errors' => ' لقد قمت بتسجيل الدخول خلال هذا الاسبوع باستخدام جهاز اخر اذا كنت ترغب فى تسجيل الدخول الرجاء التواصل مع الاستاذ']);
 
             }else{
-            
+
             */
 
             $user->update([

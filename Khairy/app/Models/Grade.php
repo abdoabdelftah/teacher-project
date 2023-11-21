@@ -25,4 +25,8 @@ class Grade extends Model
     }
 
 
+    public function userUnits(){
+        return $this -> hasMany('App\Models\Unit','grade_id','id')->where('hide', 0);
+    }
+
 }

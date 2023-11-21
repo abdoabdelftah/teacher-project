@@ -44,7 +44,7 @@ Route::get('/login', function () {
     return view('student.login');
 })->middleware('guest')->name('login');
 
-Route::post('student', 'Student\StudentAuth@checkStudentLogin')->name('save.student.login');
+Route::post('/student/log', 'Student\StudentAuth@checkStudentLogin')->name('save.student.login');
 
 
 
@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth', 'CheckStudent']], function() {
 
   Route::get('/grades','Student\gradesController@grades')->name('dashboard');
 
+  Route::view('/testme', 'student.new.test');
 
   Route::get('/grade/{grade_id}/units','Student\gradesController@units');
 
