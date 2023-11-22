@@ -4,6 +4,7 @@
 
 
 namespace App\Http\Controllers\Student;
+
 use App\Http\Controllers\Controller;
 
 
@@ -21,6 +22,8 @@ use App\Models\Lessonsection;
 use auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use SebastianBergmann\CodeCoverage\Percentage;
+
 class gradesController extends Controller
 {
     /**
@@ -32,10 +35,42 @@ class gradesController extends Controller
     {
         $student = auth()->user();
 
-        $grades = $student->grades()->with('units')->get();
+        $grades = $student->userGrades()
+            ->with([
+                'userUnits' => function ($query) {
+                    $query->where('units.hide', 0);
+                },
+                'userUnits.userLessons' => function ($query) {
+                    $query->where('hide', 0);
+                },
+                'userUnits.userLessons.userLessonsections' => function ($query) {
+                    $query->where('hide', 0);
+                },
+            ])
+            ->get();
+
+        $follow_up = $student->studentlessonsectionfollowups()->get();
 
 
-        return view('student.new.grades', compact('grades'));
+        $percentages = [];
+
+        foreach ($grades as $grade) {
+            foreach ($grade->userUnits as $userUnit) {
+                $totalLessonSections = $userUnit->userLessons->sum(function ($lesson) {
+                    return $lesson->userLessonsections->count();
+                });
+
+                $completedLessonSections = $follow_up
+                    ->whereIn('lesson_section_id', $userUnit->userLessons->pluck('userLessonsections')->flatten()->pluck('id'))
+                    ->count();
+
+                $percentage = $totalLessonSections > 0 ? ($completedLessonSections / $totalLessonSections) * 100 : 0;
+
+                $percentages[$userUnit->id] = number_format($percentage, 0);
+            }
+        }
+
+        return view('student.new.grades', compact('grades', 'percentages'));
     }
 
     /**
@@ -56,19 +91,17 @@ class gradesController extends Controller
 
         $data = Unit::where('grade_id', $grade_id)->where('hide', 0)->get();
 
-      $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
+        $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
 
 
-      if ($gradeuser < 1) {
-        return redirect('/grades');
-
-    }
-
+        if ($gradeuser < 1) {
+            return redirect('/grades');
+        }
 
 
 
-       return view('student.units', compact('data'));
 
+        return view('student.units', compact('data'));
     }
 
     /**
@@ -79,30 +112,44 @@ class gradesController extends Controller
      */
     public function lessons($grade_id, $unit_id)
     {
-        $now = Carbon::now();
 
-        $data = Lesson::where('unit_id', $unit_id)->where('hide', 0)->get();
+        $student = auth()->user();
 
-        $unitdata = Unitexamsection::where('unit_id', $unit_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->get();
+        $lessons = Lesson::where('unit_id', $unit_id)->where('hide', 0)
+            ->with([
+                'userLessonsections' => function ($query) {
+                    $query->where('hide', 0);
+                },
+            ])
+            ->get();
 
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+        $follow_up = $student->studentlessonsectionfollowups()->get();
 
-      $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
+        $percentages = [];
+
+        foreach ($lessons as $lesson) {
+
+                $totalLessonSections =  $lesson->userLessonsections->count();
+
+                $completedLessonSections = $follow_up
+                    ->whereIn('lesson_section_id', $lesson->userLessonsections->flatten()->pluck('id'))
+                    ->count();
+
+                $percentage = $totalLessonSections > 0 ? ($completedLessonSections / $totalLessonSections) * 100 : 0;
+
+                $percentages[$lesson->id] = number_format($percentage, 0);
+            }
+
+        $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->first();
+
+        $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
 
 
-      if ($gradeuser < 1) {
-        return redirect('/grades');
+        if ($gradeuser < 1 || $unitgrade->count() < 1) {
+            return redirect('/grades');
+        }
 
-    }
-
-   if ($unitgrade < 1) {
-        return redirect('/grades');
-
-    }
-
-
-       return view('student.lessons', compact('data', 'unitdata'));
-
+        return view('student.new.lessons', compact('lessons', 'percentages'));
     }
 
     /**
@@ -118,35 +165,37 @@ class gradesController extends Controller
 
         $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('hide', 0)->count();
 
-      $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
+        $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
 
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+        $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
 
-      $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
+        $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
 
-      if ($lessonsectionlesson < 1) {
-        return redirect('/grades');
+        if ($lessonsectionlesson < 1) {
+            return redirect('/grades');
+        }
 
-    }
+        if ($gradeuser < 1) {
+            return redirect('/grades');
+        }
 
-      if ($gradeuser < 1) {
-        return redirect('/grades');
+        if ($unitgrade < 1) {
+            return redirect('/grades');
+        }
 
-    }
+        if ($lessonunit < 1) {
+            return redirect('/grades');
+        }
 
-   if ($unitgrade < 1) {
-        return redirect('/grades');
 
-    }
+        if($lecture->type == 3){
+         preg_match('/\/d\/(.+?)\/|id=(.+?)($|&)/', $lecture->content, $matches);
 
-    if ($lessonunit < 1) {
-        return redirect('/grades');
+         $lecture['video_google_id'] = $matches[1] ?? $matches[2] ?? null;
+        }
 
-    }
-    $lessonname = Lesson::where('id', $lesson_id)->first();
-    $data = Lessonsection::where('lesson_id', $lesson_id)->where('hide', 0)->select('name', 'id', 'section_type')->orderBy('priority', 'asc')->get();
-       return view('student.lessonsectionlecture', compact('data', 'lessonname', 'lecture'));
 
+        return view('student.new.lecture', compact('lecture'));
     }
 
     /**
@@ -158,35 +207,37 @@ class gradesController extends Controller
      */
     public function lessonsections($grade_id, $unit_id, $lesson_id)
     {
-        $now = Carbon::now();
+        $lesson = Lesson::where('id', $lesson_id)->where('hide', 0)->with([
+            'userLessonsections' =>function($q){
+                $q->where('hide', 0)->orderBy('priority', 'asc');
+                $q->with(['sectionFollowup' =>function($sq){
+                    $sq->where('student_id', auth()->user()->id);
+                }]);
+            }
+        ])->first();
 
-        $data = Lessonsection::where('lesson_id', $lesson_id)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->where('hide', 0)->orderBy('priority', 'asc')->get();
 
-      $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
+        $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
 
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
+        $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
 
-      $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
+        $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
 
 
-      if ($gradeuser < 1) {
-        return redirect('/grades');
+        if ($gradeuser < 1) {
+            return redirect('/grades');
+        }
 
-    }
+        if ($unitgrade < 1) {
+            return redirect('/grades');
+        }
 
-   if ($unitgrade < 1) {
-        return redirect('/grades');
+        if ($lessonunit < 1) {
+            return redirect('/grades');
+        }
 
-    }
 
-    if ($lessonunit < 1) {
-        return redirect('/grades');
-
-    }
-    $lessonname = Lesson::where('id', $lesson_id)->first();
-
-       return view('student.lessonsections', compact('data', 'lessonname'));
-
+        return view('student.new.lesson', compact('lesson'));
     }
 
     /**

@@ -3,6 +3,9 @@
 
 <link rel="stylesheet" href="{{asset('admin/assets/vendor/libs/jstree/jstree.css')}}" />
 
+<link rel="stylesheet" href="{{asset('admin/assets/vendor/css/pages/app-academy.css')}}" />
+
+
 <style>
     .custom-btn {
     padding: 10px 20px;
@@ -24,246 +27,56 @@
 @section('content')
 
 
-<div class="row g-4 mb-4">
-
-    <div class="col-sm-6 col-xl-12">
-        <div class="card">
-          <div class="card-body " style="display: flex; justify-content: space-between; align-items: center;">
-    <h4>الكورسات</h4>
-
-          </div>
-            </div>
-        </div>
-
-
-    <div class="col-sm-6 col-xl-4">
-      <div class="card">
-        <div class="card-body" style="overflow: auto;">
-
-
-                  <h5 class="card-header">الخريطة</h5>
-                  <div class="card-body">
-                    <div id="jstree-basic">
-                      <ul>
-{{-- class="jstree-open" --}}
-                    @foreach($grades as $grade)
-                    <li data-jstree='{"icon" : "mdi mdi-folder-outline"}'>
-
-                        <span  grade-id = "{{$grade->id}}">  {{$grade->name}} </span>
-
-                          <ul>
-
-                          @foreach ($grade->units as $unit)
-
-                            <li data-jstree='{"icon" : "mdi mdi-folder-outline"}' >
-                             <span unit-id = "{{$unit->id}}"> {{$unit->name}}</span>
-                              <ul>
-
-
-                                @foreach ($unit->lessons as $lesson)
-                                <li data-jstree='{"icon" : "mdi mdi-folder-outline"}' >
-                                <span lesson-id = "{{$lesson->id}}"> {{$lesson->name}} </span>
-                                </li>
-                                @endforeach
-
-                              </ul>
-                            </li>
-                          @endforeach
-                          </ul>
-
-                        </li>
-
-                    @endforeach
-
-                      </ul>
-                    </div>
-                  </div>
-
-
-
-        </div>
-    </div>
-</div>
-
-
-<div class="col-sm-6 col-xl-8">
-    <div class="card">
-      <div class="card-body">
-
-        <div class="row">
-
-
-
-        @foreach($grades as $grade)
-        <div class="col-sm-3 col-xl-6">
-        <div class="card mb-4">
-            <div class="card-header pb-1">
-                <div class="d-flex justify-content-between">
-                  <div class="dropdown">
-                    <button class="btn p-0" type="button" id="organicSessionsDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="mdi mdi-dots-vertical mdi-24px"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="organicSessionsDropdown">
-                      <a class="dropdown-item edit-grade" data-grade-id="{{$grade->id}}" href="javascript:void(0);">تعديل</a>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            <div class="card-body">
-              <p class="card-text">
-
-     <a href="/admin/units/{{$grade->id}}"> <img src="{{asset('admin/assets/img/folder.png')}}" alt="" class="mx-auto d-block" >
-
-     <center> <h5 class="mb-1">{{$grade->name}}</h5> @if ($grade->hide == 1) <i class="mdi mdi-eye-off-outline"></i>
-
-        @endif</center>
-
-    </a>
-            </p>
-            </div>
-          </div>
-        </div>
-      @endforeach
-    </div>
-
+@foreach($grades as $grade)
+<div class="card mb-4">
+    <div class="card-header d-flex flex-wrap justify-content-between gap-3">
+      <div class="card-title mb-0 me-1">
+        <h5 class="mb-1">{{$grade->name}}</h5>
       </div>
-  </div>
-</div>
-</div>
+
+    </div>
+    <div class="card-body">
+      <div class="row gy-4 mb-4">
 
 
-<!-- Modal -->
-<div class="modal fade"  id="editGradeModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <form method="POST" action="{{ route('update.grade') }}" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="id" value ="" id="grade-id">
-        <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLabel1">تعديل كورس</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
+        @foreach ($grade->units as $unit)
+        @if($unit->hide != 1)
+        <div class="col-sm-6 col-lg-4">
+          <div class="card p-2 h-100 shadow-none border">
+            <div class="rounded-2 text-center mb-3">
+              <a href="/grade/{{$grade->id}}/unit/{{$unit->id}}/lessons"><img class="img-fluid" src="{{$unit->image ? $unit->image : asset('admin/assets/img/pages/app-academy-tutor-1.png')}}" alt="tutor image 1" /></a>
+            </div>
+            <div class="card-body p-3 pt-2">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill bg-label-primary">عدد الدروس: {{$unit->lessons->count()}}</span>
 
+              </div>
+              <a href="/grade/{{$grade->id}}/unit/{{$unit->id}}/lessons" class="h5">{{$unit->name}}</a>
+              <p class="mt-2">{{$unit->description}}</p>
 
-          <div class="row">
-            <div class="col mb-4 mt-2">
-              <div class="form-floating form-floating-outline">
-                  <input type="text" id="name" name="name" class="form-control" >
+              <div class="progress rounded-pill mb-4" style="height: 8px">
+                  <div class="progress-bar" role="progressbar" style="width: {{ isset($percentages[$unit->id]) ? $percentages[$unit->id] : 0 }}%" aria-valuenow="{{ isset($percentages[$unit->id]) ? $percentages[$unit->id] : 0 }}" aria-valuemin="0" aria-valuemax="100"></div>
 
-                <label for="name">الاسم</label>
+            </div>
+              <div class="d-flex flex-column flex-md-row gap-3 text-nowrap flex-wrap flex-md-nowrap  flex-lg-wrap flex-xxl-nowrap">
+
+                <a class="w-100 btn btn-outline-primary d-flex align-items-center" href="/grade/{{$grade->id}}/unit/{{$unit->id}}/lessons">
+                  <span class="me-1">الانتقال الى الدروس</span><i class="mdi mdi-arrow-right lh-1 scaleX-n1-rtl"></i>
+                </a>
               </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col mb-4 mt-2">
-            <div class="form-floating form-floating-outline">
-
-
-                <div class="col-md">
-                    <div class="card mb-3">
-                      <div class="row g-0">
-                        <div class="col-md-4" style="display: flex;  justify-content: center; align-items: center;">
-                          <img  id="image"  src="" alt="Card image" style="max-width: 100%;">
-                        </div>
-                        <div class="col-md-8">
-                          <div class="card-body">
-                            <input class="form-control"  name = "image" type="file" id="formFile">
-
-                        </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-           </div>
-        </div>
-    </div>
-
-           <input type="checkbox" id="hide" class="form-check-input"  name="hide">
-              <label for="hide">اخفاء</label>
-
-
           </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">الغاء</button>
-          <button type="submit" class="btn btn-primary">حفظ</button>
         </div>
-    </form>
+        @endif
+@endforeach
+
       </div>
+
+
     </div>
   </div>
+@endforeach
 
-
-
-
-<!-- Modal -->
-<div class="modal fade"  id="addGradeModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <form method="POST" action="{{ route('store.grade') }}" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="id" value ="" id="grade-id">
-        <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLabel1">اضافة كورس</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-
-
-          <div class="row">
-            <div class="col mb-4 mt-2">
-              <div class="form-floating form-floating-outline">
-                  <input type="text" name="name" class="form-control" >
-
-                <label for="name">الاسم</label>
-              </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col mb-4 mt-2">
-            <div class="form-floating form-floating-outline">
-
-
-                <div class="col-md">
-                    <div class="card mb-3">
-                      <div class="row g-0">
-
-                        <div class="col-md-12">
-                          <div class="card-body">
-                            <input class="form-control"  name = "image" type="file" id="formFile">
-
-                        </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-           </div>
-        </div>
-    </div>
-
-           <input type="checkbox" class="form-check-input"  name="hide">
-              <label for="hide">اخفاء</label>
-
-
-          </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">الغاء</button>
-          <button type="submit" class="btn btn-primary">حفظ</button>
-        </div>
-    </form>
-      </div>
-    </div>
-  </div>
 
 
 @stop
@@ -277,52 +90,7 @@
 
 <script>
 
-    $(document).on('click', 'span[grade-id]', function() {
-    var gradeId = $(this).attr('grade-id');
-    if (gradeId) {
-        window.location.href = '/admin/units/' + gradeId;
-    }
-    });
 
-    $(document).on('click', 'span[unit-id]', function() {
-    var unitId = $(this).attr('unit-id');
-    if (unitId) {
-        window.location.href = '/admin/lessons/' + unitId;
-    }
-    });
-
-    $(document).on('click', 'span[lesson-id]', function() {
-    var lessonId = $(this).attr('lesson-id');
-    if (lessonId) {
-        window.location.href = '/admin/lessonsections/' + lessonId;
-    }
-    });
-
-
-
-        $('.edit-grade').click(function() {
-
-            var gradeId = $(this).data('grade-id');
-
-            $.ajax({
-                url: '/admin/grades/edit/' + gradeId,
-                method: 'GET',
-                success: function(data) {
-                    // Step 4: Populate modal inputs with fetched data
-                    $('#name').val(data.name);
-                    $('#grade-id').val(gradeId);
-                    if (data.image) {
-                        $('#image').attr("src", data.image);
-                    } else {
-                        $('#image').attr("src", "{{asset('admin/assets/img/smallfolder.png')}}");
-                    }
-                   $('#hide').prop('checked', data.hide);
-
-                    // Step 5: Open the modal
-                    $('#editGradeModal').modal('show');
-                }
-            });
-        });
 
 
     </script>

@@ -1,1 +1,0 @@
-<?php /**PATH E:\Web-Development\Khairy\Khairy\resources\views/ping.blade.php ENDPATH**/ ?>

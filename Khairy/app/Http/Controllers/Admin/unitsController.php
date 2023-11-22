@@ -49,6 +49,7 @@ class unitsController extends Controller
         $unit = new Unit;
 
         $unit->name = $request->name;
+        $unit->description = $request->description;
         $unit->grade_id = $request->grade_id;
         if ($request->has('image')) {
             $unit->image = $this->saveImage($request->image, 'images/grades');
@@ -110,6 +111,7 @@ class unitsController extends Controller
             return redirect()->back();
 
         $unit->name = $request->name;
+        $unit->description = $request->description;
 
         if ($request->has('image')) {
 

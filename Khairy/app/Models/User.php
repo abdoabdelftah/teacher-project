@@ -68,4 +68,8 @@ class User extends Authenticatable
         return $this -> belongsTo('App\Models\Grade','grade_id','id');
     }
 
+    public function userGrades(){
+        return $this -> belongsToMany('App\Models\Grade','grade_user','user_id','grade_id','id','id')->where('hide', 0);
+    }
+
 }
