@@ -54,8 +54,9 @@
               <p class="mt-2"><?php echo e($unit->description); ?></p>
 
               <div class="progress rounded-pill mb-4" style="height: 8px">
-                <div class="progress-bar w-<?php echo e(isset($percentages[$unit->id]) ? $percentages[$unit->id] : 0); ?>" role="progressbar" aria-valuenow="<?php echo e(isset($percentages[$unit->id]) ? $percentages[$unit->id] : 0); ?>" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
+                  <div class="progress-bar" role="progressbar" style="width: <?php echo e(isset($percentages[$unit->id]) ? $percentages[$unit->id] : 0); ?>%" aria-valuenow="<?php echo e(isset($percentages[$unit->id]) ? $percentages[$unit->id] : 0); ?>" aria-valuemin="0" aria-valuemax="100"></div>
+
+            </div>
               <div class="d-flex flex-column flex-md-row gap-3 text-nowrap flex-wrap flex-md-nowrap  flex-lg-wrap flex-xxl-nowrap">
 
                 <a class="w-100 btn btn-outline-primary d-flex align-items-center" href="/grade/<?php echo e($grade->id); ?>/unit/<?php echo e($unit->id); ?>/lessons">

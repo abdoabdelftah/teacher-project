@@ -164,6 +164,16 @@
 
         <div class="row">
             <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+                  <input type="text" id="description" name="description" class="form-control" >
+
+                <label for="descrition">وصف</label>
+              </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mb-4 mt-2">
             <div class="form-floating form-floating-outline">
 
 
@@ -229,6 +239,18 @@
               </div>
             </div>
         </div>
+
+
+        <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+                  <input type="text" name="description" class="form-control" >
+
+                <label for="description">وصف</label>
+              </div>
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="col mb-4 mt-2">
@@ -314,6 +336,7 @@
                 success: function(data) {
                     // Step 4: Populate modal inputs with fetched data
                     $('#name').val(data.name);
+                    $('#description').val(data.description);
                     $('#lesson-id').val(lessonId);
                     if (data.image) {
                         $('#image').attr("src", data.image);

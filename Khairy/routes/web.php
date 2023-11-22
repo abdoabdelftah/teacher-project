@@ -64,17 +64,18 @@ Route::group(['middleware' => ['auth', 'CheckStudent']], function() {
 
   Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsections','Student\gradesController@lessonsections');
 
+  //lecture
 
   Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectionlecture/{lesson_section_id}','Student\gradesController@lecture');
 
 
-////Home work routes
+/*Home work routes
   Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectionhomework/{lesson_section_id}','Student\examsController@homework');
 
   Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectionhomework/{lesson_section_id}/start','Student\examsController@starthomework');
 
   Route::post('/posthomework','Student\examsController@posthomework')->name('post.homework');
-
+*/
 
 
   ///Lesson choose exam routes
@@ -85,6 +86,9 @@ Route::group(['middleware' => ['auth', 'CheckStudent']], function() {
   Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectionexam/{lesson_section_id}/start','Student\examsController@lessonexamstart');
 
   Route::post('/postlessonexam','Student\examsController@lessonexampost')->name('post.lessonexam');
+
+Route::post('/save-student-answer', 'Student\examsController@saveStudentAnswer')->name('save_student_answer');
+
 
 
 ///lesson text exam

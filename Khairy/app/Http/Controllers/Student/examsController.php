@@ -190,65 +190,27 @@ class examsController extends Controller
     public function lessonexam($grade_id, $unit_id, $lesson_id, $lesson_section_id)
     {
 
-      $now = Carbon::now();
+        $section = Lessonsection::where('id', $lesson_section_id)->first();
 
-        $doneexam = Studentlessonsectionfollowup::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->count();
+        if(! in_array($section->lesson->unit->grade->id, auth()->user()->grades->flatten()->pluck('id')->toArray())){
+            return redirect('/grades');
+        }
 
-        $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->where('hide', 0)->count();
 
-      $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
+        $data = Exam::where('lesson_section_id', $lesson_section_id)->get();
 
-      $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
 
-      $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
+        if($section->section_type == 1 || $section->section_type == 2){
+        return view('student.new.exam', compact('data', 'section'));
+        }elseif($section->section_type == 3){
+        return view('student.new.textExam', compact('data', 'section'));
+        }
 
-      if ($lessonsectionlesson < 1) {
-        return redirect('/grades');
-
-    }
-
-      if ($gradeuser < 1) {
-        return redirect('/grades');
-
-    }
-
-   if ($unitgrade < 1) {
-        return redirect('/grades');
-
-    }
-
-    if ($lessonunit < 1) {
-        return redirect('/grades');
+     return view('student.new.exam', compact('section'));
 
     }
 
 
-    $lessonname = Lesson::where('id', $lesson_id)->first();
-    $data = Lessonsection::where('lesson_id', $lesson_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->select('name', 'id', 'section_type')->orderBy('priority', 'asc')->get();
-
-    $time = Lessonsection::where('id', $lesson_section_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->select('start_time','end_time')->first();
-
-
-    if($doneexam == 0){
-
-       return view('student.lessonsectionexam', compact('data', 'lessonname', 'doneexam', 'time'));
-    }
-
-    if($doneexam != 0){
-
-      $exam = Exam::where('lesson_section_id', $lesson_section_id)->whereIn('id', function ($query)  use($lesson_section_id) {
-        $query->select('exam_id')
-            ->from('studentexamanswers')->where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->get();
-            //->where('lesson_section_id',1);
-    })->get();
-
-      $studentanswer = Studentexamanswer::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->where('student_id', auth()->user()->id)->get();
-
-
-       return view('student.lessonsectionexam', compact('data', 'lessonname', 'doneexam', 'exam', 'studentanswer', 'time'));
-   }
-
-      }
 
     /**
      * Update the specified resource in storage.
@@ -707,6 +669,34 @@ public function studentresults()
     }
 
 
+
+
+    public function saveStudentAnswer(Request $request)
+    {
+
+
+        $student_id = $request->input('student_id');
+        $exam_id = $request->input('exam_id');
+        $student_answer = $request->input('student_answer');
+        $exam = Exam::where('id', $exam_id)->first();
+        $right_answer = $exam->right_answer;
+        $is_right = $student_answer == $right_answer ? 1 : 0;
+        $points = $student_answer == $right_answer ? $exam->points : 0;
+        // Use updateOrcreate to create or update the record
+        Studentexamanswer::updateOrcreate(
+            ['student_id' => $student_id, 'exam_id' => $exam_id],
+            [
+                'lesson_section_id' => $exam->lessonsection->id,
+                'student_answer' => $student_answer,
+                'right_answer' => $right_answer,
+                'is_right' => $is_right,
+                'points' => $points,
+            ]
+        );
+
+
+        return response()->json(['message' => 'Answer saved successfully']);
+    }
 
 
 

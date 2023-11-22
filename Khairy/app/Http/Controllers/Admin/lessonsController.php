@@ -55,6 +55,7 @@ class lessonsController extends Controller
         $lesson = new Lesson;
 
         $lesson->name = $request->name;
+        $lesson->description = $request->description;
         $lesson->unit_id = $request->unit_id;
         if ($request->has('image')) {
             $lesson->image = $this->saveImage($request->image, 'images/grades');
@@ -116,6 +117,8 @@ class lessonsController extends Controller
             return redirect()->back();
 
         $lesson->name = $request->name;
+
+        $lesson->description = $request->description;
 
         if ($request->has('image')) {
 
