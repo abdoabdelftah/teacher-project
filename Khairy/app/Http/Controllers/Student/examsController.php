@@ -190,14 +190,18 @@ class examsController extends Controller
     public function lessonexam($grade_id, $unit_id, $lesson_id, $lesson_section_id)
     {
 
-        $section = Lessonsection::where('id', $lesson_section_id)->first();
+        $section = Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q){
+            $q->where('student_id', auth()->user()->id);
+        }])->first();
 
         if(! in_array($section->lesson->unit->grade->id, auth()->user()->grades->flatten()->pluck('id')->toArray())){
             return redirect('/grades');
         }
 
 
-        $data = Exam::where('lesson_section_id', $lesson_section_id)->get();
+        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' =>function($q){
+            $q->where('student_id', auth()->user()->id);
+        }])->get();
 
 
         if($section->section_type == 1 || $section->section_type == 2){
@@ -206,7 +210,6 @@ class examsController extends Controller
         return view('student.new.textExam', compact('data', 'section'));
         }
 
-     return view('student.new.exam', compact('section'));
 
     }
 

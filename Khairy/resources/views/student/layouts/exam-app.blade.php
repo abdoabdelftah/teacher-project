@@ -125,6 +125,14 @@
         </a>
       </li>
 
+
+      <li class="menu-item">
+        <a href="#" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-clock-all-outline"></i>
+          <div id="countdown-timer"></div>
+        </a>
+      </li>
+
   </ul>
 
 
