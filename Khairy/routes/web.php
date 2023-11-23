@@ -90,6 +90,11 @@ Route::group(['middleware' => ['auth', 'CheckStudent']], function() {
 Route::post('/save-student-answer', 'Student\examsController@saveStudentAnswer')->name('save_student_answer');
 
 
+Route::post('/check-followup', 'Student\sectionsController@checkFollowup')->name('checkFollowup');
+
+
+Route::post('/add-followup', 'Student\sectionsController@addFollowup')->name('addFollowup');
+
 
 ///lesson text exam
   Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectiontextexam/{lesson_section_id}','Student\examsController@lessontextexam');
