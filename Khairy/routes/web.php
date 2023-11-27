@@ -83,11 +83,14 @@ Route::group(['middleware' => ['auth', 'CheckStudent']], function() {
 
   Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectionexam/{lesson_section_id}','Student\examsController@lessonexam');
 
-  Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectionexam/{lesson_section_id}/start','Student\examsController@lessonexamstart');
+ // Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectionexam/{lesson_section_id}/start','Student\examsController@lessonexamstart');
 
-  Route::post('/postlessonexam','Student\examsController@lessonexampost')->name('post.lessonexam');
+//  Route::post('/postlessonexam','Student\examsController@lessonexampost')->name('post.lessonexam');
 
 Route::post('/save-student-answer', 'Student\examsController@saveStudentAnswer')->name('save_student_answer');
+
+
+Route::post('/save-text-student-answer', 'Student\examsController@savetextStudentAnswer')->name('save_text_student_answer');
 
 
 Route::post('/check-followup', 'Student\sectionsController@checkFollowup')->name('checkFollowup');
@@ -99,7 +102,7 @@ Route::post('/add-followup', 'Student\sectionsController@addFollowup')->name('ad
 ///lesson text exam
   Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectiontextexam/{lesson_section_id}','Student\examsController@lessontextexam');
 
-  Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectiontextexam/{lesson_section_id}/start','Student\examsController@lessontextexamstart');
+  //Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectiontextexam/{lesson_section_id}/start','Student\examsController@lessontextexamstart');
 
   Route::post('/postlessontextexam','Student\examsController@lessontextexampost')->name('post.lessontextexam');
 
