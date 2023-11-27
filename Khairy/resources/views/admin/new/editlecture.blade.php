@@ -200,7 +200,7 @@
                                             </div>
                                             <form method="POST" class="pt-3" enctype="multipart/form-data" action="{{ route('update.lecture') }}">
                                                 @csrf
-                                                <input type="hidden" name="type" value="4">
+                                                <input type="hidden" name="type" value="3">
                                                 <input type="hidden" name="id" value="{{$id}}">
                                             <div class="form-group d-flex justify-content-between">
                                                 <input type="text" id="name" name="content" class="form-control"
@@ -213,6 +213,7 @@
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <div class="p-2">
                                     <div class="cursor-pointer">

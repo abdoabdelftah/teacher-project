@@ -207,7 +207,7 @@ class examsController extends Controller
         if($section->section_type == 1 || $section->section_type == 2){
         return view('student.new.exam', compact('data', 'section'));
         }elseif($section->section_type == 3){
-        return view('student.new.textExam', compact('data', 'section'));
+        return view('student.new.text-exam', compact('data', 'section'));
         }
 
 
@@ -369,61 +369,26 @@ class examsController extends Controller
 public function lessontextexam($grade_id, $unit_id, $lesson_id, $lesson_section_id)
 {
 
-  $now = Carbon::now();
+    $section = Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q){
+        $q->where('student_id', auth()->user()->id);
+    }])->first();
 
-    $doneexam = Studentlessonsectionfollowup::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->count();
-
-    $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->count();
-
-  $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
-
-  $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
-
-  $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
-
-  if ($lessonsectionlesson < 1) {
-    return redirect('/grades');
-
-}
-
-  if ($gradeuser < 1) {
-    return redirect('/grades');
-
-}
-
-if ($unitgrade < 1) {
-    return redirect('/grades');
-
-}
-
-if ($lessonunit < 1) {
-    return redirect('/grades');
-
-}
-$lessonname = Lesson::where('id', $lesson_id)->first();
-$data = Lessonsection::where('lesson_id', $lesson_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->select('name', 'id', 'section_type')->orderBy('priority', 'asc')->get();
-
-$time = Lessonsection::where('id', $lesson_section_id)->where('hide', 0)->where('start_time', '<=', $now )->where('end_time', '>=', $now )->select('end_time','start_time', 'id')->first();
+    if(! in_array($section->lesson->unit->grade->id, auth()->user()->grades->flatten()->pluck('id')->toArray())){
+        return redirect('/grades');
+    }
 
 
-if($doneexam == 0){
-
-   return view('student.lessonsectiontextexam', compact('data', 'lessonname', 'doneexam', 'time'));
-}
-
-if($doneexam != 0){
-
-  $exam = Exam::where('lesson_section_id', $lesson_section_id)->whereIn('id', function ($query)  use($lesson_section_id) {
-    $query->select('exam_id')
-        ->from('studentexamanswers')->where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->get();
-        //->where('lesson_section_id',1);
-})->get();
-
-  $studentanswer = Studentexamanswer::where('lesson_section_id', $lesson_section_id)->where('student_id', auth()->user()->id)->get();
+    $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' =>function($q){
+        $q->where('student_id', auth()->user()->id);
+    }])->get();
 
 
-   return view('student.lessonsectiontextexam', compact('data', 'lessonname', 'doneexam', 'exam', 'studentanswer', 'time'));
-}
+    if($section->section_type == 1 || $section->section_type == 2){
+    return view('student.new.exam', compact('data', 'section'));
+    }elseif($section->section_type == 3){
+    return view('student.new.text-exam', compact('data', 'section'));
+    }
+
 
   }
 
@@ -702,6 +667,47 @@ public function studentresults()
     }
 
 
+
+
+    public function savetextStudentAnswer(Request $request)
+    {
+
+
+        $student_id = $request->input('student_id');
+        $exam_id = $request->input('exam_id');
+        $exam = Exam::where('id', $exam_id)->first();
+
+        // Check if an image file is present
+        if ($request->hasFile('student_answer_image')) {
+            $imagePath = $this->saveImage($request->file('student_answer_image'), 'images/studentanswers');
+
+            // Save the image path in the database
+            Studentexamanswer::updateOrcreate(
+                ['student_id' => $student_id, 'exam_id' => $exam_id],
+                [
+                    'lesson_section_id' => $exam->lessonsection->id,
+                    'student_answer_picture' => $imagePath,
+                ]
+            );
+
+            return response()->json(['message' => 'Student answer saved successfully', 'student_answer_image' => $imagePath], 200, [], JSON_UNESCAPED_SLASHES);
+
+        } else {
+        $student_answer_text = $request->input('student_answer_text');
+            // Save text answer in the database
+            Studentexamanswer::updateOrcreate(
+                ['student_id' => $student_id, 'exam_id' => $exam_id],
+                [
+                    'lesson_section_id' => $exam->lessonsection->id,
+                    'student_answer' => $student_answer_text,
+                ]
+            );
+        }
+
+        // You can return a response if needed
+        return response()->json(['message' => 'Student answer saved successfully']);
+
+    }
 
 
 }

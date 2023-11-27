@@ -13,22 +13,26 @@
     <div class="row g-4 mb-4">
 
         <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?>
-        <div class="card">
-            <div class="card-body">
-                <center>
-                <div class="row" style="border-radius: 30%; border: solid green 3px; padding: 30px; display: inline-block;">
+            <div class="card">
+                <div class="card-body">
+                    <center>
+                        <div class="row"
+                            style="border-radius: 30%; border: solid green 3px; padding: 30px; display: inline-block;">
 
-                    <?php
-                    $totalPoints = $data->pluck('studentexamanswers')->flatten()->sum('points');
-                ?>
+                            <?php
+                                $totalPoints = $data
+                                    ->pluck('studentexamanswers')
+                                    ->flatten()
+                                    ->sum('points');
+                            ?>
 
-                    <h3  style="color: rgb(11, 109, 255);">
-                       نتيجتك هى : <?php echo e($totalPoints); ?> من <?php echo e($data->sum('points')); ?> </h3>
+                            <h3 style="color: rgb(11, 109, 255);">
+                                نتيجتك هى : <?php echo e($totalPoints); ?> من <?php echo e($data->sum('points')); ?> </h3>
 
+                        </div>
+                    </center>
                 </div>
-            </center>
             </div>
-        </div>
 
 
         <?php endif; ?>
@@ -54,52 +58,67 @@
                                 <div class="form-group row">
                                     <div class="col-sm-7">
                                         <div class="form-check">
-                                            <label class="form-check-label" <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == "choose1"): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?> 3px;padding:12px" <?php endif; ?>>
+                                            <label class="form-check-label"
+                                                <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == 'choose1'): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?>
+                                                3px;padding:12px" <?php endif; ?>>
                                                 <input type="radio" class="form-check-input"
                                                     name="answer[<?php echo e($exam->id); ?>]" value="choose1"
                                                     <?php if(
                                                         $exam->choose_type == 1 &&
                                                             count($exam->studentexamanswers) > 0 &&
-                                                            $exam->studentexamanswers[0]->student_answer == 'choose1'): ?> checked <?php endif; ?> <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> <?php echo e($exam->choose1); ?>
+                                                            $exam->studentexamanswers[0]->student_answer == 'choose1'): ?> checked <?php endif; ?>
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> <?php echo e($exam->choose1); ?>
 
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-check">
-                                            <label class="form-check-label" <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == "choose2"): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?> 3px;padding:12px" <?php endif; ?>>
+                                            <label class="form-check-label"
+                                                <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == 'choose2'): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?>
+                                                3px;padding:12px" <?php endif; ?>>
                                                 <input type="radio" class="form-check-input"
                                                     name="answer[<?php echo e($exam->id); ?>]" value="choose2"
                                                     <?php if(
                                                         $exam->choose_type == 1 &&
                                                             count($exam->studentexamanswers) > 0 &&
-                                                            $exam->studentexamanswers[0]->student_answer == 'choose2'): ?> checked <?php endif; ?> <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> <?php echo e($exam->choose2); ?>
+                                                            $exam->studentexamanswers[0]->student_answer == 'choose2'): ?> checked <?php endif; ?>
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>>
+                                                <?php echo e($exam->choose2); ?>
 
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-7">
                                         <div class="form-check">
-                                            <label class="form-check-label" <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == "choose3"): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?> 3px;padding:12px" <?php endif; ?>>
+                                            <label class="form-check-label"
+                                                <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == 'choose3'): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?>
+                                                3px;padding:12px" <?php endif; ?>>
                                                 <input type="radio" class="form-check-input"
                                                     name="answer[<?php echo e($exam->id); ?>]" value="choose3"
                                                     <?php if(
                                                         $exam->choose_type == 1 &&
                                                             count($exam->studentexamanswers) > 0 &&
-                                                            $exam->studentexamanswers[0]->student_answer == 'choose3'): ?> checked <?php endif; ?> <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> <?php echo e($exam->choose3); ?>
+                                                            $exam->studentexamanswers[0]->student_answer == 'choose3'): ?> checked <?php endif; ?>
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>>
+                                                <?php echo e($exam->choose3); ?>
 
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-check">
-                                            <label class="form-check-label" <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == "choose4"): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?> 3px;padding:12px" <?php endif; ?>>
+                                            <label class="form-check-label"
+                                                <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == 'choose4'): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?>
+                                                3px;padding:12px" <?php endif; ?>>
                                                 <input type="radio" class="form-check-input"
                                                     name="answer[<?php echo e($exam->id); ?>]" value="choose4"
                                                     <?php if(
                                                         $exam->choose_type == 1 &&
                                                             count($exam->studentexamanswers) > 0 &&
-                                                            $exam->studentexamanswers[0]->student_answer == 'choose4'): ?> checked <?php endif; ?> <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> <?php echo e($exam->choose4); ?>
+                                                            $exam->studentexamanswers[0]->student_answer == 'choose4'): ?> checked <?php endif; ?>
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>>
+                                                <?php echo e($exam->choose4); ?>
 
                                             </label>
                                         </div>
@@ -119,10 +138,13 @@
                                                     <?php if(
                                                         $exam->choose_type == 2 &&
                                                             count($exam->studentexamanswers) > 0 &&
-                                                            $exam->studentexamanswers[0]->student_answer == 'choose1'): ?> checked <?php endif; ?>  <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> أ
+                                                            $exam->studentexamanswers[0]->student_answer == 'choose1'): ?> checked <?php endif; ?>
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> أ
                                             </label>
                                             <div class="col-md-4">
-                                                <img src="<?php echo e($exam->choose1); ?>" width="200px" height="100px" <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == "choose1"): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?> 3px;padding:12px" <?php endif; ?>>
+                                                <img src="<?php echo e($exam->choose1); ?>" width="200px" height="100px"
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == 'choose1'): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?>
+                                                    3px;padding:12px" <?php endif; ?>>
                                             </div>
                                         </div>
                                     </div>
@@ -134,10 +156,13 @@
                                                     <?php if(
                                                         $exam->choose_type == 2 &&
                                                             count($exam->studentexamanswers) > 0 &&
-                                                            $exam->studentexamanswers[0]->student_answer == 'choose2'): ?> checked <?php endif; ?>  <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> ب
+                                                            $exam->studentexamanswers[0]->student_answer == 'choose2'): ?> checked <?php endif; ?>
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> ب
                                             </label>
                                             <div class="col-md-4">
-                                                <img src="<?php echo e($exam->choose2); ?>" width="200px" height="100px"  <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == "choose2"): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?> 3px;padding:12px" <?php endif; ?>>
+                                                <img src="<?php echo e($exam->choose2); ?>" width="200px" height="100px"
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == 'choose2'): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?>
+                                                    3px;padding:12px" <?php endif; ?>>
                                             </div>
                                         </div>
                                     </div>
@@ -149,10 +174,13 @@
                                                     <?php if(
                                                         $exam->choose_type == 2 &&
                                                             count($exam->studentexamanswers) > 0 &&
-                                                            $exam->studentexamanswers[0]->student_answer == 'choose3'): ?> checked <?php endif; ?>  <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> ج
+                                                            $exam->studentexamanswers[0]->student_answer == 'choose3'): ?> checked <?php endif; ?>
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> ج
                                             </label>
                                             <div class="col-md-4">
-                                                <img src="<?php echo e($exam->choose3); ?>" width="200px" height="100px"  <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == "choose3"): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?> 3px;padding:12px" <?php endif; ?>>
+                                                <img src="<?php echo e($exam->choose3); ?>" width="200px" height="100px"
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == 'choose3'): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?>
+                                                    3px;padding:12px" <?php endif; ?>>
                                             </div>
                                         </div>
                                     </div>
@@ -164,10 +192,13 @@
                                                     <?php if(
                                                         $exam->choose_type == 2 &&
                                                             count($exam->studentexamanswers) > 0 &&
-                                                            $exam->studentexamanswers[0]->student_answer == 'choose4'): ?> checked <?php endif; ?>  <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> د
+                                                            $exam->studentexamanswers[0]->student_answer == 'choose4'): ?> checked <?php endif; ?>
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?> disabled <?php endif; ?>> د
                                             </label>
                                             <div class="col-md-4">
-                                                <img src="<?php echo e($exam->choose4); ?>" width="200px" height="100px"  <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == "choose4"): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?> 3px;padding:12px" <?php endif; ?>>
+                                                <img src="<?php echo e($exam->choose4); ?>" width="200px" height="100px"
+                                                    <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $exam->right_answer == 'choose4'): ?> style="border-radius:60%; border:solid <?php if(count($exam->studentexamanswers) > 0 && $exam->right_answer == $exam->studentexamanswers[0]->student_answer): ?> green <?php else: ?> red <?php endif; ?>
+                                                    3px;padding:12px" <?php endif; ?>>
                                             </div>
                                         </div>
                                     </div>
@@ -181,18 +212,18 @@
 
 
         <?php if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 0): ?>
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
 
-                    <center> <button type="button" class="btn rounded-pill btn-label-secondary waves-effect btn-lg"
-                        id = "saveButton">
-                       انهاء الامتحان
-                    </button> </center>
+                        <center> <button type="button" class="btn rounded-pill btn-label-secondary waves-effect btn-lg"
+                                id = "saveButton">
+                                انهاء الامتحان
+                            </button> </center>
 
+                    </div>
                 </div>
             </div>
-        </div>
         <?php endif; ?>
 
     </div>
@@ -311,64 +342,69 @@
 
                 },
                 success: function(response) {
-                  if(response.message.done == 0){
-                    <?php if($section->has_time == 1): ?>
-                        // Calculate countdown time in milliseconds
-                        var createdTimestamp = new Date(response.message.created_at).getTime();
-                        var countdownDuration = <?php echo e($section->stop_watch); ?> * 60 *
-                        1000; // Convert minutes to milliseconds
-                        var countdownEndTime = createdTimestamp + countdownDuration;
+                    if (response.code == 200) {
+                        if (response.message.done == 0) {
+                            <?php if($section->has_time == 1): ?>
+                                // Calculate countdown time in milliseconds
+                                var createdTimestamp = new Date(response.message.created_at).getTime();
+                                var countdownDuration = <?php echo e($section->stop_watch); ?> * 60 *
+                                    1000; // Convert minutes to milliseconds
+                                var countdownEndTime = createdTimestamp + countdownDuration;
 
-                        // Update countdown timer every second
-                        var x = setInterval(function() {
-                            // Get current time
-                            var now = new Date().getTime();
+                                // Update countdown timer every second
+                                var x = setInterval(function() {
+                                    // Get current time
+                                    var now = new Date().getTime();
 
-                            // Calculate remaining time
-                            var distance = countdownEndTime - now;
+                                    // Calculate remaining time
+                                    var distance = countdownEndTime - now;
 
-                            // Check if countdown has expired
-                            if (distance <= 0) {
-                                clearInterval(x);
-                                $("#countdown-timer").html("انتهى الوقت");
-                                // Add code to handle timer expiration here
+                                    // Check if countdown has expired
+                                    if (distance <= 0) {
+                                        clearInterval(x);
+                                        $("#countdown-timer").html("انتهى الوقت");
+                                        // Add code to handle timer expiration here
 
-                                $.ajax({
-                                    url: '/add-followup', // Update with your actual route
-                                    method: 'POST',
-                                    data: {
-                                        // Include any required parameters here
-                                        _token: csrfToken,
-                                        student_id: <?php echo e(auth()->user()->id); ?>,
-                                        lesson_section_id: <?php echo e($section->id); ?>,
-                                        done: 1 // Update with the actual value
-                                    },
-                                    success: function(response) {
-                                        // Close the modal or perform any other actions
-                                        $('#timeEndModal').modal('show');
+                                        $.ajax({
+                                            url: '/add-followup', // Update with your actual route
+                                            method: 'POST',
+                                            data: {
+                                                // Include any required parameters here
+                                                _token: csrfToken,
+                                                student_id: <?php echo e(auth()->user()->id); ?>,
+                                                lesson_section_id: <?php echo e($section->id); ?>,
+                                                done: 1 // Update with the actual value
+                                            },
+                                            success: function(response) {
+                                                // Close the modal or perform any other actions
+                                                $('#timeEndModal').modal('show');
 
-                                        setTimeout(function() {
-                                            location.reload();
-                                        }, 5000);
+                                                setTimeout(function() {
+                                                    location.reload();
+                                                }, 5000);
 
+                                            }
+                                        });
+
+                                    } else {
+                                        // Calculate minutes and seconds
+                                        var minutes = Math.floor(distance / (1000 * 60));
+                                        var seconds = Math.floor((distance % (1000 * 60)) /
+                                            1000);
+
+                                        // Display the countdown timer
+                                        $("#countdown-timer").html("الوقت المتبقى: " + minutes +
+                                            "د " +
+                                            seconds + "ث ");
                                     }
-                                });
+                                }, 1000);
+                            <?php endif; ?>
 
-                            } else {
-                                // Calculate minutes and seconds
-                                var minutes = Math.floor(distance / (1000 * 60));
-                                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                                // Display the countdown timer
-                                $("#countdown-timer").html("الوقت المتبقى: " + minutes + "د " +
-                                    seconds + "ث ");
-                            }
-                        }, 1000);
-                    <?php endif; ?>
-                  }
-
+                        }
+                    }
                     if (response.code == 400) {
                         // Show modal with "Start" button
+
                         showStartModal();
 
 
@@ -386,6 +422,25 @@
                 <?php if($section->has_time == 1): ?>
 
                     $('#startModal').modal('show');
+
+                    <?php else: ?>
+
+                    $.ajax({
+                        url: '/add-followup', // Update with your actual route
+                        method: 'POST',
+                        data: {
+                            // Include any required parameters here
+                            _token: csrfToken,
+                            student_id: <?php echo e(auth()->user()->id); ?>,
+                            lesson_section_id: <?php echo e($section->id); ?>,
+                            done: 0 // Update with the actual value
+                        },
+                        success: function(response) {
+                            // Close the modal or perform any other actions
+                            location.reload();
+                        }
+                    });
+
                 <?php endif; ?>
 
                 var startButtonClicked = false;
@@ -407,7 +462,7 @@
                         success: function(response) {
                             // Close the modal or perform any other actions
                             $('#startModal').modal('hide');
-
+                            location.reload();
                         }
                     });
                 });
@@ -427,6 +482,32 @@
 
 
             }
+
+            $('#saveButton').on('click', function() {
+
+
+                $.ajax({
+                    url: '/add-followup', // Update with your actual route
+                    method: 'POST',
+                    data: {
+                        // Include any required parameters here
+                        _token: csrfToken,
+                        student_id: <?php echo e(auth()->user()->id); ?>,
+                        lesson_section_id: <?php echo e($section->id); ?>,
+                        done: 1 // Update with the actual value
+                    },
+                    success: function(response) {
+                        // Close the modal or perform any other actions
+
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+
+                    }
+                });
+
+            });
+
         });
     </script>
 

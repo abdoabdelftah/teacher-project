@@ -14,7 +14,7 @@ class Studentlessonsectionfollowup extends Model
     /**
      * @var array
      */
-    protected $fillable = ['student_id', 'lesson_section_id', 'done'];
+    protected $fillable = ['student_id', 'lesson_section_id', 'done', 'done_correcting'];
     public $timestamps = false;
 
     public function student(){
