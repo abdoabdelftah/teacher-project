@@ -17,31 +17,35 @@
         @if (count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1)
             <div class="card">
                 <div class="card-body">
-                    @if(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $section->sectionFollowup[0]->done_correcting == 0)
-                    <center>
-                        <div class="row"
-                            style="border-radius: 30%; border: solid blue 3px; padding: 30px; display: inline-block;">
+                    @if (count($section->sectionFollowup) > 0 &&
+                            $section->sectionFollowup[0]->done == 1 &&
+                            $section->sectionFollowup[0]->done_correcting == 0)
+                        <center>
+                            <div class="row"
+                                style="border-radius: 30%; border: solid blue 3px; padding: 30px; display: inline-block;">
 
-                   <h3>اجابتك قيد المراجعة والتصحيح</h3>
-                        </div>
-                    </center>
-                   @elseif(count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && $section->sectionFollowup[0]->done_correcting == 1)
-                    <center>
-                        <div class="row"
-                            style="border-radius: 30%; border: solid green 3px; padding: 30px; display: inline-block;">
+                                <h3>اجابتك قيد المراجعة والتصحيح</h3>
+                            </div>
+                        </center>
+                    @elseif(count($section->sectionFollowup) > 0 &&
+                            $section->sectionFollowup[0]->done == 1 &&
+                            $section->sectionFollowup[0]->done_correcting == 1)
+                        <center>
+                            <div class="row"
+                                style="border-radius: 30%; border: solid green 3px; padding: 30px; display: inline-block;">
 
-                            @php
-                                $totalPoints = $data
-                                    ->pluck('studentexamanswers')
-                                    ->flatten()
-                                    ->sum('points');
-                            @endphp
+                                @php
+                                    $totalPoints = $data
+                                        ->pluck('studentexamanswers')
+                                        ->flatten()
+                                        ->sum('points');
+                                @endphp
 
-                            <h3 style="color: rgb(11, 109, 255);">
-                                نتيجتك هى : {{ $totalPoints }} من {{ $data->sum('points') }} </h3>
+                                <h3 style="color: rgb(11, 109, 255);">
+                                    نتيجتك هى : {{ $totalPoints }} من {{ $data->sum('points') }} </h3>
 
-                        </div>
-                    </center>
+                            </div>
+                        </center>
                     @endif
                 </div>
             </div>
@@ -75,23 +79,20 @@
                                     </div>
                                 </div>
                             </div>
+                        @endif
 
-                            @endif
-
-                            @if (count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 0)
-
+                        @if (count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 0)
                             <div class="mt-2" id = "formFile">
                                 <label for="roundedInput" class="form-label">الاجابة بنص</label>
                                 <input id="roundedInput" class="form-control rounded-pill"
-                                    value=" @if(count($exam->studentexamanswers) > 0 && !empty($exam->studentexamanswers[0]->student_answer)) {{$exam->studentexamanswers[0]->student_answer}}  @endif"
-                                    name ="text_answer" type="text"
-                                    @if (count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1) disabled @endif
-                                    />
+                                    value=" @if (count($exam->studentexamanswers) > 0 && !empty($exam->studentexamanswers[0]->student_answer)) {{ $exam->studentexamanswers[0]->student_answer }} @endif"
+                                    name ="text_answer" type="text" @if (count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1) disabled @endif />
                             </div>
+                        @endif
 
-                            @endif
-
-                        @if (count($exam->studentexamanswers) > 0 && (!empty($exam->studentexamanswers[0]->student_answer_picture) || !empty($exam->studentexamanswers[0]->student_answer)))
+                        @if (count($exam->studentexamanswers) > 0 &&
+                                (!empty($exam->studentexamanswers[0]->student_answer_picture) ||
+                                    !empty($exam->studentexamanswers[0]->student_answer)))
                             <br>
                             <div class="accordion" id="collapsibleSection{{ $exam->id }}">
                                 <div class="accordion-item">
@@ -110,17 +111,16 @@
                                             <div class="row">
 
 
-                                                @if (count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1 && !empty($exam->studentexamanswers[0]->student_answer))
-
-                                                <div class="mt-2" id = "formFile">
-                                                    <label for="roundedInput" class="form-label">اجابتك النصية</label>
-                                                    <input id="roundedInput" class="form-control rounded-pill"
-                                                        value=" @if(count($exam->studentexamanswers) > 0 && !empty($exam->studentexamanswers[0]->student_answer)) {{$exam->studentexamanswers[0]->student_answer}}  @endif"
-                                                        name ="text_answer" type="text"
-                                                         disabled
-                                                        />
-                                                </div>
-                                                <br>
+                                                @if (count($section->sectionFollowup) > 0 &&
+                                                        $section->sectionFollowup[0]->done == 1 &&
+                                                        !empty($exam->studentexamanswers[0]->student_answer))
+                                                    <div class="mt-2" id = "formFile">
+                                                        <label for="roundedInput" class="form-label">اجابتك النصية</label>
+                                                        <input id="roundedInput" class="form-control rounded-pill"
+                                                            value=" @if (count($exam->studentexamanswers) > 0 && !empty($exam->studentexamanswers[0]->student_answer)) {{ $exam->studentexamanswers[0]->student_answer }} @endif"
+                                                            name ="text_answer" type="text" disabled />
+                                                    </div>
+                                                    <br>
                                                 @endif
 
 
@@ -136,59 +136,64 @@
                         @endif
 
 
-                <!-- start Admin answer-->
+                        <!-- start Admin answer-->
 
-                @if (count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done_correcting == 1)
+                        @if (count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done_correcting == 1)
+                            <div class="accordion" id="collapsibleSection">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingDeliveryOptions">
+                                        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseDeliveryOptions" aria-expanded="false"
+                                            aria-controls="collapseDeliveryOptions"> <b
+                                                style="color: {{ $exam->studentexamanswers[0]->points == $exam->points ? 'green' : 'red' }}">
+                                                {{ $exam->studentexamanswers[0]->points == $exam->points ? 'اجابتك صحيحة' : 'اجابتك خاطئة' }}
+                                            </b></button>
+                                    </h2>
+                                    <div id="collapseDeliveryOptions" class="accordion-collapse collapse"
+                                        aria-labelledby="headingDeliveryOptions" data-bs-parent="#collapsibleSection">
+                                        <div class="accordion-body">
+                                            <div class="row">
 
-                        <div class="accordion" id="collapsibleSection">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingDeliveryOptions">
-                                  <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseDeliveryOptions" aria-expanded="false" aria-controls="collapseDeliveryOptions"> <b style="color: {{$exam->studentexamanswers[0]->points == $exam->points ? 'green' : 'red'}}"> {{$exam->studentexamanswers[0]->points == $exam->points ? 'اجابتك صحيحة' : 'اجابتك خاطئة'}} </b></button>
-                                </h2>
-                                <div id="collapseDeliveryOptions" class="accordion-collapse collapse" aria-labelledby="headingDeliveryOptions" data-bs-parent="#collapsibleSection">
-                                  <div class="accordion-body">
-                                    <div class="row">
 
 
+                                                @if (count($exam->studentexamanswers) > 0 && !empty($exam->studentexamanswers[0]->right_answer_pic))
+                                                    <div class="row g-0" id="displayI">
+                                                        <label for="roundedInput" class="form-label">الشرح بصورة</label>
+                                                        <div class="col-md-4"
+                                                            style="display: flex;  justify-content: center; align-items: center;">
+                                                            <img id="image"
+                                                                src="{{ $exam->studentexamanswers[0]->right_answer_pic }}"
+                                                                alt="Card image" style="max-width: 100%;">
 
-                                        @if(count($exam->studentexamanswers) > 0 &&!empty($exam->studentexamanswers[0]->right_answer_pic))
-                                        <div class="row g-0" id="displayI">
-                                            <label for="roundedInput" class="form-label">الشرح بصورة</label>
-                                                <div class="col-md-4" style="display: flex;  justify-content: center; align-items: center;">
-                                                 <img  id="image"  src="{{$exam->studentexamanswers[0]->right_answer_pic}}" alt="Card image" style="max-width: 100%;">
+                                                        </div>
 
-                                             </div>
-                                                <div class="col-md-8">
-                                                  <div class="card-body">
-                                                    <input class="form-control"  name = "image" type="file" id="formFile">
+                                                    </div>
+                                                @endif
 
+                                                @if (count($exam->studentexamanswers) > 0 && !empty($exam->studentexamanswers[0]->right_answer))
+                                                    <div class="mt-2" id = "formFile">
+                                                        <label for="roundedInput" class="form-label">الشرح بنص</label>
+                                                        <input id="roundedInput" class="form-control rounded-pill"
+                                                            value="{{ count($exam->studentexamanswers) > 0 && !empty($exam->studentexamanswers[0]->right_answer) ? $exam->studentexamanswers[0]->right_answer : '' }}  "
+                                                            name ="points" type="number" />
+                                                    </div>
+                                                @endif
+
+                                                <div class="mt-2">
+                                                    <label for="roundedInput" class="form-label">حصلت على</label>
+                                                    <input id="roundedInput" class="form-control rounded-pill"
+                                                        value="{{ $exam->points }} من {{ $exam->studentexamanswers[0]->points }}"
+                                                        name ="points" type="text" disabled />
                                                 </div>
-                                                </div>
-                                              </div>
-                                              @endif
-
-                                              @if(count($exam->studentexamanswers) > 0 &&!empty($exam->studentexamanswers[0]->right_answer))
-
-                                              <div class="mt-2" id = "formFile">
-                                                <label for="roundedInput" class="form-label">الشرح بنص</label>
-                                                <input id="roundedInput" class="form-control rounded-pill" value="{{ count($exam->studentexamanswers) > 0 && !empty($exam->studentexamanswers[0]->right_answer) ? $exam->studentexamanswers[0]->right_answer : ''}}  " name ="points" type="number"  />
-                                              </div>
-
-                                              @endif
-
-                                              <div class="mt-2">
-                                                <label for="roundedInput" class="form-label">حصلت على</label>
-                                                <input id="roundedInput" class="form-control rounded-pill" value="{{$exam->points}} من {{$exam->studentexamanswers[0]->points}}" name ="points" type="text" disabled />
-                                              </div>
 
 
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
-                        </div>
+                            </div>
                         @endif
-                    <!-- end Admin answer-->
+                        <!-- end Admin answer-->
 
 
                     </div>
@@ -285,60 +290,64 @@
         $(document).ready(function() {
 
 
-    // Handle file input change event
-    $('input[name="image"]').on('change', function () {
-        // Get the parent card element
-        var cardElement = $(this).closest('.card');
+            // Handle file input change event
+            $('input[name="image"]').on('change', function() {
+                // Get the parent card element
+                var cardElement = $(this).closest('.card');
 
-        // Hide the entire accordion
-        cardElement.find('.accordion').hide();
+                // Hide the entire accordion
+                cardElement.find('.accordion').hide();
 
-        cardElement.find('.appended-accordion').remove();
+                cardElement.find('.appended-accordion').remove();
 
-        // Get the input file element
-        var fileInput = $(this)[0];
+                // Get the input file element
+                var fileInput = $(this)[0];
 
-        // Check if any file is selected
-        if (fileInput.files && fileInput.files[0]) {
-            // Create a FileReader to read the selected file
-            var reader = new FileReader();
+                // Check if any file is selected
+                if (fileInput.files && fileInput.files[0]) {
+                    // Create a FileReader to read the selected file
+                    var reader = new FileReader();
 
-            // Set up the FileReader onload event
-            reader.onload = function (e) {
-                // Create a new accordion with the new image
-                var newAccordion = createAccordionWithImage(e.target.result);
+                    // Set up the FileReader onload event
+                    reader.onload = function(e) {
+                        // Create a new accordion with the new image
+                        var newAccordion = createAccordionWithImage(e.target.result);
 
-                // Insert the new accordion after the hidden accordion
-                cardElement.find('.accordion').after(newAccordion);
-            };
+                        // Insert the new accordion after the hidden accordion
+                        cardElement.find('.accordion').after(newAccordion);
+                    };
 
-            // Read the selected file as a data URL
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    });
+                    // Read the selected file as a data URL
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            });
 
-    // Function to create a new accordion with the provided image
-    function createAccordionWithImage(imageSrc) {
-        // Customize this function based on your HTML structure
-        var newAccordion = $('<div class="accordion appended-accordion" id="newAccordion"></div>');
-        var accordionItem = $('<div class="accordion-item"></div>');
-        var accordionHeader = $('<h2 class="accordion-header" id="newAccordionHeader"></h2>');
-        var accordionButton = $('<button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#newAccordionCollapse" aria-expanded="true" aria-controls="newAccordionCollapse">اجابتك</button>');
-        var accordionCollapse = $('<div id="newAccordionCollapse" class="accordion-collapse collapse show" aria-labelledby="newAccordionHeader" data-bs-parent="#newAccordion"></div>');
-        var accordionBody = $('<div class="accordion-body"></div>');
+            // Function to create a new accordion with the provided image
+            function createAccordionWithImage(imageSrc) {
+                // Customize this function based on your HTML structure
+                var newAccordion = $('<div class="accordion appended-accordion" id="newAccordion"></div>');
+                var accordionItem = $('<div class="accordion-item"></div>');
+                var accordionHeader = $('<h2 class="accordion-header" id="newAccordionHeader"></h2>');
+                var accordionButton = $(
+                    '<button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#newAccordionCollapse" aria-expanded="true" aria-controls="newAccordionCollapse">اجابتك</button>'
+                );
+                var accordionCollapse = $(
+                    '<div id="newAccordionCollapse" class="accordion-collapse collapse show" aria-labelledby="newAccordionHeader" data-bs-parent="#newAccordion"></div>'
+                );
+                var accordionBody = $('<div class="accordion-body"></div>');
 
-        // Append the image to the new accordion body
-        accordionBody.append('<img src="' + imageSrc + '" style="width: 100%; height: auto;">');
+                // Append the image to the new accordion body
+                accordionBody.append('<img src="' + imageSrc + '" style="width: 100%; height: auto;">');
 
-        // Construct the new accordion
-        accordionHeader.append(accordionButton);
-        accordionItem.append(accordionHeader);
-        accordionCollapse.append(accordionBody);
-        accordionItem.append(accordionCollapse);
-        newAccordion.append(accordionItem);
+                // Construct the new accordion
+                accordionHeader.append(accordionButton);
+                accordionItem.append(accordionHeader);
+                accordionCollapse.append(accordionBody);
+                accordionItem.append(accordionCollapse);
+                newAccordion.append(accordionItem);
 
-        return newAccordion;
-    }
+                return newAccordion;
+            }
 
 
 
@@ -377,12 +386,10 @@
                     processData: false,
                     success: function(response) {
 
-
-
                     },
                     error: function(error) {
-                        // Handle the error if needed
-                        console.error(error);
+
+
                     }
                 });
 
@@ -429,7 +436,9 @@
                     },
                     error: function(error) {
                         // Handle the error if needed
-                        console.error(error);
+                        if (error.responseJSON && error.responseJSON.message) {
+                            alert(error.responseJSON.message);
+                        }
                     }
                 });
             });

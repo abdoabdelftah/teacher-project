@@ -103,12 +103,13 @@
             <?php endif; ?>
 
             <?php if($section->section_type == 3): ?>
-            <?php echo e(url('admin/lectureedit/' . $section->id)); ?>
+            /grade/<?php echo e($section->lesson->unit->grade->id); ?>/unit/<?php echo e($section->lesson->unit->id); ?>/lesson/<?php echo e($section->lesson->id); ?>/lessonsectiontextexam/<?php echo e($section->id); ?>
 
             <?php endif; ?>
 
             <?php if($section->section_type == 4): ?>
-            <?php echo e(url('admin/lectureedit/' . $section->id)); ?>
+            /grade/<?php echo e($section->lesson->unit->grade->id); ?>/unit/<?php echo e($section->lesson->unit->id); ?>/lesson/<?php echo e($section->lesson->id); ?>/pdfexam/<?php echo e($section->id); ?>
+
 
             <?php endif; ?>
 
@@ -122,13 +123,13 @@
 
                " >
 
-                    <?php if($section->sectionFollowup && count($section->sectionFollowup) > 0 ): ?>
+                    <?php if($section->sectionFollowup && count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?>
                     <i class='mdi mdi-check-circle-outline mdi-24px me-2'></i>
                     <?php else: ?>
                     <i class='mdi mdi-circle-outline mdi-24px me-2'></i>
                     <?php endif; ?>
                     <label for="defaultCheck1" class="form-check-label ms-3">
-                        <span class="mb-0 h6"><?php echo e($section->name); ?></span>
+                        <span class="mb-0 h6"><?php echo e($section->name); ?> </span>
                         <span class="text-body d-block">
 
 

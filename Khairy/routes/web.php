@@ -104,7 +104,13 @@ Route::post('/add-followup', 'Student\sectionsController@addFollowup')->name('ad
 
   //Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonsectiontextexam/{lesson_section_id}/start','Student\examsController@lessontextexamstart');
 
-  Route::post('/postlessontextexam','Student\examsController@lessontextexampost')->name('post.lessontextexam');
+ // Route::post('/postlessontextexam','Student\examsController@lessontextexampost')->name('post.lessontextexam');
+
+ //Lesson Pdf exam
+ Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/pdfexam/{lesson_section_id}','Student\examsController@pdfexam');
+
+ Route::post('/save-pdf-student-answer', 'Student\examsController@savepdfStudentAnswer')->name('save_pdf_student_answer');
+
 
 ////////Lesson forums
 
