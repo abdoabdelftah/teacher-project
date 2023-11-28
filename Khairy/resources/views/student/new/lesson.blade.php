@@ -102,11 +102,12 @@
             @endif
 
             @if ($section->section_type == 3)
-            {{ url('admin/lectureedit/' . $section->id) }}
+            /grade/{{$section->lesson->unit->grade->id}}/unit/{{$section->lesson->unit->id}}/lesson/{{$section->lesson->id}}/lessonsectiontextexam/{{$section->id}}
             @endif
 
             @if ($section->section_type == 4)
-            {{ url('admin/lectureedit/' . $section->id) }}
+            /grade/{{$section->lesson->unit->grade->id}}/unit/{{$section->lesson->unit->id}}/lesson/{{$section->lesson->id}}/pdfexam/{{$section->id}}
+
             @endif
 
             @if ($section->section_type == 5)
@@ -118,13 +119,13 @@
 
                " >
 
-                    @if($section->sectionFollowup && count($section->sectionFollowup) > 0 )
+                    @if($section->sectionFollowup && count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1)
                     <i class='mdi mdi-check-circle-outline mdi-24px me-2'></i>
                     @else
                     <i class='mdi mdi-circle-outline mdi-24px me-2'></i>
                     @endif
                     <label for="defaultCheck1" class="form-check-label ms-3">
-                        <span class="mb-0 h6">{{$section->name}}</span>
+                        <span class="mb-0 h6">{{$section->name}} </span>
                         <span class="text-body d-block">
 
 

@@ -22,10 +22,12 @@ use App\Models\Lessonsection;
 use auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
-use SebastianBergmann\CodeCoverage\Percentage;
+
+use App\Traits\SectionTrait;
 
 class gradesController extends Controller
 {
+    use SectionTrait;
     /**
      * Display a listing of the resource.
      *
@@ -160,6 +162,12 @@ class gradesController extends Controller
      */
     public function lecture($grade_id, $unit_id, $lesson_id, $lesson_section_id)
     {
+
+        $checkGate = $this->checkGate($grade_id, $unit_id, $lesson_id, $lesson_section_id);
+
+        if($checkGate){
+            return redirect($checkGate);
+        }
 
         $lecture = Lecture::where('lesson_section_id', $lesson_section_id)->first();
 

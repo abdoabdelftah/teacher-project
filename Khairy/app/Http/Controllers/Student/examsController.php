@@ -25,13 +25,16 @@ use App\Models\Unitexamsection;
 use App\Models\Lesson;
 use App\Models\Lessonsection;
 use App\Traits\ImageTrait;
+use App\Traits\SectionTrait;
 use auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 class examsController extends Controller
 {
 
   use ImageTrait;
+  use SectionTrait;
     /**
      * Display a listing of the resource.
      *
@@ -189,6 +192,10 @@ class examsController extends Controller
      */
     public function lessonexam($grade_id, $unit_id, $lesson_id, $lesson_section_id)
     {
+        $checkGate = $this->checkGate($grade_id, $unit_id, $lesson_id, $lesson_section_id);
+        if($checkGate){
+            return redirect($checkGate);
+        }
 
         $section = Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q){
             $q->where('student_id', auth()->user()->id);
@@ -368,6 +375,11 @@ class examsController extends Controller
 
 public function lessontextexam($grade_id, $unit_id, $lesson_id, $lesson_section_id)
 {
+
+    $checkGate = $this->checkGate($grade_id, $unit_id, $lesson_id, $lesson_section_id);
+        if($checkGate){
+            return redirect($checkGate);
+        }
 
     $section = Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q){
         $q->where('student_id', auth()->user()->id);
@@ -679,6 +691,24 @@ public function studentresults()
 
         // Check if an image file is present
         if ($request->hasFile('student_answer_image')) {
+
+            $validator = Validator::make($request->all(), [
+                'student_answer_image' => 'image|mimes:jpeg,png,jpg,gif|max:30720', // Maximum file size is 30 MB
+            ], [
+                'student_answer_image.mimes' => 'نحن نقبل الاشكال التالية من الصور فقط',
+                'student_answer_image.max' => 'نحن نقبل الاشكال التالية من الصور فقط ويجب أن يكون حجم الصورة أقل من 30 ميجابايت',
+            ]);
+
+            if ($validator->fails()) {
+
+                return response()->json([
+                    'code' => '401',
+                    'message' => 'نحن نقبل الاشكال المعروفة من الصور فقط ويجب أن يكون حجم الصورة من 30 ميجابايت'
+                ], 401, [], JSON_UNESCAPED_UNICODE);
+
+
+            }
+
             $imagePath = $this->saveImage($request->file('student_answer_image'), 'images/studentanswers');
 
             // Save the image path in the database
@@ -709,5 +739,79 @@ public function studentresults()
 
     }
 
+    public function pdfexam($grade_id, $unit_id, $lesson_id, $lesson_section_id){
 
-}
+        $checkGate = $this->checkGate($grade_id, $unit_id, $lesson_id, $lesson_section_id);
+        if($checkGate){
+            return redirect($checkGate);
+        }
+
+        $section = Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q){
+            $q->where('student_id', auth()->user()->id);
+        }])->first();
+
+        if(! in_array($section->lesson->unit->grade->id, auth()->user()->grades->flatten()->pluck('id')->toArray())){
+            return redirect('/grades');
+        }
+
+
+        $exam = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' =>function($q){
+            $q->where('student_id', auth()->user()->id);
+        }])->first();
+
+
+        return view('student.new.pdf-exam', compact('exam', 'section'));
+
+        }
+
+
+
+        public function savepdfStudentAnswer(Request $request)
+        {
+
+
+            $student_id = $request->input('student_id');
+            $exam_id = $request->input('exam_id');
+            $exam = Exam::where('id', $exam_id)->first();
+
+            // Check if an image file is present
+            if ($request->hasFile('student_answer_image')) {
+
+                $validator = Validator::make($request->all(), [
+                    'student_answer_image' => 'file|mimes:pdf|max:102400', // Maximum file size is 30 MB
+                ], [
+                    'student_answer_image.mimes' => 'نحن نقبل الاشكال التالية من الملفات PDF فقط',
+                    'student_answer_image.max' => 'نحن نقبل الاشكال التالية من الملفات PDF فقط ويجب أن يكون حجم الملف أقل من 30 ميجابايت',
+                ]);
+
+                if ($validator->fails()) {
+
+                    return response()->json([
+                        'code' => '401',
+                        'message' => 'نحن نقبل الملفات فقط ويجب أن يكون حجم الملف اقل من 100 ميجابايت'
+                    ], 401, [], JSON_UNESCAPED_UNICODE);
+
+
+                }
+
+                $imagePath = $this->saveImage($request->file('student_answer_image'), 'images/studentanswers');
+
+                // Save the image path in the database
+                Studentexamanswer::updateOrcreate(
+                    ['student_id' => $student_id, 'exam_id' => $exam_id],
+                    [
+                        'lesson_section_id' => $exam->lessonsection->id,
+                        'student_answer_picture' => $imagePath,
+                    ]
+                );
+
+                return response()->json(['message' => 'Student answer saved successfully', 'student_answer_image' => $imagePath], 200, [], JSON_UNESCAPED_SLASHES);
+
+            }
+
+        }
+
+
+    }
+
+

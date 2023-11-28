@@ -8,7 +8,7 @@ Trait  ImageTrait
      function saveImage($photo,$folder){
         //save photo in folder
         $file_extension = $photo -> getClientOriginalExtension();
-        $file_name = env('APP_URL').'/'.$folder.'/'.rand(4,5).$photo->getClientOriginalName().time().'.'.$file_extension;
+        $file_name = env('APP_URL').'/'.$folder.'/'.rand(4,5).time().'.'.$file_extension;
         $path = $folder;
         $photo -> move($path,$file_name);
 
