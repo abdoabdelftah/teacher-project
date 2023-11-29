@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-wide " dir="rtl"  data-assets-path="<?php echo e(asset('admin/assets/')); ?>" data-template="vertical-menu-template">
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-wide " dir="rtl"  data-assets-path="<?php echo e(asset('/admin/assets/')); ?>" data-template="vertical-menu-template">
 
   <head>
     <meta charset="utf-8" />
@@ -28,8 +28,8 @@
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/node-waves/node-waves.css')); ?>" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/core.css')); ?>" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/theme-default.css')); ?>" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/core.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/theme-default.css')); ?>" />
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/css/demo.css')); ?>" />
 
     <!-- Vendors CSS -->
@@ -71,7 +71,7 @@
 
 
   <div class="app-brand demo ">
-    <a href="/admin/students" class="app-brand-link">
+    <a href="/grades" class="app-brand-link">
       <span class="app-brand-logo demo">
 <span style="color:var(--bs-primary);">
   <svg width="268" height="150" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,27 +111,10 @@
 
   <ul class="menu-inner py-1">
 
-    <li class="menu-item">
-        <a href="<?php echo e(route('allStudents')); ?>" class="menu-link">
-          <i class="menu-icon tf-icons mdi mdi-account-outline"></i>
-          <div data-i18n="الطلاب">الطلاب</div>
-        </a>
-      </li>
-
-      <li class="menu-item">
-        <a href="<?php echo e(route('allGrades')); ?>" class="menu-link">
-          <i class="menu-icon tf-icons mdi mdi-content-save-all-outline"></i>
-          <div data-i18n="المنهج">المنهج</div>
-        </a>
-      </li>
+    <?php echo $__env->yieldContent('sideBar'); ?>
 
 
-      <li class="menu-item">
-        <a href="#" class="menu-link">
-          <i class="menu-icon tf-icons mdi mdi-clock-all-outline"></i>
-          <div id="countdown-timer"></div>
-        </a>
-      </li>
+
 
   </ul>
 
@@ -179,7 +162,7 @@
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
-
+            <div id="countdown-timer"></div>
 
             <!-- Quick links  -->
           <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-1 me-xl-0">

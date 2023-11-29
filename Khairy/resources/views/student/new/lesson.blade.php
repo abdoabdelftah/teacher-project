@@ -5,8 +5,9 @@
 
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/pages/app-academy.css') }}" />
 
+    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/pages/question-style.css') }}" />
 
-    <style>
+<style>
         .custom-btn {
             padding: 10px 20px;
             background-color: #666CFF;
@@ -165,6 +166,84 @@
       </div>
     </div>
   </div>
+
+
+
+<!-- start question section -->
+
+<div class="card mt-5 border rounded">
+    <div class="card-body  rounded p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+                <h5 class="mb-1">الاسئلة والاجوبة</h5>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class=" col-12 ">
+                <ul class="list-group review-list">
+                    <li class="list-group-item border-3 shadow rounded">
+                        <div class="d-flex">
+                            <img width="50px" src="{{ asset('assets/images/ask-icon.png') }}" class="avatar rounded" >
+                            <div class="review-right col-sm-9">
+                                <span class="author-name">شهد خليفة عبد المجيد</span>
+                                <div class="time">
+                                    <a href="../lecture-questions/113009">منذ 9 دقائق (المحاضرة 6: قراءة الأميتر والفولتميتر وإضاءة المصابيح)</a>
+                                </div>
+                                <img src="{{ $lesson->image }}" class="ques-img img-fluid" alt>
+                                <div class="review-des">
+                                    <p>بعد اذن حضراتكم انا كان حصلي ظروف لما المستر نزل الامتحان و ماعرفتش امتحنه ف ينفع من فضلكم تنزلوه عشان انا محتجاه جدا جدا 🥺🙏</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex my-replay-1">
+                            <div class="line-img-con">
+                                <img src="{{ asset('assets/images/faces/face8.jpg') }}" alt class="your-imag">
+                            </div>
+                            <div class="replay-img-info col-sm-9">
+                                <div class="your-replay-con">
+                                    <h1 class="stud-name">استاذ محمد خيرى</h1>
+                                    <p class="your-replay">للاسف مينفعش بس حضرتك تقدري تشوفي المراجعه الي نزلت ع اليوتيوب المستر حل فيها من اسئله الامتحان</p>
+                                </div>
+                                <img src alt class="your-img-2 img">
+                            </div>
+                        </div>
+
+                        <div class="chat-history-footer  card border-3 shadow">
+                            <form class="form-send-message d-flex justify-content-between align-items-center ">
+                              <textarea class="form-control message-input  shadow-none" placeholder="اشرح هنا" cols="25" rows="2"></textarea>
+                              <div class="message-actions d-flex align-items-center">
+                                <i class="btn btn-text-secondary btn-icon rounded-pill speech-to-text mdi mdi-microphone mdi-20px cursor-pointer"></i>
+                                <label for="attach-doc" class="form-label mb-0">
+                                  <i class="mdi mdi-paperclip mdi-20px cursor-pointer btn btn-text-secondary btn-icon rounded-pill me-2 ms-1"></i>
+                                  <input type="file" id="attach-doc" hidden>
+                                </label>
+                                <button class="btn btn-primary d-flex send-msg-btn">
+                                  <span class="align-middle">ارسل</span>
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+
+                    </li>
+                    <!-- Repeat the structure for additional questions -->
+                </ul>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+<!-- start question section -->
 
 
 

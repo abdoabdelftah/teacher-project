@@ -28,7 +28,7 @@
         <div class="card mb-4">
             <div class="card-header d-flex flex-wrap justify-content-between gap-3">
                 <div class="card-title mb-0 me-1">
-                    <h5 class="mb-1"><?php echo e($lessons[0]->unit->name); ?></h5>
+                    <h5 class="mb-1"><?php echo e(count($lessons) > 0 ? $lessons[0]->unit->name : ''); ?></h5>
                 </div>
 
             </div>
