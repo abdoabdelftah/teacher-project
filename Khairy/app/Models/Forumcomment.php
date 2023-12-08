@@ -16,7 +16,7 @@ class Forumcomment extends Model
     /**
      * @var array
      */
-    protected $fillable = ['forum_id', 'picture', 'name', 'comment_type', 'comment'];
+    protected $fillable = ['forum_id', 'picture', 'name', 'comment_type', 'comment', 'commentor'];
     public $timestamps = false;
 
     public function forum(){

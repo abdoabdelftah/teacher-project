@@ -10,6 +10,56 @@
 
 
 <?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('sideBar'); ?>
+
+<?php $__currentLoopData = $lesson->userLessonsections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+<li class="menu-item <?php echo e($lecture->lessonsection->id == $section->id ? 'active' : ''); ?>" >
+
+<a class="menu-link" href="
+
+<?php if($section->section_type == 1 || $section->section_type == 2): ?>
+/grade/<?php echo e($section->lesson->unit->grade->id); ?>/unit/<?php echo e($section->lesson->unit->id); ?>/lesson/<?php echo e($section->lesson->id); ?>/lessonsectionexam/<?php echo e($section->id); ?>
+
+
+<?php endif; ?>
+
+<?php if($section->section_type == 3): ?>
+/grade/<?php echo e($section->lesson->unit->grade->id); ?>/unit/<?php echo e($section->lesson->unit->id); ?>/lesson/<?php echo e($section->lesson->id); ?>/lessonsectiontextexam/<?php echo e($section->id); ?>
+
+<?php endif; ?>
+
+<?php if($section->section_type == 4): ?>
+/grade/<?php echo e($section->lesson->unit->grade->id); ?>/unit/<?php echo e($section->lesson->unit->id); ?>/lesson/<?php echo e($section->lesson->id); ?>/pdfexam/<?php echo e($section->id); ?>
+
+
+<?php endif; ?>
+
+<?php if($section->section_type == 5): ?>
+
+/grade/<?php echo e($section->lesson->unit->grade->id); ?>/unit/<?php echo e($section->lesson->unit->id); ?>/lesson/<?php echo e($section->lesson->id); ?>/lessonsectionlecture/<?php echo e($section->id); ?>
+
+
+<?php endif; ?>
+
+
+" >
+
+    <?php if($section->sectionFollowup && count($section->sectionFollowup) > 0 && $section->sectionFollowup[0]->done == 1): ?>
+    <i class='menu-icon tf-icons mdi mdi-check-circle-outline mdi-24px'></i>
+    <?php else: ?>
+    <i class='menu-icon tf-icons mdi mdi-circle-outline mdi-24px'></i>
+    <?php endif; ?>
+
+<div data-i18n="<?php echo e($section->name); ?>"><?php echo e($section->name); ?></div>
+
+</a>
+</li>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+<?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('content'); ?>
 
 

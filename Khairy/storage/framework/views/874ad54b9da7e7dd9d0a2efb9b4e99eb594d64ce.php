@@ -6,6 +6,54 @@
 
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('sideBar'); ?>
+
+<?php $__currentLoopData = $lesson->userLessonsections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sectionm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+<li class="menu-item <?php echo e($section->id == $sectionm->id ? 'active' : ''); ?>" >
+
+<a class="menu-link" href="
+
+<?php if($sectionm->section_type == 1 || $sectionm->section_type == 2): ?>
+/grade/<?php echo e($sectionm->lesson->unit->grade->id); ?>/unit/<?php echo e($sectionm->lesson->unit->id); ?>/lesson/<?php echo e($sectionm->lesson->id); ?>/lessonsectionexam/<?php echo e($sectionm->id); ?>
+
+
+<?php endif; ?>
+
+<?php if($sectionm->section_type == 3): ?>
+/grade/<?php echo e($sectionm->lesson->unit->grade->id); ?>/unit/<?php echo e($sectionm->lesson->unit->id); ?>/lesson/<?php echo e($sectionm->lesson->id); ?>/lessonsectiontextexam/<?php echo e($sectionm->id); ?>
+
+<?php endif; ?>
+
+<?php if($sectionm->section_type == 4): ?>
+/grade/<?php echo e($sectionm->lesson->unit->grade->id); ?>/unit/<?php echo e($sectionm->lesson->unit->id); ?>/lesson/<?php echo e($sectionm->lesson->id); ?>/pdfexam/<?php echo e($sectionm->id); ?>
+
+
+<?php endif; ?>
+
+<?php if($sectionm->section_type == 5): ?>
+
+/grade/<?php echo e($sectionm->lesson->unit->grade->id); ?>/unit/<?php echo e($sectionm->lesson->unit->id); ?>/lesson/<?php echo e($sectionm->lesson->id); ?>/lessonsectionlecture/<?php echo e($sectionm->id); ?>
+
+
+<?php endif; ?>
+
+
+" >
+
+    <?php if($sectionm->sectionFollowup && count($sectionm->sectionFollowup) > 0 && $sectionm->sectionFollowup[0]->done == 1): ?>
+    <i class='menu-icon tf-icons mdi mdi-check-circle-outline mdi-24px'></i>
+    <?php else: ?>
+    <i class='menu-icon tf-icons mdi mdi-circle-outline mdi-24px'></i>
+    <?php endif; ?>
+
+<div data-i18n="<?php echo e($sectionm->name); ?>"><?php echo e($sectionm->name); ?></div>
+
+</a>
+</li>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+<?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
 

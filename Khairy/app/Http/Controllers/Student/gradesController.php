@@ -171,27 +171,20 @@ class gradesController extends Controller
 
         $lecture = Lecture::where('lesson_section_id', $lesson_section_id)->first();
 
-        $lessonsectionlesson = Lessonsection::where('id', $lesson_section_id)->where('lesson_id', $lesson_id)->where('hide', 0)->count();
+        $lesson = Lesson::where('id', $lesson_id)->where('hide', 0)->with([
+            'userLessonsections' =>function($q){
+                $q->where('hide', 0)->orderBy('priority', 'asc');
+                $q->with(['sectionFollowup' =>function($sq){
+                    $sq->where('student_id', auth()->user()->id);
+                }]);
+            }
+        ])->first();
 
-        $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
+        $section = Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q){
+            $q->where('student_id', auth()->user()->id);
+        }])->first();
 
-        $unitgrade = Unit::where('id', $unit_id)->where('grade_id', $grade_id)->where('hide', 0)->count();
-
-        $gradeuser =  GradeUser::where('user_id', auth()->user()->id)->where('grade_id', $grade_id)->count();
-
-        if ($lessonsectionlesson < 1) {
-            return redirect('/grades');
-        }
-
-        if ($gradeuser < 1) {
-            return redirect('/grades');
-        }
-
-        if ($unitgrade < 1) {
-            return redirect('/grades');
-        }
-
-        if ($lessonunit < 1) {
+        if(! in_array($section->lesson->unit->grade->id, auth()->user()->grades->flatten()->pluck('id')->toArray())){
             return redirect('/grades');
         }
 
@@ -203,7 +196,7 @@ class gradesController extends Controller
         }
 
 
-        return view('student.new.lecture', compact('lecture'));
+        return view('student.new.lecture', compact('lecture', 'lesson'));
     }
 
     /**
@@ -222,8 +215,9 @@ class gradesController extends Controller
                     $sq->where('student_id', auth()->user()->id);
                 }]);
             }
-        ])->first();
-
+       , 'forums' =>function($fq){
+        $fq->orderBy('id', 'desc');
+       } ])->first();
 
         $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
 

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Grade;
 use App\Http\Controllers\AdminAuth;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,10 @@ Route::get('/login', function () {
 
 Route::post('/student/log', 'Student\StudentAuth@checkStudentLogin')->name('save.student.login');
 
+Route::post('/mark-as-read/admin', [NotificationController::class, 'markAsReadAdmin'])->name('markAsReadAdmin');
 
+
+Route::post('/mark-as-read/user', [NotificationController::class, 'markAsReadUser'])->name('markAsReadUser');
 
 //////////////////////////////////////////////////Start user private/////////////////////////
 Route::group(['middleware' => ['auth', 'CheckStudent']], function() {
@@ -115,11 +119,11 @@ Route::post('/add-followup', 'Student\sectionsController@addFollowup')->name('ad
 ////////Lesson forums
 
 
-Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonforums','Student\forumsController@show');
+//Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonforums','Student\forumsController@show');
 
-Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonforum/{forum_id}/one','Student\forumsController@showone');
+//Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonforum/{forum_id}/one','Student\forumsController@showone');
 
-Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonforums/add','Student\forumsController@add');
+//Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonforums/add','Student\forumsController@add');
 
 Route::post('/postforum','Student\forumsController@post')->name('post.forum');
 

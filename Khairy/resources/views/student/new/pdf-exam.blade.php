@@ -8,6 +8,51 @@
 @stop
 
 
+@section('sideBar')
+
+@foreach ($lesson->userLessonsections as $sectionm)
+
+<li class="menu-item {{ $section->id == $sectionm->id ? 'active' : '' }}" >
+
+<a class="menu-link" href="
+
+@if ($sectionm->section_type == 1 || $sectionm->section_type == 2)
+/grade/{{$sectionm->lesson->unit->grade->id}}/unit/{{$sectionm->lesson->unit->id}}/lesson/{{$sectionm->lesson->id}}/lessonsectionexam/{{$sectionm->id}}
+
+@endif
+
+@if ($sectionm->section_type == 3)
+/grade/{{$sectionm->lesson->unit->grade->id}}/unit/{{$sectionm->lesson->unit->id}}/lesson/{{$sectionm->lesson->id}}/lessonsectiontextexam/{{$sectionm->id}}
+@endif
+
+@if ($sectionm->section_type == 4)
+/grade/{{$sectionm->lesson->unit->grade->id}}/unit/{{$sectionm->lesson->unit->id}}/lesson/{{$sectionm->lesson->id}}/pdfexam/{{$sectionm->id}}
+
+@endif
+
+@if ($sectionm->section_type == 5)
+
+/grade/{{$sectionm->lesson->unit->grade->id}}/unit/{{$sectionm->lesson->unit->id}}/lesson/{{$sectionm->lesson->id}}/lessonsectionlecture/{{$sectionm->id}}
+
+@endif
+
+
+" >
+
+    @if($sectionm->sectionFollowup && count($sectionm->sectionFollowup) > 0 && $sectionm->sectionFollowup[0]->done == 1)
+    <i class='menu-icon tf-icons mdi mdi-check-circle-outline mdi-24px'></i>
+    @else
+    <i class='menu-icon tf-icons mdi mdi-circle-outline mdi-24px'></i>
+    @endif
+
+<div data-i18n="{{$sectionm->name}}">{{$sectionm->name}}</div>
+
+</a>
+</li>
+@endforeach
+
+@stop
+
 @section('content')
 
 

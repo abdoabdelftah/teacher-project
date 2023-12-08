@@ -4,8 +4,6 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/jstree/jstree.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/pages/app-academy.css') }}" />
-
-
     <style>
         .custom-btn {
             padding: 10px 20px;
@@ -29,7 +27,7 @@
         <div class="card mb-4">
             <div class="card-header d-flex flex-wrap justify-content-between gap-3">
                 <div class="card-title mb-0 me-1">
-                    <h5 class="mb-1">{{ $lessons[0]->unit->name }}</h5>
+                    <h5 class="mb-1">{{count($lessons) > 0 ? $lessons[0]->unit->name : '' }}</h5>
                 </div>
 
             </div>
@@ -96,6 +94,5 @@
     <script src="{{ asset('admin/assets/js/extended-ui-treeview.js') }}"></script>
 
 
-    <script></script>
 
 @stop

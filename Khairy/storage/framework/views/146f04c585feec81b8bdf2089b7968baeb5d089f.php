@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-wide " dir="rtl"  data-assets-path="<?php echo e(asset('admin/assets/')); ?>" data-template="vertical-menu-template">
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-wide " dir="rtl"  data-assets-path="<?php echo e(asset('/admin/assets/')); ?>" data-template="vertical-menu-template">
 
   <head>
     <meta charset="utf-8" />
@@ -28,8 +28,8 @@
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/node-waves/node-waves.css')); ?>" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/core.css')); ?>" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/theme-default.css')); ?>" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/core.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/theme-default.css')); ?>" />
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/css/demo.css')); ?>" />
 
     <!-- Vendors CSS -->
@@ -71,7 +71,7 @@
 
 
   <div class="app-brand demo ">
-    <a href="/admin/students" class="app-brand-link">
+    <a href="/grades" class="app-brand-link">
       <span class="app-brand-logo demo">
 <span style="color:var(--bs-primary);">
   <svg width="268" height="150" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,27 +111,10 @@
 
   <ul class="menu-inner py-1">
 
-    <li class="menu-item">
-        <a href="<?php echo e(route('allStudents')); ?>" class="menu-link">
-          <i class="menu-icon tf-icons mdi mdi-account-outline"></i>
-          <div data-i18n="الطلاب">الطلاب</div>
-        </a>
-      </li>
-
-      <li class="menu-item">
-        <a href="<?php echo e(route('allGrades')); ?>" class="menu-link">
-          <i class="menu-icon tf-icons mdi mdi-content-save-all-outline"></i>
-          <div data-i18n="المنهج">المنهج</div>
-        </a>
-      </li>
+    <?php echo $__env->yieldContent('sideBar'); ?>
 
 
-      <li class="menu-item">
-        <a href="#" class="menu-link">
-          <i class="menu-icon tf-icons mdi mdi-clock-all-outline"></i>
-          <div id="countdown-timer"></div>
-        </a>
-      </li>
+
 
   </ul>
 
@@ -179,7 +162,7 @@
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
-
+            <div id="countdown-timer"></div>
 
             <!-- Quick links  -->
           <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-1 me-xl-0">
@@ -262,22 +245,26 @@
           </li>
           <!-- Quick links -->
 
-          <!-- Notification -->
-          <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-2 me-xl-1">
+        <!-- Notification -->
+        <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-2 me-xl-1">
             <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               <i class="mdi mdi-bell-outline mdi-24px"></i>
-              <span class="position-absolute top-0 start-50 translate-middle-y badge badge-dot bg-danger mt-2 border"></span>
+             <?php if(auth()->user()->unreadNotifications->count() > 0): ?>
+             <span class="position-absolute top-0 start-50 translate-middle-y badge badge-dot bg-danger mt-2 border"></span>
+             <?php endif; ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-end py-0">
               <li class="dropdown-menu-header border-bottom">
                 <div class="dropdown-header d-flex align-items-center py-3">
-                  <h6 class="mb-0 me-auto">Notification</h6>
-                  <span class="badge rounded-pill bg-label-primary">8 New</span>
+                  <h6 class="mb-0 me-auto">الاشعارات</h6>
+                  <span class="badge rounded-pill bg-label-primary"><?php echo e(auth()->user()->unreadNotifications->count()); ?></span>
                 </div>
               </li>
               <li class="dropdown-notifications-list scrollable-container">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                    <?php $__currentLoopData = auth()->user()->unreadNotifications->sortByDesc('created_at'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                     <div class="d-flex gap-2">
                       <div class="flex-shrink-0">
                         <div class="avatar me-1">
@@ -285,22 +272,19 @@
                         </div>
                       </div>
                       <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">قام الطالب بالاجابة على الامتحان</h6>
-                        <small class="text-truncate text-body">جارى</small>
+                        <a href="<?php echo e($notification->data['link']); ?>"><h6 class="mb-1 text-truncate"><?php echo e($notification->data['message']); ?></h6></a>
                       </div>
                       <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">منذ دقيقة</small>
+                        <small class="text-muted"><?php echo e(\Carbon\Carbon::parse($notification->created_at)->diffForHumans()); ?></small>
                       </div>
                     </div>
-                  </li>
+
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </li>
 
                 </ul>
               </li>
-              <li class="dropdown-menu-footer border-top p-2">
-                <a href="javascript:void(0);" class="btn btn-primary d-flex justify-content-center">
-                  الاطلاع على الكل
-                </a>
-              </li>
+
             </ul>
           </li>
           <!--/ Notification -->

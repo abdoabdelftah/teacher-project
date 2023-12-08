@@ -210,11 +210,19 @@ class examsController extends Controller
             $q->where('student_id', auth()->user()->id);
         }])->get();
 
+        $lesson = Lesson::where('id', $lesson_id)->where('hide', 0)->with([
+            'userLessonsections' =>function($q){
+                $q->where('hide', 0)->orderBy('priority', 'asc');
+                $q->with(['sectionFollowup' =>function($sq){
+                    $sq->where('student_id', auth()->user()->id);
+                }]);
+            }
+        ])->first();
 
         if($section->section_type == 1 || $section->section_type == 2){
-        return view('student.new.exam', compact('data', 'section'));
+        return view('student.new.exam', compact('data', 'section', 'lesson'));
         }elseif($section->section_type == 3){
-        return view('student.new.text-exam', compact('data', 'section'));
+        return view('student.new.text-exam', compact('data', 'section', 'lesson'));
         }
 
 
@@ -394,11 +402,19 @@ public function lessontextexam($grade_id, $unit_id, $lesson_id, $lesson_section_
         $q->where('student_id', auth()->user()->id);
     }])->get();
 
+    $lesson = Lesson::where('id', $lesson_id)->where('hide', 0)->with([
+        'userLessonsections' =>function($q){
+            $q->where('hide', 0)->orderBy('priority', 'asc');
+            $q->with(['sectionFollowup' =>function($sq){
+                $sq->where('student_id', auth()->user()->id);
+            }]);
+        }
+    ])->first();
 
     if($section->section_type == 1 || $section->section_type == 2){
-    return view('student.new.exam', compact('data', 'section'));
+    return view('student.new.exam', compact('data', 'section', 'lesson'));
     }elseif($section->section_type == 3){
-    return view('student.new.text-exam', compact('data', 'section'));
+    return view('student.new.text-exam', compact('data', 'section', 'lesson'));
     }
 
 
@@ -759,8 +775,16 @@ public function studentresults()
             $q->where('student_id', auth()->user()->id);
         }])->first();
 
+        $lesson = Lesson::where('id', $lesson_id)->where('hide', 0)->with([
+            'userLessonsections' =>function($q){
+                $q->where('hide', 0)->orderBy('priority', 'asc');
+                $q->with(['sectionFollowup' =>function($sq){
+                    $sq->where('student_id', auth()->user()->id);
+                }]);
+            }
+        ])->first();
 
-        return view('student.new.pdf-exam', compact('exam', 'section'));
+        return view('student.new.pdf-exam', compact('exam', 'section', 'lesson'));
 
         }
 
