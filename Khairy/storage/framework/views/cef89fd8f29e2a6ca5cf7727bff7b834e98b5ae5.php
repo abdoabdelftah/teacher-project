@@ -1,10 +1,15 @@
 <?php $__env->startSection('css'); ?>
 
+
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/jstree/jstree.css')); ?>" />
 
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/pages/app-academy.css')); ?>" />
 
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/pages/question-style.css')); ?>" />
+
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/pages/app-chat.css')); ?>">
 
 <style>
         .custom-btn {
@@ -177,6 +182,31 @@
 
 
 
+  <div class="card mt-5 border rounded">
+    <div class="card-body  rounded p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+                <h5 class="mb-1">اضافة سؤال</h5>
+            </div>
+        </div>
+        <form method="POST" class="pt-3" enctype="multipart/form-data" action="<?php echo e(route('post.forum')); ?>">
+            <?php echo csrf_field(); ?>
+        <textarea class="form-control message-input  shadow-none" name="question" placeholder="اشرح هنا" cols="25" rows="6"></textarea>
+        <br>
+        <input class="form-control" name = "image" type="file" id="formFile">
+        <input type="hidden" name="lesson_id" value="<?php echo e($lesson->id); ?>">
+        <br>
+        <center>
+        <button type="submit" class="btn rounded-pill btn-label-secondary waves-effect btn-lg"
+                                id = "saveButton">
+                             ارسال
+                            </button></center>
+        </form>
+
+    </div>
+  </div>
+
 <!-- start question section -->
 
 <div class="card mt-5 border rounded">
@@ -188,57 +218,74 @@
             </div>
         </div>
 
-
-
-
         <div class="row">
             <div class=" col-12 ">
                 <ul class="list-group review-list">
+
+                    <?php $__currentLoopData = $lesson->forums; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $forum): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                     <li class="list-group-item border-3 shadow rounded">
                         <div class="d-flex">
                             <img width="50px" src="<?php echo e(asset('assets/images/ask-icon.png')); ?>" class="avatar rounded" >
                             <div class="review-right col-sm-9">
-                                <span class="author-name">شهد خليفة عبد المجيد</span>
+                                <span class="author-name"><?php echo e($forum->student->name); ?></span>
                                 <div class="time">
-                                    <a href="../lecture-questions/113009">منذ 9 دقائق (المحاضرة 6: قراءة الأميتر والفولتميتر وإضاءة المصابيح)</a>
+                                    <a href="#"><?php echo e(\Carbon\Carbon::parse($forum->created_at)->diffForHumans()); ?></a>
                                 </div>
-                                <img src="<?php echo e($lesson->image); ?>" class="ques-img img-fluid" alt>
+                                <?php if(!empty($forum->picture)): ?>
+                                <img src="<?php echo e($forum->picture); ?>" class="ques-img img-fluid" >
+                                <?php endif; ?>
                                 <div class="review-des">
-                                    <p>بعد اذن حضراتكم انا كان حصلي ظروف لما المستر نزل الامتحان و ماعرفتش امتحنه ف ينفع من فضلكم تنزلوه عشان انا محتجاه جدا جدا 🥺🙏</p>
+                                    <p> <?php echo e($forum->question); ?></p>
                                 </div>
                             </div>
                         </div>
+                        <div class="your-comments-container" id="comments-container-<?php echo e($forum->id); ?>">
+                        <?php $__currentLoopData = $forum->forumcomments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <hr>
+
                         <div class="d-flex my-replay-1">
                             <div class="line-img-con">
-                                <img src="<?php echo e(asset('assets/images/faces/face8.jpg')); ?>" alt class="your-imag">
+                                <img src="<?php echo e($comment->commentor == 1 ? asset('assets/images/faces/face8.jpg') : asset('assets/images/ask-icon.png')); ?>" alt class="your-imag">
                             </div>
                             <div class="replay-img-info col-sm-9">
                                 <div class="your-replay-con">
-                                    <h1 class="stud-name">استاذ محمد خيرى</h1>
-                                    <p class="your-replay">للاسف مينفعش بس حضرتك تقدري تشوفي المراجعه الي نزلت ع اليوتيوب المستر حل فيها من اسئله الامتحان</p>
+                                    <h1 class="stud-name"><?php echo e($comment->commentor == 1 ? 'استاذ محمد خيرى' : $forum->student->name); ?></h1>
+                                    <p class="your-replay">
+                                        <?php if(!empty($comment->picture)): ?>
+                                        <?php if($comment->comment_type == 1): ?>
+                                        <img src="<?php echo e($comment->picture); ?>" class="ques-img img-fluid" >
+                                        <?php endif; ?>
+                                        <br>
+                                        <?php endif; ?>
+                                        <?php echo e($comment->comment); ?></p>
                                 </div>
                                 <img src alt class="your-img-2 img">
                             </div>
                         </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
 
-                        <div class="chat-history-footer  card border-3 shadow">
-                            <form class="form-send-message d-flex justify-content-between align-items-center ">
-                              <textarea class="form-control message-input  shadow-none" placeholder="اشرح هنا" cols="25" rows="2"></textarea>
-                              <div class="message-actions d-flex align-items-center">
-                                <i class="btn btn-text-secondary btn-icon rounded-pill speech-to-text mdi mdi-microphone mdi-20px cursor-pointer"></i>
-                                <label for="attach-doc" class="form-label mb-0">
-                                  <i class="mdi mdi-paperclip mdi-20px cursor-pointer btn btn-text-secondary btn-icon rounded-pill me-2 ms-1"></i>
-                                  <input type="file" id="attach-doc" hidden>
-                                </label>
-                                <button class="btn btn-primary d-flex send-msg-btn">
-                                  <span class="align-middle">ارسل</span>
-                                </button>
-                              </div>
+                        <?php if($forum->student->id == auth()->user()->id): ?>
+                        <div class="chat-history-footer card border-3 shadow">
+                            <form class="form-send-message d-flex justify-content-between align-items-center" id="comment-form-<?php echo e($forum->id); ?>">
+                                <input type="hidden" name="forum_id" value="<?php echo e($forum->id); ?>">
+                                <textarea class="form-control message-input shadow-none" name="comment" placeholder="اشرح هنا" cols="25" rows="2"></textarea>
+                                <div class="message-actions d-flex align-items-center">
+                                    <label for="attach-doc-<?php echo e($forum->id); ?>" class="form-label mb-0">
+                                        <i class="mdi mdi-paperclip mdi-20px cursor-pointer btn btn-text-secondary btn-icon rounded-pill me-2 ms-1"></i>
+                                        <input type="file" id="attach-doc-<?php echo e($forum->id); ?>" name="picture" hidden>
+                                    </label>
+                                    <button type="button" class="btn btn-primary d-flex send-msg-btn" onclick="submitForm(<?php echo e($forum->id); ?>)">
+                                        <span class="align-middle">ارسل</span>
+                                    </button>
+                                </div>
                             </form>
-                          </div>
+                        </div>
+                        <?php endif; ?>
 
                     </li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <!-- Repeat the structure for additional questions -->
                 </ul>
             </div>
@@ -264,7 +311,55 @@
     <script src="<?php echo e(asset('admin/assets/js/extended-ui-treeview.js')); ?>"></script>
 
 
-    <script></script>
+    <script src="<?php echo e(asset('admin/assets/js/app-chat.js')); ?>"></script>
+
+    <script>
+
+
+    function submitForm(forumId) {
+        var formData = new FormData($(`#comment-form-${forumId}`)[0]);
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        formData.append('_token', csrfToken);
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo e(route("add.comment")); ?>',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                var commentText = formData.get('comment');
+                var picture = formData.get('picture');
+
+                var newCommentHtml = `
+                    <hr>
+                    <div class="d-flex my-replay-1">
+                        <div class="line-img-con">
+                            <img src="<?php echo e(asset('assets/images/ask-icon.png')); ?>" alt class="your-imag">
+                        </div>
+                        <div class="replay-img-info col-sm-9">
+                            <div class="your-replay-con">
+                                <h1 class="stud-name"><?php echo e(auth()->user()->name); ?></h1>
+                                <p class="your-replay">${commentText || ''}</p>
+                            </div>
+                            ${picture ? `<img src="${URL.createObjectURL(picture)}" alt class="your-img-2 img">` : ''}
+                        </div>
+                    </div>
+                `;
+
+                $(`#comments-container-${forumId}`).append(newCommentHtml);
+
+                $(`#comment-form-${forumId} textarea[name="comment"]`).val('');
+                $(`#comment-form-${forumId} #attach-doc`).val('');
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    </script>
 
 <?php $__env->stopSection(); ?>
 

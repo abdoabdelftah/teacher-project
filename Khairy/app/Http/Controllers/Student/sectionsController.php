@@ -58,6 +58,8 @@ class sectionsController extends Controller
             ]
         );
 
+
+
         return response()->json(['message' => 'added']);
 
      }

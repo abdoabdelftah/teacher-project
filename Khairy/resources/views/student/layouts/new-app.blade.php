@@ -13,6 +13,7 @@
     <meta name="description" content="Materialize – is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
     <meta name="keywords" content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
 
@@ -209,45 +210,46 @@
           </li>
           <!-- Quick links -->
 
-          <!-- Notification -->
-          <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-2 me-xl-1">
+         <!-- Notification -->
+         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-2 me-xl-1">
             <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               <i class="mdi mdi-bell-outline mdi-24px"></i>
-              <span class="position-absolute top-0 start-50 translate-middle-y badge badge-dot bg-danger mt-2 border"></span>
+             @if (auth()->user()->unreadNotifications->count() > 0)
+             <span class="position-absolute top-0 start-50 translate-middle-y badge badge-dot bg-danger mt-2 border"></span>
+             @endif
             </a>
             <ul class="dropdown-menu dropdown-menu-end py-0">
               <li class="dropdown-menu-header border-bottom">
                 <div class="dropdown-header d-flex align-items-center py-3">
-                  <h6 class="mb-0 me-auto">Notification</h6>
-                  <span class="badge rounded-pill bg-label-primary">8 New</span>
+                  <h6 class="mb-0 me-auto">الاشعارات</h6>
+                  <span class="badge rounded-pill bg-label-primary">{{auth()->user()->unreadNotifications->count()}}</span>
                 </div>
               </li>
               <li class="dropdown-notifications-list scrollable-container">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                    @foreach(auth()->user()->unreadNotifications->sortByDesc('created_at') as $notification)
+
                     <div class="d-flex gap-2">
                       <div class="flex-shrink-0">
                         <div class="avatar me-1">
-                          <img src="{{ asset('admin/assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle">
+                            <img src="{{ asset('assets/images/faces/face8.jpg') }}" alt class="w-px-40 h-auto rounded-circle">
                         </div>
                       </div>
                       <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <h6 class="mb-1 text-truncate">قام الطالب بالاجابة على الامتحان</h6>
-                        <small class="text-truncate text-body">جارى</small>
+                        <a href="{{$notification->data['link']}}"><h6 class="mb-1 text-truncate">{{$notification->data['message']}}</h6></a>
                       </div>
                       <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <small class="text-muted">منذ دقيقة</small>
+                        <small class="text-muted">{{\Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</small>
                       </div>
                     </div>
-                  </li>
+
+                    @endforeach
+                </li>
 
                 </ul>
               </li>
-              <li class="dropdown-menu-footer border-top p-2">
-                <a href="javascript:void(0);" class="btn btn-primary d-flex justify-content-center">
-                  الاطلاع على الكل
-                </a>
-              </li>
+
             </ul>
           </li>
           <!--/ Notification -->
@@ -446,6 +448,32 @@
       }).showToast();
   </script>
 @endif
+
+<script>
+    $(document).ready(function() {
+        $(".dropdown-notifications").on("click", function() {
+            // Get the CSRF token
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            var badgeElement = $(".badge-dot");
+            // Send a POST request to mark notifications as read
+            $.ajax({
+                url: "/mark-as-read/user",
+                type: "POST",
+                data: {
+                    _token: csrfToken
+                },
+                success: function(data) {
+                    // Handle the response if needed
+                    badgeElement.hide();;
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error if needed
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 
 @yield('js')
 

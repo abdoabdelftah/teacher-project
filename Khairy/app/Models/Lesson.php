@@ -29,6 +29,10 @@ class Lesson extends Model
         return $this -> belongsTo('App\Models\Unit','unit_id','id');
     }
 
+    public function forums(){
+        return $this -> hasMany('App\Models\Forum','lesson_id','id');
+    }
+
     public function userLessonsections(){
         return $this -> hasMany('App\Models\Lessonsection','lesson_id','id')->where('hide', 0);
     }
