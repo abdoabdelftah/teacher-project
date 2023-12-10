@@ -75,7 +75,7 @@
 
 
       <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
-        <a href="index-2.html" class="app-brand-link gap-2">
+        <a href="/grades" class="app-brand-link gap-2">
           <span class="app-brand-logo demo">
 <span style="color:var(--bs-primary);">
   <svg width="268" height="150" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -328,20 +328,42 @@
     <ul class="menu-inner">
 
       <!-- Dashboards -->
-      <li class="menu-item
- active">
+    @foreach(auth()->user()->userGrades as $grade)
+    @if($grade->hide == 0)
+      <li class="menu-item active">
         <a href="javascript:void(0)" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
-          <div data-i18n="Dashboards">Dashboards</div>
+          <i class="menu-icon tf-icons mdi mdi-book-outline"></i>
+          <div data-i18n="{{$grade->name}}">{{$grade->name}}</div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="app-ecommerce-dashboard.html" class="menu-link">
-              <i class="menu-icon tf-icons mdi mdi-cart-outline"></i>
-              <div data-i18n="eCommerce">eCommerce</div>
-            </a>
-          </li>
+        @foreach ($grade->userUnits as $unit)
+          @if($unit->hide == 0)
+            <li class="menu-item">
+                <a href="/grade/{{$grade->id}}/unit/{{$unit->id}}/lessons" class="menu-link">
+                    <i class="menu-icon tf-icons mdi mdi-book-open-page-variant-outline"></i>
+                    <div data-i18n="{{$unit->name}}">{{$unit->name}}</div>
+                </a>
+            </li>
+            @endif
+            @endforeach
         </ul>
+      </li>
+      @endif
+      @endforeach
+
+      <li class="menu-item active">
+        <a href="/student/forums" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-account-question-outline"></i>
+          <div data-i18n="أسئلة/أجوبة">أسئلة/أجوبة</div>
+        </a>
+      </li>
+
+
+      <li class="menu-item active">
+        <a href="/student/examsresults" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-pencil-circle-outline"></i>
+          <div data-i18n="امتحانات">امتحانات</div>
+        </a>
       </li>
 
     </ul>
@@ -448,32 +470,6 @@
       }).showToast();
   </script>
 @endif
-
-<script>
-    $(document).ready(function() {
-        $(".dropdown-notifications").on("click", function() {
-            // Get the CSRF token
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            var badgeElement = $(".badge-dot");
-            // Send a POST request to mark notifications as read
-            $.ajax({
-                url: "/mark-as-read/user",
-                type: "POST",
-                data: {
-                    _token: csrfToken
-                },
-                success: function(data) {
-                    // Handle the response if needed
-                    badgeElement.hide();;
-                },
-                error: function(xhr, status, error) {
-                    // Handle the error if needed
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
 
 @yield('js')
 

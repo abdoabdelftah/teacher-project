@@ -572,17 +572,14 @@ public function lessontextexampost(Request $request)
 
 public function studentresults()
     {
-     //   $examname = Studentlessonsectionfollowup::with('lessonsection', 'studentanswer', 'exam')->where('student_id', $id)->get();
 
-     $examname = Studentlessonsectionfollowup::with('lessonsection:id,name,section_type,end_time', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('student_id', auth()->user()->id)->get();
-
-   $unitname = Unitexamsectionfollowup::with('unitexamsection:id,name,type,end_time', 'studentanswer:unit_exam_section_id,points,student_id', 'exam:unit_exam_section_id,points')->where('student_id', auth()->user()->id)->get();
+     $follow_up = Studentlessonsectionfollowup::with('lessonsection:id,name,section_type,end_time', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('student_id', auth()->user()->id)->get();
 
 
 
 
     //return $unitname;
-     return view('student.studentresults', compact('examname', 'unitname'));
+     return view('student.new.allExams', compact('follow_up'));
 
 
     }

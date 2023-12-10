@@ -216,7 +216,7 @@ class gradesController extends Controller
                 }]);
             }
        , 'forums' =>function($fq){
-        $fq->orderBy('id', 'desc');
+        $fq->where('hide', 0)->orderBy('id', 'desc');
        } ])->first();
 
         $lessonunit = Lesson::where('id', $lesson_id)->where('unit_id', $unit_id)->where('hide', 0)->count();
@@ -252,4 +252,8 @@ class gradesController extends Controller
     {
         //
     }
+
+
+
+
 }
