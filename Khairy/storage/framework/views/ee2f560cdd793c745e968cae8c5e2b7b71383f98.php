@@ -3,8 +3,6 @@
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/jstree/jstree.css')); ?>" />
 
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/pages/app-academy.css')); ?>" />
-
-
     <style>
         .custom-btn {
             padding: 10px 20px;
@@ -95,7 +93,6 @@
     <script src="<?php echo e(asset('admin/assets/js/extended-ui-treeview.js')); ?>"></script>
 
 
-    <script></script>
 
 <?php $__env->stopSection(); ?>
 

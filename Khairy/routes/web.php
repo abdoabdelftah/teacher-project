@@ -57,11 +57,12 @@ Route::group(['middleware' => ['auth', 'CheckStudent']], function() {
 
 
 
+
   Route::get('/grades','Student\gradesController@grades')->name('dashboard');
 
-  Route::view('/testme', 'student.new.test');
+ // Route::view('/testme', 'student.new.test');
 
-  Route::get('/grade/{grade_id}/units','Student\gradesController@units');
+//Route::get('/grade/{grade_id}/units','Student\gradesController@units');
 
 
   Route::get('/grade/{grade_id}/unit/{unit_id}/lessons','Student\gradesController@lessons');
@@ -134,14 +135,14 @@ Route::post('/postforumcomment','Student\forumsController@postcomment')->name('a
 
 Route::get('/student/forums','Student\forumsController@studentshow');
 
-Route::get('/student/forums/{forum_id}/forum','Student\forumsController@studentshowone');
+//Route::get('/student/forums/{forum_id}/forum','Student\forumsController@studentshowone');
 
 
 
 
 ///unit choose exam routes
 
-
+/*
 Route::get('/grade/{grade_id}/unit/{unit_id}/unitexam/{unit_exam_section_id}','Student\unitsController@unitexam');
 
 Route::get('/grade/{grade_id}/unit/{unit_id}/unitexam/{unit_exam_section_id}/start','Student\unitsController@unitexamstart');
@@ -160,7 +161,7 @@ Route::get('/grade/{grade_id}/unit/{unit_id}/unittextexam/{unit_exam_section_id}
 
 Route::post('/postunittextexam','Student\unitsController@unittextexampost')->name('post.unittextexam');
 
-
+*/
 
 
 /////////////////////Student results//////////////////////////////////

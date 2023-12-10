@@ -50,6 +50,7 @@ class User extends Authenticatable
         return $this -> belongsToMany('App\Models\Grade','grade_user','user_id','grade_id','id','id');
     }
 
+
     public function studentlessonsectionfollowups(){
         return $this -> hasMany('App\Models\Studentlessonsectionfollowup','student_id','id');
     }
@@ -71,5 +72,6 @@ class User extends Authenticatable
     public function userGrades(){
         return $this -> belongsToMany('App\Models\Grade','grade_user','user_id','grade_id','id','id')->where('hide', 0);
     }
+
 
 }

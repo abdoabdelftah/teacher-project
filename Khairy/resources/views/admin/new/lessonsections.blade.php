@@ -154,14 +154,9 @@
 
                                                 -->
 
-                                                @if ($section->section_type == 1)
+                                                @if ($section->section_type == 1 || $section->section_type == 2)
                                                     <!-- امتحان الاختيار من متعدد بدون وقت-->
                                                     <span class="mdi mdi-table-check mdi-48px"></span>
-                                                @endif
-
-                                                @if ($section->section_type == 2)
-                                                    <!--  بوقتامتحان الاختيار من متعدد-->
-                                                    <span class="mdi mdi-timetable mdi-48px"></span>
                                                 @endif
 
                                                 @if ($section->section_type == 3)

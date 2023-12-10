@@ -13,6 +13,7 @@
     <meta name="description" content="Materialize – is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
     <meta name="keywords" content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
 
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
 
 
@@ -74,7 +75,7 @@
 
 
       <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
-        <a href="index-2.html" class="app-brand-link gap-2">
+        <a href="/grades" class="app-brand-link gap-2">
           <span class="app-brand-logo demo">
 <span style="color:var(--bs-primary);">
   <svg width="268" height="150" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -327,20 +328,42 @@
     <ul class="menu-inner">
 
       <!-- Dashboards -->
-      <li class="menu-item
- active">
+    <?php $__currentLoopData = auth()->user()->userGrades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $grade): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <?php if($grade->hide == 0): ?>
+      <li class="menu-item active">
         <a href="javascript:void(0)" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
-          <div data-i18n="Dashboards">Dashboards</div>
+          <i class="menu-icon tf-icons mdi mdi-book-outline"></i>
+          <div data-i18n="<?php echo e($grade->name); ?>"><?php echo e($grade->name); ?></div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="app-ecommerce-dashboard.html" class="menu-link">
-              <i class="menu-icon tf-icons mdi mdi-cart-outline"></i>
-              <div data-i18n="eCommerce">eCommerce</div>
-            </a>
-          </li>
+        <?php $__currentLoopData = $grade->userUnits; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $unit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php if($unit->hide == 0): ?>
+            <li class="menu-item">
+                <a href="/grade/<?php echo e($grade->id); ?>/unit/<?php echo e($unit->id); ?>/lessons" class="menu-link">
+                    <i class="menu-icon tf-icons mdi mdi-book-open-page-variant-outline"></i>
+                    <div data-i18n="<?php echo e($unit->name); ?>"><?php echo e($unit->name); ?></div>
+                </a>
+            </li>
+            <?php endif; ?>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ul>
+      </li>
+      <?php endif; ?>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+      <li class="menu-item active">
+        <a href="/student/forums" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-account-question-outline"></i>
+          <div data-i18n="أسئلة/أجوبة">أسئلة/أجوبة</div>
+        </a>
+      </li>
+
+
+      <li class="menu-item active">
+        <a href="/student/examsresults" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-pencil-circle-outline"></i>
+          <div data-i18n="امتحانات">امتحانات</div>
+        </a>
       </li>
 
     </ul>

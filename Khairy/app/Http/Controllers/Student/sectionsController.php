@@ -5,8 +5,7 @@
 
 namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
-
-
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -24,6 +23,7 @@ use App\Models\Unitexamsectionfollowup;
 use App\Models\Unitexamsection;
 use App\Models\Lesson;
 use App\Models\Lessonsection;
+use App\Notifications\SendAdminNotification;
 use App\Traits\ImageTrait;
 use auth;
 use Illuminate\Support\Carbon;
@@ -58,11 +58,31 @@ class sectionsController extends Controller
             ]
         );
 
+        if ($reqeust->done == 1){
+            $admin = Admin::find(1); // Assuming you have a column is_admin to identify admins
+            $section = Lessonsection::find($reqeust->lesson_section_id);
 
+            if($section->type == 1 || $section->type == 2){
+
+                $message = "قام الطالب ".auth()->user()->name."بالاجابة على اختبار";
+
+            }elseif($section->type == 3){
+
+                $message = " امتحان مقالى يحتاج للتصحيح, الطالب". auth()->user()->name;
+            }elseif($section->type == 4){
+
+                $message = " امتحان يحتاج للتصحيح, الطالب". auth()->user()->name;
+            } elseif($section->type == 5){
+
+                $message = "قام الطالب ".auth()->user()->name."بمشاهدة محاضرة";
+            }
+            $link = "/#"; // You can customize the link as needed
+            $admin->notify(new SendAdminNotification($message, $link));
+            }
 
         return response()->json(['message' => 'added']);
 
-     }
+    }
 
 
 

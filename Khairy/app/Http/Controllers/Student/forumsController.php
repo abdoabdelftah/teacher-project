@@ -92,7 +92,7 @@ class forumsController extends Controller
 
         $rules = [
             'comment' => 'required_without:picture', // Comment is required if picture is not present
-            'picture' => 'required_without:comment|image|mimes:jpeg,png,jpg,gif|max:2048', // Picture is required if comment is not present, and it must be an image
+            'picture' => 'required_without:comment|image|mimes:jpeg,png,jpg,gif|max:5048', // Picture is required if comment is not present, and it must be an image
         ];
 
         // Define custom error messages
@@ -184,7 +184,28 @@ class forumsController extends Controller
         $forum->question = $request->question;
         }
         if($request->hasFile('image')){
+            $rules = [
+
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:5048', // Picture is required if comment is not present, and it must be an image
+            ];
+
+            // Define custom error messages
+            $messages = [
+                'picture.image' => 'The file must be an image.',
+                'picture.mimes' => 'The image must be of type: jpeg, png, jpg, gif.',
+                'picture.max' => 'The image may not be greater than 2 MB.',
+            ];
+
+            // Validate the request
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+                // You can customize the response as needed, for example, redirect back with errors in case of a web request
+            }
+
         $forum->picture = $this->saveImage($request->image, 'images/forums');
+
         }
 
         $forum->save();
@@ -212,9 +233,9 @@ class forumsController extends Controller
     public function studentshow()
     {
 
-     $data = Forum::where('student_id', auth()->user()->id)->where('hide', 0)->paginate(10);
+     $data = Forum::where('student_id', auth()->user()->id)->where('hide', 0)->orderBy('id', 'desc')->paginate(10);
 
-       return view('student.studentforums', compact('data'));
+       return view('student.new.allForums', compact('data'));
 
 
     }
