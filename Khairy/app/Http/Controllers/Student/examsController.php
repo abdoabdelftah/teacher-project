@@ -573,7 +573,7 @@ public function lessontextexampost(Request $request)
 public function studentresults()
     {
 
-     $follow_up = Studentlessonsectionfollowup::with('lessonsection:id,name,section_type,end_time', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('student_id', auth()->user()->id)->get();
+     $follow_up = Studentlessonsectionfollowup::with('lessonsection.lesson.unit.grade', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('student_id', auth()->user()->id)->get();
 
 
 

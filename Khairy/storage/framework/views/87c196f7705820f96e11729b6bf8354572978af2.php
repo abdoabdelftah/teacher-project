@@ -477,7 +477,7 @@
                     var badgeElement = $(".badge-dot");
                     // Send a POST request to mark notifications as read
                     $.ajax({
-                        url: "/mark-as-read",
+                        url: "/mark-as-read/admin",
                         type: "POST",
                         data: {
                             _token: csrfToken

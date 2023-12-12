@@ -25,7 +25,7 @@ class StudentAuth extends Controller
    $check = User::where('phone_number', $request->phone_number)->first();
 
    if(isset($check)){
-   if($check->last_login_date <= $date){
+   if($check->last_login_date >= $date){
 
     return redirect()->back()->withErrors(['errors' => ' لقد قمت بتسجيل الدخول  باستخدام جهاز اخر اذا كنت ترغب فى تسجيل الدخول الرجاء التواصل مع الاستاذ']);
 

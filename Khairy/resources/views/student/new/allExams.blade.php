@@ -35,19 +35,25 @@
 
                           <tr>
 
-                            <td><a href=""> {{$data->lessonsection->name}} </a></td>
+                            <td><a > {{$data->lessonsection->name}} </a></td>
 
                             @if($data->lessonsection->section_type == 1)
-                            <td><a href="" > {{$data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
+                            <td><a href="/grade/{{$data->lessonsection->lesson->unit->grade->id}}/unit/{{$data->lessonsection->lesson->unit->id}}/lesson/{{$data->lessonsection->lesson->id}}/lessonsectionexam/{{$data->lessonsection->id}}" > {{$data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
                             @elseif($data->lessonsection->section_type == 3)
-                           <td><a href="" > {{$data->done == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
+                           <td><a href="/grade/{{$data->lessonsection->lesson->unit->grade->id}}/unit/{{$data->lessonsection->lesson->unit->id}}/lesson/{{$data->lessonsection->lesson->id}}/lessonsectiontextexam/{{$data->lessonsection->id}}" > {{ $data->done != 1?'لم تقم بانهاء الامتحان':($data->done_correcting == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points') )}} / {{$data->exam->sum('points') }} </a></td>
                             @elseif($data->lessonsection->section_type == 4)
-                            <td><a href="" > {{$data->done == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
+                            <td><a href="/grade/{{$data->lessonsection->lesson->unit->grade->id}}/unit/{{$data->lessonsection->lesson->unit->id}}/lesson/{{$data->lessonsection->lesson->id}}/pdfexam/{{$data->lessonsection->id}}" > {{ $data->done != 1?'لم تقم بانهاء الامتحان':($data->done_correcting == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points') )}} / {{$data->exam->sum('points')}} </a></td>
                             @endif
 
-                            <td>
-                                 <a href="#" class="btn rounded-pill btn-label-info waves-effect">ورقة الامتحان</a>
-                            </td>
+
+                            @if($data->lessonsection->section_type == 1)
+                            <td><a class="btn rounded-pill btn-label-info waves-effect" href="/grade/{{$data->lessonsection->lesson->unit->grade->id}}/unit/{{$data->lessonsection->lesson->unit->id}}/lesson/{{$data->lessonsection->lesson->id}}/lessonsectionexam/{{$data->lessonsection->id}}" > ورقة الامتحان </a></td>
+                            @elseif($data->lessonsection->section_type == 3)
+                           <td><a class="btn rounded-pill btn-label-info waves-effect" href="/grade/{{$data->lessonsection->lesson->unit->grade->id}}/unit/{{$data->lessonsection->lesson->unit->id}}/lesson/{{$data->lessonsection->lesson->id}}/lessonsectiontextexam/{{$data->lessonsection->id}}" > ورقة الامتحان </a></td>
+                            @elseif($data->lessonsection->section_type == 4)
+                            <td><a class="btn rounded-pill btn-label-info waves-effect" href="/grade/{{$data->lessonsection->lesson->unit->grade->id}}/unit/{{$data->lessonsection->lesson->unit->id}}/lesson/{{$data->lessonsection->lesson->id}}/pdfexam/{{$data->lessonsection->id}}" > ورقة الامتحان </a></td>
+                            @endif
+
                           </tr>
                           @endif
                           @endforeach

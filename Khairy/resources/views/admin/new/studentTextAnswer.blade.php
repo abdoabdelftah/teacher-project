@@ -23,7 +23,6 @@
 @stop
 @section('content')
 
-<div class="row g-4 mb-4">
 
     <div class="col-sm-6 col-xl-12">
         <div class="card">

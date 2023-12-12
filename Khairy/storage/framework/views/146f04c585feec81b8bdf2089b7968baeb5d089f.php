@@ -11,6 +11,7 @@
 
     <meta name="description" content="Materialize – is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
     <meta name="keywords" content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="https://demos.pixinvent.com/materialize-html-admin-template/assets/img/favicon/favicon.ico" />
@@ -268,7 +269,7 @@
                     <div class="d-flex gap-2">
                       <div class="flex-shrink-0">
                         <div class="avatar me-1">
-                          <img src="<?php echo e(asset('admin/assets/img/avatars/1.png')); ?>" alt class="w-px-40 h-auto rounded-circle">
+                          <img src="<?php echo e(asset('assets/images/faces/face8.jpg')); ?>" alt class="w-px-40 h-auto rounded-circle">
                         </div>
                       </div>
                       <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
@@ -437,6 +438,32 @@
                 </script>
             <?php endif; ?>
         <!-- Page JS -->
+
+        <script>
+            $(document).ready(function() {
+                $(".dropdown-notifications").on("click", function() {
+                    // Get the CSRF token
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    var badgeElement = $(".badge-dot");
+                    // Send a POST request to mark notifications as read
+                    $.ajax({
+                        url: "/mark-as-read/user",
+                        type: "POST",
+                        data: {
+                            _token: csrfToken
+                        },
+                        success: function(data) {
+                            // Handle the response if needed
+                            badgeElement.hide();;
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle the error if needed
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
 
         <?php echo $__env->yieldContent('js'); ?>
 
