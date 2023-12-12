@@ -96,7 +96,7 @@
               <thead class="table-light">
                 <tr>
 
-                    <th>اسم الطالب</th>
+                    <th>اسم الامتحان</th>
                     <th>درجة الطالب</th>
                     <th>المزيد</th>
 

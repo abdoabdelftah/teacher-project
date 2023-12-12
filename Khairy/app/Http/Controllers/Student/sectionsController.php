@@ -62,6 +62,7 @@ class sectionsController extends Controller
             $admin = Admin::find(1); // Assuming you have a column is_admin to identify admins
             $section = Lessonsection::find($reqeust->lesson_section_id);
 
+            $message = "";
             if($section->type == 1 || $section->type == 2){
 
                 $message = "قام الطالب ".auth()->user()->name."بالاجابة على اختبار";

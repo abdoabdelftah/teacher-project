@@ -34,19 +34,25 @@
 
                           <tr>
 
-                            <td><a href=""> <?php echo e($data->lessonsection->name); ?> </a></td>
+                            <td><a > <?php echo e($data->lessonsection->name); ?> </a></td>
 
                             <?php if($data->lessonsection->section_type == 1): ?>
-                            <td><a href="" > <?php echo e($data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
+                            <td><a href="/grade/<?php echo e($data->lessonsection->lesson->unit->grade->id); ?>/unit/<?php echo e($data->lessonsection->lesson->unit->id); ?>/lesson/<?php echo e($data->lessonsection->lesson->id); ?>/lessonsectionexam/<?php echo e($data->lessonsection->id); ?>" > <?php echo e($data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
                             <?php elseif($data->lessonsection->section_type == 3): ?>
-                           <td><a href="" > <?php echo e($data->done == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
+                           <td><a href="/grade/<?php echo e($data->lessonsection->lesson->unit->grade->id); ?>/unit/<?php echo e($data->lessonsection->lesson->unit->id); ?>/lesson/<?php echo e($data->lessonsection->lesson->id); ?>/lessonsectiontextexam/<?php echo e($data->lessonsection->id); ?>" > <?php echo e($data->done != 1?'لم تقم بانهاء الامتحان':($data->done_correcting == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points') )); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
                             <?php elseif($data->lessonsection->section_type == 4): ?>
-                            <td><a href="" > <?php echo e($data->done == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
+                            <td><a href="/grade/<?php echo e($data->lessonsection->lesson->unit->grade->id); ?>/unit/<?php echo e($data->lessonsection->lesson->unit->id); ?>/lesson/<?php echo e($data->lessonsection->lesson->id); ?>/pdfexam/<?php echo e($data->lessonsection->id); ?>" > <?php echo e($data->done != 1?'لم تقم بانهاء الامتحان':($data->done_correcting == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points') )); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
                             <?php endif; ?>
 
-                            <td>
-                                 <a href="#" class="btn rounded-pill btn-label-info waves-effect">ورقة الامتحان</a>
-                            </td>
+
+                            <?php if($data->lessonsection->section_type == 1): ?>
+                            <td><a class="btn rounded-pill btn-label-info waves-effect" href="/grade/<?php echo e($data->lessonsection->lesson->unit->grade->id); ?>/unit/<?php echo e($data->lessonsection->lesson->unit->id); ?>/lesson/<?php echo e($data->lessonsection->lesson->id); ?>/lessonsectionexam/<?php echo e($data->lessonsection->id); ?>" > ورقة الامتحان </a></td>
+                            <?php elseif($data->lessonsection->section_type == 3): ?>
+                           <td><a class="btn rounded-pill btn-label-info waves-effect" href="/grade/<?php echo e($data->lessonsection->lesson->unit->grade->id); ?>/unit/<?php echo e($data->lessonsection->lesson->unit->id); ?>/lesson/<?php echo e($data->lessonsection->lesson->id); ?>/lessonsectiontextexam/<?php echo e($data->lessonsection->id); ?>" > ورقة الامتحان </a></td>
+                            <?php elseif($data->lessonsection->section_type == 4): ?>
+                            <td><a class="btn rounded-pill btn-label-info waves-effect" href="/grade/<?php echo e($data->lessonsection->lesson->unit->grade->id); ?>/unit/<?php echo e($data->lessonsection->lesson->unit->id); ?>/lesson/<?php echo e($data->lessonsection->lesson->id); ?>/pdfexam/<?php echo e($data->lessonsection->id); ?>" > ورقة الامتحان </a></td>
+                            <?php endif; ?>
+
                           </tr>
                           <?php endif; ?>
                           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
