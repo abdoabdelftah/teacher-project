@@ -186,7 +186,10 @@ class studentsController extends Controller
     {
 
 
-        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->first();
+        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q) use ($student_id){
+            $q->where('student_id', $student_id);
+        }])->first();
+
 
         $grades = Grade::with('units.lessons.lessonsections')->get();
 

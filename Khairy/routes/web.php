@@ -246,7 +246,7 @@ Route::get('/ucheckanswers/{student_id}/{unit_exam_section_id}', 'Admin\students
 
 
 ////lesson unit student follow up
-
+/*
 Route::get('/student/lessonsection/answered/{id}', 'Admin\followstudentsController@lessonsectionanswered');
 
 
@@ -269,7 +269,7 @@ Route::post('/unitdone', 'Admin\followstudentsController@correctunittextexamdone
 
 Route::get('/unit/notcorrected', 'Admin\followstudentsController@showunitnotcorrected');
 
-
+*/
 
 
 /////////////lesson text exam correct/////////////////////////////
@@ -281,7 +281,10 @@ Route::post('/lessondone', 'Admin\followstudentsController@correctlessontextexam
 
 Route::get('/lesson/notcorrected', 'Admin\followstudentsController@showlessonnotcorrected');
 
+Route::post('/correct/question', 'Admin\followstudentsController@correctQuestion')->name('correct.question');
 
+
+Route::post('/update-section-followup', 'Admin\followstudentsController@updateSectionFollowup')->name('updateSectionFollowup');
 
 
 ///////////////////forums//////////////////////////////////////////

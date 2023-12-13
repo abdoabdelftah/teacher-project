@@ -44,7 +44,7 @@ class followstudentsController extends Controller
 
         $lessonsection =  Lessonsection::where('id', $id)->first();
 
-        $content = Studentlessonsectionfollowup::with('student:id,name', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('lesson_section_id', $id)->paginate(10);
+        $content = Studentlessonsectionfollowup::with('student:id,name', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('lesson_section_id', $id)->where('done', 1)->paginate(10);
 
         return view('admin.new.viewed', compact('grades', 'lessonsection', 'content'));
     }
@@ -417,7 +417,46 @@ public function correctlessontextexam($student_id, $lesson_section_id)
 }
 
 
+    public function correctQuestion(Request $request){
 
+        $examId = $request->input('exam_id');
+        $userId = $request->input('user_id');
+
+        // Check if the record exists
+        $studentExamAnswer = StudentExamAnswer::where('exam_id', $examId)
+            ->where('student_id', $userId)
+            ->first();
+
+        if ($studentExamAnswer) {
+            // Update the record
+            if(!empty($request->input('text'))){
+            $studentExamAnswer->right_answer = $request->input('text');
+            }
+            if ($request->hasFile('image')) {
+                $studentExamAnswer->right_answer_picture =  $this->saveImage($request->file('image'), 'images/studentanswers');
+            }
+
+            $studentExamAnswer->points = $request->input('points');
+            $studentExamAnswer->save();
+
+            return response()->json(['success' => true, 'message' => $studentExamAnswer]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Record not found']);
+
+
+    }
+
+    public function updateSectionFollowup(Request $request)
+    {
+        $sectionFollowupId = $request->input('section_followup_id');
+
+        // Update the record
+        Studentlessonsectionfollowup::where('id', $sectionFollowupId)
+            ->update(['done_correcting' => 1]);
+
+        return response()->json(['success' => true, 'message' => 'Record updated successfully']);
+    }
 
 
 
