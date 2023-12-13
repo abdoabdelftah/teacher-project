@@ -114,9 +114,9 @@
                             <?php if($data->lessonsection->section_type == 1): ?>
                             <td><a href="<?php echo e(url('admin/lcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)); ?>" > <?php echo e($data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
                             <?php elseif($data->lessonsection->section_type == 3): ?>
-                           <td><a href="<?php echo e(url('admin/ltextcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)); ?>" > <?php echo e($data->done == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
+                           <td><a href="<?php echo e(url('admin/ltextcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)); ?>" > <?php echo e($data->done_correcting == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
                             <?php elseif($data->lessonsection->section_type == 4): ?>
-                            <td><a href="<?php echo e(url('admin/lpdfexamcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)); ?>" > <?php echo e($data->done == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
+                            <td><a href="<?php echo e(url('admin/lpdfexamcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)); ?>" > <?php echo e($data->done_correcting == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')); ?> / <?php echo e($data->exam->sum('points')); ?> </a></td>
                             <?php endif; ?>
 
                           <td>

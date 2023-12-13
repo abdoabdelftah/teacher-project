@@ -107,17 +107,17 @@
                       <tbody>
                           @foreach ($content as $data)
 
+                          @if($data->done == 1)
 
                           <tr>
-
                             <td><a href="{{url('admin/exams/'.$data->lessonsection->id)}}"> {{$data->lessonsection->name}} </a></td>
 
                             @if($data->lessonsection->section_type == 1)
                             <td><a href="{{url('admin/lcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)}}" > {{$data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
                             @elseif($data->lessonsection->section_type == 3)
-                           <td><a href="{{url('admin/ltextcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)}}" > {{$data->done == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
+                           <td><a href="{{url('admin/ltextcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)}}" > {{$data->done_correcting == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
                             @elseif($data->lessonsection->section_type == 4)
-                            <td><a href="{{url('admin/lpdfexamcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)}}" > {{$data->done == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
+                            <td><a href="{{url('admin/lpdfexamcheckanswers/'.$data->student->id.'/'. $data->lessonsection->id)}}" > {{$data->done_correcting == 0 ? 'لم يتم تصحيح الامتحان' : $data->studentanswer->where('student_id', $data->student->id)->sum('points')}} / {{$data->exam->sum('points')}} </a></td>
                             @endif
 
                           <td>
@@ -136,6 +136,7 @@
 
 
                           </tr>
+                          @endif
                           @endforeach
 
                        </tbody>
