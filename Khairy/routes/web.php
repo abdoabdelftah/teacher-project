@@ -203,9 +203,12 @@ Route::post('admin/login', 'Admin\AdminAuth@checkAdminLogin')->name('save.admin.
 
 Route::group(['middleware' => ['auth:admin'],'prefix' => 'admin'], function() {
 
+    Route::get('/notify', 'Admin\studentsController@notify');
+    Route::post('/notification/send', 'Admin\studentsController@sendNotification')->name('send.notification');
 
+    Route::post('/notification/user', 'Admin\studentsController@userNotification')->name('user.notification');
 
-  ///////////////////////////////////////////////////////Students routes////////////////////////////////
+    ///////////////////////////////////////////////////////Students routes////////////////////////////////
   //  Route::view('/students','admin.students');
     Route::get('/students/{activeFilter?}/{gradeFilter?}/{search?}', 'Admin\studentsController@index')->name('allStudents');
     Route::get('/student/edit/{id}', 'Admin\studentsController@edit');

@@ -120,6 +120,7 @@
                                                         data-section-id="{{ $section->id }}"
                                                         data-bs-toggle="modal" data-bs-target="#copy-question"
                                                         href="javascript:void(0);" >نسخ</a>
+
                                                 </div>
                                             </div>
 
