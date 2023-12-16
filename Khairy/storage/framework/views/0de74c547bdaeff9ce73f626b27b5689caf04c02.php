@@ -89,6 +89,7 @@
                                         ->sum('points');
                                 ?>
 
+
                                 <h3 style="color: rgb(11, 109, 255);">
                                     نتيجتك هى : <?php echo e($totalPoints); ?> من <?php echo e($data->sum('points')); ?> </h3>
 

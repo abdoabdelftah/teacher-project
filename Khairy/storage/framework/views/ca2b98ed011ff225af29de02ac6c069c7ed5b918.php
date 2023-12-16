@@ -21,6 +21,44 @@
 <?php $__env->startSection('content'); ?>
     <div class="row g-4 mb-4">
 
+
+        <?php if(count($lessonsection->sectionFollowup) > 0 && $lessonsection->sectionFollowup[0]->done == 1): ?>
+        <div class="card">
+            <div class="card-body">
+                <?php if(count($lessonsection->sectionFollowup) > 0 &&
+                        $lessonsection->sectionFollowup[0]->done == 1 &&
+                        $lessonsection->sectionFollowup[0]->done_correcting == 0): ?>
+                    <center>
+                        <div class="row"
+                            style="border-radius: 30%; border: solid blue 3px; padding: 30px; display: inline-block;">
+
+                            <h3>الاجابة قيد التصحيح والمراجعة</h3>
+                        </div>
+                    </center>
+                <?php elseif(count($lessonsection->sectionFollowup) > 0 &&
+                        $lessonsection->sectionFollowup[0]->done == 1 &&
+                        $lessonsection->sectionFollowup[0]->done_correcting == 1): ?>
+                  <center>
+                    <div class="row"
+                        style="border-radius: 30%; border: solid green 3px; padding: 30px; display: inline-block;">
+
+                        <?php
+                            $totalPoints = $data
+                                ->pluck('studentexamanswers')
+                                ->flatten()
+                                ->sum('points');
+                        ?>
+
+                        <h3 style="color: rgb(11, 109, 255);">
+                          نتيجة الطالب هى : <?php echo e($totalPoints); ?> من <?php echo e($data->sum('points')); ?> </h3>
+
+                    </div>
+                </center>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
         <div class="col-sm-6 col-xl-12">
             <div class="card">
                 <div class="card-body " style="display: flex; justify-content: space-between; align-items: center;">

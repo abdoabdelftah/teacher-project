@@ -86,6 +86,7 @@
                                         ->sum('points');
                                 @endphp
 
+
                                 <h3 style="color: rgb(11, 109, 255);">
                                     نتيجتك هى : {{ $totalPoints }} من {{ $data->sum('points') }} </h3>
 

@@ -198,8 +198,27 @@ class studentsController extends Controller
             $q->where('student_id', $student_id);
         }])->get();
 
-
     return view('admin.new.studentTextAnswer', compact('data', 'grades', 'lessonsection'));
+
+    }
+
+    public function lpdfcheckanswers($student_id ,$lesson_section_id){
+
+        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q) use ($student_id){
+            $q->where('student_id', $student_id);
+        }])->first();
+
+
+        $grades = Grade::with('units.lessons.lessonsections')->get();
+
+
+        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function($q) use ($student_id){
+            $q->where('student_id', $student_id);
+        }])->get();
+
+
+        return view('admin.new.studentPdfAnswer', compact('data', 'grades', 'lessonsection'));
+
 
     }
 

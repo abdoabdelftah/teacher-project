@@ -127,6 +127,21 @@
         </a>
       </li>
 
+      <li class="menu-item">
+        <a href="{{route('notcorrected')}}" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-pencil-circle-outline"></i>
+          <div data-i18n="تصحيح امتحانات">تصحيح امتحانات</div>
+        </a>
+      </li>
+
+
+      <li class="menu-item">
+        <a href="{{route('all.forums')}}" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-account-question-outline"></i>
+          <div data-i18n="اسئلة الطلاب">اسئلة الطلاب</div>
+        </a>
+      </li>
+
   </ul>
 
 

@@ -63,21 +63,25 @@ class sectionsController extends Controller
             $section = Lessonsection::find($reqeust->lesson_section_id);
 
             $message = "";
+            $link = "/#";
             if($section->type == 1 || $section->type == 2){
 
                 $message = "قام الطالب ".auth()->user()->name."بالاجابة على اختبار";
+               $link =  "/admin/lcheckanswers/".$reqeust->student_id."/".$reqeust->lesson_section_id;
 
             }elseif($section->type == 3){
 
                 $message = " امتحان مقالى يحتاج للتصحيح, الطالب". auth()->user()->name;
+                $link =  "/admin/ltextcheckanswers/".$reqeust->student_id."/".$reqeust->lesson_section_id;
             }elseif($section->type == 4){
 
-                $message = " امتحان يحتاج للتصحيح, الطالب". auth()->user()->name;
+                $message = " امتحان ملف يحتاج للتصحيح, الطالب". auth()->user()->name;
+                $link =  "/admin/lpdfexamcheckanswers/".$reqeust->student_id."/".$reqeust->lesson_section_id;
             } elseif($section->type == 5){
 
                 $message = "قام الطالب ".auth()->user()->name."بمشاهدة محاضرة";
             }
-            $link = "/#"; // You can customize the link as needed
+             // You can customize the link as needed
             $admin->notify(new SendAdminNotification($message, $link));
             }
 

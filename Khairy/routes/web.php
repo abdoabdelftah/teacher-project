@@ -127,6 +127,7 @@ Route::post('/add-followup', 'Student\sectionsController@addFollowup')->name('ad
 //Route::get('/grade/{grade_id}/unit/{unit_id}/lesson/{lesson_id}/lessonforums/add','Student\forumsController@add');
 
 Route::post('/postforum','Student\forumsController@post')->name('post.forum');
+Route::get('/oneforum/{forum_id}','Student\forumsController@oenForum')->name('student.one.forum');
 
 Route::post('/postforumcomment','Student\forumsController@postcomment')->name('add.comment');
 
@@ -174,13 +175,13 @@ Route::get('/student/examsresults', 'Student\examsController@studentresults');
 Route::get('/student/lexamcheckanswers/{lesson_section_id}', 'Student\examsController@lcheckanswers');
 
 
-Route::get('/student/uexamcheckanswers/{unit_exam_section_id}', 'Student\examsController@ucheckanswers');
+//Route::get('/student/uexamcheckanswers/{unit_exam_section_id}', 'Student\examsController@ucheckanswers');
 
 
 Route::get('/student/ltextexamcheckanswers/{lesson_section_id}', 'Student\examsController@ltextcheckanswers');
 
 
-Route::get('/student/utextexamcheckanswers/{unit_exam_section_id}', 'Student\examsController@utextcheckanswers');
+//Route::get('/student/utextexamcheckanswers/{unit_exam_section_id}', 'Student\examsController@utextcheckanswers');
 
 
 
@@ -240,13 +241,17 @@ Route::get('/lcheckanswers/{student_id}/{lesson_section_id}', 'Admin\studentsCon
 Route::get('/ltextcheckanswers/{student_id}/{lesson_section_id}', 'Admin\studentsController@ltextcheckanswers');
 
 
-Route::get('/ucheckanswers/{student_id}/{unit_exam_section_id}', 'Admin\studentsController@ucheckanswers');
+Route::get('/lpdfexamcheckanswers/{student_id}/{lesson_section_id}', 'Admin\studentsController@lpdfcheckanswers');
+
+
+
+//Route::get('/ucheckanswers/{student_id}/{unit_exam_section_id}', 'Admin\studentsController@ucheckanswers');
 
 
 
 
 ////lesson unit student follow up
-/*
+
 Route::get('/student/lessonsection/answered/{id}', 'Admin\followstudentsController@lessonsectionanswered');
 
 
@@ -269,7 +274,6 @@ Route::post('/unitdone', 'Admin\followstudentsController@correctunittextexamdone
 
 Route::get('/unit/notcorrected', 'Admin\followstudentsController@showunitnotcorrected');
 
-*/
 
 
 /////////////lesson text exam correct/////////////////////////////
@@ -279,7 +283,7 @@ Route::get('/student/{student_id}/lesson/{lesson_section_id}', 'Admin\followstud
 Route::post('/lessondone', 'Admin\followstudentsController@correctlessontextexamdone')->name('correctlessonexam.done');
 
 
-Route::get('/lesson/notcorrected', 'Admin\followstudentsController@showlessonnotcorrected');
+Route::get('/lesson/notcorrected', 'Admin\followstudentsController@showlessonnotcorrected')->name('notcorrected');
 
 Route::post('/correct/question', 'Admin\followstudentsController@correctQuestion')->name('correct.question');
 
@@ -289,7 +293,7 @@ Route::post('/update-section-followup', 'Admin\followstudentsController@updateSe
 
 ///////////////////forums//////////////////////////////////////////
 
-Route::get('/allforums', 'Admin\forumsController@showforums');
+Route::get('/allforums', 'Admin\forumsController@showforums')->name('all.forums');
 
 Route::get('/forum/{forum_id}', 'Admin\forumsController@showoneforum');
 

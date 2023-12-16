@@ -27,6 +27,7 @@ use App\Exports\ResultsExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\GradeUser;
+use App\Notifications\SendAdminNotification;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Facades\Hash;
 class followstudentsController extends Controller
@@ -309,9 +310,21 @@ public function showunitnotcorrected()
 
 public function showlessonnotcorrected()
 {
-    $examname = Studentlessonsectionfollowup::with('student')->with('lessonsection')->where('done', 0)->get();
 
-    return view('admin.lessonnotcorrected', compact('examname'));
+
+    $content = Studentlessonsectionfollowup::with('student:id,name', 'lessonsection')
+    ->where('done', 1)->where('done_correcting', 0)
+    ->whereHas('lessonsection', function ($query) {
+        $query->where('section_type', 3)->orWhere('section_type', 4);
+    })
+    ->paginate(10);
+
+
+    return view('admin.new.notcorrected', compact('content'));
+
+
+
+
 }
 
 
@@ -452,8 +465,23 @@ public function correctlessontextexam($student_id, $lesson_section_id)
         $sectionFollowupId = $request->input('section_followup_id');
 
         // Update the record
-        Studentlessonsectionfollowup::where('id', $sectionFollowupId)
-            ->update(['done_correcting' => 1]);
+            $follow_up =  Studentlessonsectionfollowup::find($sectionFollowupId);
+
+            $follow_up->done_correcting = 1 ;
+            $follow_up->save();
+
+            $user = User::find($follow_up->student_id); // Assuming you have a column is_admin to identify admins
+
+            $lessonName = $follow_up->lessonsection->name;
+            $message = "  تم تصحيح امتحانك بعنوان $lessonName";
+            $link = "/#"; // You can customize the link as needed
+            if($follow_up->lessonsection->section_type == 3){
+                $link = "/grade/".$follow_up->lessonsection->lesson->unit->grade_id."/unit/".$follow_up->lessonsection->lesson->unit_id."/lesson/".$follow_up->lessonsection->lesson_id."/lessonsectiontextexam/".$follow_up->lessonsection->id;
+            }elseif($follow_up->lessonsection->section_type == 4){
+                $link = "/grade/".$follow_up->lessonsection->lesson->unit->grade_id."/unit/".$follow_up->lessonsection->lesson->unit_id."/lesson/".$follow_up->lessonsection->lesson_id."/pdfexam/".$follow_up->lessonsection->id;
+            }
+
+            $user->notify(new SendAdminNotification($message, $link));
 
         return response()->json(['success' => true, 'message' => 'Record updated successfully']);
     }
