@@ -19,10 +19,14 @@ use App\Models\Lessonsection;
 use App\Models\Studentexamanswer;
 use App\Models\Grade;
 use App\Models\GradeUser;
+use App\Notifications\CustomNotification;
+use App\Notifications\SendAdminNotification;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+
 class studentsController extends Controller
 {
     /**
@@ -468,4 +472,56 @@ class studentsController extends Controller
     {
         //
     }
+
+    public function notify()
+    {
+        $grades = Grade::all();
+
+        return view('admin.new.notify', compact('grades'));
+    }
+
+    public function sendNotification(Request $request){
+
+        $request->validate([
+            'grade_id' => 'required|exists:grades,id',
+            'message' => 'required|string',
+        ]);
+
+        // Get users related to the selected grade
+        $users = User::whereHas('grades', function ($query) use ($request) {
+            $query->where('grade_id', $request->input('grade_id'));
+        })->get();
+
+        // Send notification to each user
+        Notification::send($users, new CustomNotification($request->input('message'), $request->input('link')));
+
+        // You can add a success message or redirect the user
+        return response()->json(['message' => 'Notification sent successfully']);
+
+    }
+
+
+    public function userNotification(Request $request)
+{
+    $request->validate([
+        'message' => 'required',
+
+        'student_id' => 'required|exists:users,id',
+    ]);
+
+    $user = User::find($request->input('student_id'));
+
+    if ($user) {
+        $message = $request->input('message');
+        $link = $request->input('link');
+
+        $user->notify(new SendAdminNotification($message, $link));
+
+        return response()->json(['message' => 'Notification sent successfully']);
+    } else {
+        return response()->json(['error' => 'User not found'], 404);
+    }
+}
+
+
 }

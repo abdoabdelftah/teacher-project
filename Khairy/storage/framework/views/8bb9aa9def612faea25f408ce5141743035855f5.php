@@ -140,6 +140,8 @@
 
                           <a href="<?php echo e(url('admin/newmonth/'.$dat -> id)); ?>" class="btn rounded-pill btn-label-success waves-effect">تجديد الاشتراك</a>
 
+                          <button class="btn rounded-pill btn-label-warning waves-effect notify-btn" data-student_id="<?php echo e($dat->id); ?>" data-bs-toggle="modal" data-bs-target="#notifyModal">ارسال اشعار</button>
+
                           <a href="<?php echo e(url('admin/deletestudent/'.$dat -> id)); ?>" onclick="return confirm('هل انت متأكد من رغبتك فى مسح هذا الطالب نهائيا?')" class="btn btn-danger">مسح الطالب<i class="fa fa-trash"></i></a>
 
 
@@ -244,6 +246,49 @@
 
 
 
+  <div class="modal fade" id="notifyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="POST" action="#">
+            <?php echo csrf_field(); ?>
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel1">ارسال اشعار لطالب</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+                  <input type="text" id="nameBasic" name="message" class="form-control" placeholder="الرسالة">
+
+                <label for="nameBasic">الرسالة</label>
+              </div>
+            </div>
+          </div>
+            <input type="hidden" name="student_id">
+
+          <div class="col mb-4 mt-2">
+            <div class="form-floating form-floating-outline">
+                <input type="text" id="link" name="link" value="#" class="form-control" placeholder="الرابط">
+
+              <label for="link">الرابط</label>
+            </div>
+          </div>
+
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">ارسال</button>
+          <button type="submit" class="btn btn-primary send-notify">حفظ</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
@@ -251,6 +296,10 @@
 <script src="<?php echo e(asset('admin/assets/js/ui-modals.js')); ?>"></script>
 
 <script src="<?php echo e(asset('admin/assets/js/app-user-list.js')); ?>"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 <script>
 $('.gradeFilter').change(function() {
     location.href = '/admin/students/' + $('.activeFilter').val() + '/' + $('.gradeFilter').val() ;
@@ -267,6 +316,49 @@ $('.search').keypress(function(e) {
     });
 
 
+    $(document).ready(function () {
+        $('.notify-btn').click(function () {
+            // Get the student ID from the clicked button
+            var studentId = $(this).data('student_id');
+
+            // Set the student ID in the modal form
+            $('#notifyModal input[name="student_id"]').val(studentId);
+
+            // Show the modal
+            $('#notifyModal').modal('show');
+        });
+
+        $('.send-notify').click(function (e) {
+            e.preventDefault();
+
+            // Get form data
+            var formData = $('#notifyModal form').serialize();
+
+            // Make AJAX request
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo e(route("user.notification")); ?>', // Replace with your notification route
+                data: formData,
+                success: function (response) {
+                     // You can customize this part
+                     $('#notifyModal').modal('hide');
+
+                    Toastify({
+                        text: "تم الارسال",
+                        duration: 3000,  // Display duration in milliseconds
+                        gravity: "top",  // Position of the toast
+                        close: true  // Show close button
+                    }).showToast();
+
+
+                },
+                error: function (error) {
+                    console.log(error.responseJSON.errors);
+                    // Handle validation errors
+                }
+            });
+        });
+    });
 </script>
 
 <?php $__env->stopSection(); ?>
