@@ -22,6 +22,44 @@
 @section('content')
     <div class="row g-4 mb-4">
 
+
+        @if (count($lessonsection->sectionFollowup) > 0 && $lessonsection->sectionFollowup[0]->done == 1)
+        <div class="card">
+            <div class="card-body">
+                @if (count($lessonsection->sectionFollowup) > 0 &&
+                        $lessonsection->sectionFollowup[0]->done == 1 &&
+                        $lessonsection->sectionFollowup[0]->done_correcting == 0)
+                    <center>
+                        <div class="row"
+                            style="border-radius: 30%; border: solid blue 3px; padding: 30px; display: inline-block;">
+
+                            <h3>الاجابة قيد التصحيح والمراجعة</h3>
+                        </div>
+                    </center>
+                @elseif(count($lessonsection->sectionFollowup) > 0 &&
+                        $lessonsection->sectionFollowup[0]->done == 1 &&
+                        $lessonsection->sectionFollowup[0]->done_correcting == 1)
+                  <center>
+                    <div class="row"
+                        style="border-radius: 30%; border: solid green 3px; padding: 30px; display: inline-block;">
+
+                        @php
+                            $totalPoints = $data
+                                ->pluck('studentexamanswers')
+                                ->flatten()
+                                ->sum('points');
+                        @endphp
+
+                        <h3 style="color: rgb(11, 109, 255);">
+                          نتيجة الطالب هى : {{ $totalPoints }} من {{ $data->sum('points') }} </h3>
+
+                    </div>
+                </center>
+                @endif
+            </div>
+        </div>
+    @endif
+
         <div class="col-sm-6 col-xl-12">
             <div class="card">
                 <div class="card-body " style="display: flex; justify-content: space-between; align-items: center;">

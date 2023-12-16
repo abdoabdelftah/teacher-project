@@ -106,9 +106,9 @@
                       <tbody>
                           <?php $__currentLoopData = $content; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
+                          <?php if($data->done == 1): ?>
 
                           <tr>
-
                             <td><a href="<?php echo e(url('admin/exams/'.$data->lessonsection->id)); ?>"> <?php echo e($data->lessonsection->name); ?> </a></td>
 
                             <?php if($data->lessonsection->section_type == 1): ?>
@@ -135,6 +135,7 @@
 
 
                           </tr>
+                          <?php endif; ?>
                           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                        </tbody>

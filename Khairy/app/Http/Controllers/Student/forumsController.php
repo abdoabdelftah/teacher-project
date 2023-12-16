@@ -137,7 +137,7 @@ class forumsController extends Controller
 
         $lessonName = $comment->forum->lesson->name;
         $message = "تعليق جديد من " . auth()->user()->name . " على سؤال في درس $lessonName";
-        $link = "/#"; // You can customize the link as needed
+        $link = "/admin/forum/".$comment->forum->id;  // You can customize the link as needed
 
         $admin->notify(new SendAdminNotification($message, $link));
 
@@ -214,7 +214,7 @@ class forumsController extends Controller
 
         $lessonName = $forum->lesson->name;
         $message = "سؤال جديد من " . auth()->user()->name . " على درس $lessonName";
-        $link = "/#"; // You can customize the link as needed
+        $link = "/admin/forum/".$forum->id; // You can customize the link as needed
 
         $admin->notify(new SendAdminNotification($message, $link));
 
@@ -269,14 +269,25 @@ class forumsController extends Controller
     public function studentshowone($forum_id)
     {
 
+        $forum = Forum::with('student')
+        ->where('id', $forum_id)
+        ->first();
 
-      $data = Forum::where('id', $forum_id)->where('hide', 0)->with('forumcomments')->first();
 
-
-      return view('student.studentoneforum', compact('data'));
+       return view('student.new.oneforum', compact('forum'));
 
     }
 
+    public function oenForum($forum_id){
+
+        $forum = Forum::with('student')
+        ->where('id', $forum_id)
+        ->first();
+
+
+       return view('student.new.oneForum', compact('forum'));
+
+    }
 
 
 
