@@ -142,6 +142,14 @@
         </a>
       </li>
 
+
+      <li class="menu-item">
+        <a href="<?php echo e(route('notify.u')); ?>" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-account-question-outline"></i>
+          <div data-i18n="ارسال اشعار">ارسال اشعار</div>
+        </a>
+      </li>
+
   </ul>
 
 
