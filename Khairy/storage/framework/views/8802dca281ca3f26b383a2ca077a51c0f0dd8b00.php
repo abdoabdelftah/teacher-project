@@ -1,243 +1,884 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" class="light-style layout-navbar-fixed layout-wide " data-theme="theme-default" dir="rtl"
+    data-assets-path="<?php echo e(asset('admin/assets/')); ?>" data-template="front-pages">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title> Think - منصة الاستاذ محمد خيرى</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+    <title>لوحة تحكم منصة الاستاذ خيرى</title>
 
-  <!-- Favicons -->
-  <link href="<?php echo e(asset('assets/images/favicon.png')); ?>" rel="icon">
-  <link href="<?php echo e(asset('assets/images/apple-touch-icon.png')); ?>" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon"
+        href="" />
 
-  <!-- Vendor CSS Files -->
-  <link href="<?php echo e(asset('assets/vendors/aos/aos.css')); ?>" rel="stylesheet">
-  <link href="<?php echo e(asset('assets/vendors/bootstrap/css/bootstrap.min.css')); ?>" rel="stylesheet">
-  <link href="<?php echo e(asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')); ?>" rel="stylesheet">
-  <link href="<?php echo e(asset('assets/vendors/boxicons/css/boxicons.min.css')); ?>" rel="stylesheet">
-  <link href="<?php echo e(asset('assets/vendors/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
+        rel="stylesheet">
 
-  <!-- Template Main CSS File -->
-  <link href="<?php echo e(asset('assets/css/style.css')); ?>" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: SoftLand - v4.6.0
-  * Template URL: https://bootstrapmade.com/softland-bootstrap-app-landing-page-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    <!-- Icons -->
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/fonts/materialdesignicons.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/fonts/flag-icons.css')); ?>" />
+
+    <!-- Menu waves for no-customizer fix -->
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/node-waves/node-waves.css')); ?>" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/core.css')); ?>"/>
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/rtl/theme-default.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/css/demo.css')); ?>" />
+
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/pages/front-page.css')); ?>" />
+    <!-- Vendors CSS -->
+
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/nouislider/nouislider.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/swiper/swiper.css')); ?>" />
+
+    <!-- Page CSS -->
+
+    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/css/pages/front-page-landing.css')); ?>" />
+
+    <!-- Helpers -->
+    <script src="<?php echo e(asset('admin/assets/vendor/js/helpers.js')); ?>"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    <script src="<?php echo e(asset('admin/assets/vendor/js/template-customizer.js')); ?>"></script>
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="<?php echo e(asset('admin/assets/js/config.js')); ?>"></script>
+
 </head>
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex justify-content-between align-items-center">
 
-        <div class="logo">
-             <h1><a href="index.html">Think
-             <!-- Uncomment below if you prefer to use an images logo -->
-              <img src="<?php echo e(asset('assets/images/logoedit.png')); ?>"  alt=""   style="object-fit: contain;
-              max-width: 20%;
-              max-height: 20%;
-              width: auto;
-              height: auto;" class="img-fluid"></a></h1>
-           </div> 
 
-      <nav id="navbar" class="navbar">
-        <ul>
-       
-         <li class="dropdown"><a class="active" style= "font-size:20px" href="#"><span><strong>  تحميل تطبيق الهاتف </strong></span> <i class="bi bi-chevron-down"></i></a> 
-            <ul>
-              <li><a href="https://play.google.com/store/apps/details?id=com.apps.video_app" class="active " target = "_blank"> Google play تحميل عن طريق </a></li>
-              <li><a href="https://drive.google.com/file/d/1pZG8pNpXBcR6XUFWoJxIaBMMIb74zFcK/view?usp=sharing" class="active " target = "_blank">تحميل لهواتف شاومى و هواوى</a></li>
-             
+
+    <script src="<?php echo e(asset('admin/assets/vendor/js/dropdown-hover.js')); ?>"></script>
+    <script src="<?php echo e(asset('admin/assets/vendor/js/mega-dropdown.js')); ?>"></script>
+
+    <!-- Navbar: Start -->
+    <nav class="layout-navbar container shadow-none py-0">
+        <div class="navbar navbar-expand-lg landing-navbar border-top-0 px-3 px-md-4">
+            <!-- Menu logo wrapper: Start -->
+            <div class="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
+                <!-- Mobile menu toggle: Start-->
+                <button class="navbar-toggler border-0 px-0 me-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="tf-icons mdi mdi-menu mdi-24px align-middle"></i>
+                </button>
+                <!-- Mobile menu toggle: End-->
+                <a href="landing-page.html" class="app-brand-link">
+                    <span class="app-brand-logo demo">
+                        <span style="color:#666cff;">
+                            <svg width="268" height="150" viewBox="0 0 38 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M30.0944 2.22569C29.0511 0.444187 26.7508 -0.172113 24.9566 0.849138C23.1623 1.87039 22.5536 4.14247 23.5969 5.92397L30.5368 17.7743C31.5801 19.5558 33.8804 20.1721 35.6746 19.1509C37.4689 18.1296 38.0776 15.8575 37.0343 14.076L30.0944 2.22569Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M30.171 2.22569C29.1277 0.444187 26.8274 -0.172113 25.0332 0.849138C23.2389 1.87039 22.6302 4.14247 23.6735 5.92397L30.6134 17.7743C31.6567 19.5558 33.957 20.1721 35.7512 19.1509C37.5455 18.1296 38.1542 15.8575 37.1109 14.076L30.171 2.22569Z"
+                                    fill="url(#paint0_linear_2989_100980)" fill-opacity="0.4" />
+                                <path
+                                    d="M22.9676 2.22569C24.0109 0.444187 26.3112 -0.172113 28.1054 0.849138C29.8996 1.87039 30.5084 4.14247 29.4651 5.92397L22.5251 17.7743C21.4818 19.5558 19.1816 20.1721 17.3873 19.1509C15.5931 18.1296 14.9843 15.8575 16.0276 14.076L22.9676 2.22569Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M14.9558 2.22569C13.9125 0.444187 11.6122 -0.172113 9.818 0.849138C8.02377 1.87039 7.41502 4.14247 8.45833 5.92397L15.3983 17.7743C16.4416 19.5558 18.7418 20.1721 20.5361 19.1509C22.3303 18.1296 22.9391 15.8575 21.8958 14.076L14.9558 2.22569Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M14.9558 2.22569C13.9125 0.444187 11.6122 -0.172113 9.818 0.849138C8.02377 1.87039 7.41502 4.14247 8.45833 5.92397L15.3983 17.7743C16.4416 19.5558 18.7418 20.1721 20.5361 19.1509C22.3303 18.1296 22.9391 15.8575 21.8958 14.076L14.9558 2.22569Z"
+                                    fill="url(#paint1_linear_2989_100980)" fill-opacity="0.4" />
+                                <path
+                                    d="M7.82901 2.22569C8.87231 0.444187 11.1726 -0.172113 12.9668 0.849138C14.7611 1.87039 15.3698 4.14247 14.3265 5.92397L7.38656 17.7743C6.34325 19.5558 4.04298 20.1721 2.24875 19.1509C0.454514 18.1296 -0.154233 15.8575 0.88907 14.076L7.82901 2.22569Z"
+                                    fill="currentColor" />
+                                <defs>
+                                    <linearGradient id="paint0_linear_2989_100980" x1="5.36642" y1="0.849138"
+                                        x2="10.532" y2="24.104" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0" stop-opacity="1" />
+                                        <stop offset="1" stop-opacity="0" />
+                                    </linearGradient>
+                                    <linearGradient id="paint1_linear_2989_100980" x1="5.19475" y1="0.849139"
+                                        x2="10.3357" y2="24.1155" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0" stop-opacity="1" />
+                                        <stop offset="1" stop-opacity="0" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">Materialize</span>
+                </a>
+            </div>
+            <!-- Menu logo wrapper: End -->
+            <!-- Menu wrapper: Start -->
+            <div class="collapse navbar-collapse landing-nav-menu" id="navbarSupportedContent">
+                <button class="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="tf-icons mdi mdi-close"></i>
+                </button>
+                <ul class="navbar-nav me-auto p-3 p-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium" aria-current="page"
+                            href="landing-page.html#landingHero">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium" href="landing-page.html#landingFeatures">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium" href="landing-page.html#landingTeam">Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium" href="landing-page.html#landingFAQ">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium text-nowrap" href="landing-page.html#landingContact">Contact
+                            us</a>
+                    </li>
+                    <li class="nav-item mega-dropdown
+">
+                        <a href="javascript:void(0);"
+                            class="nav-link dropdown-toggle navbar-ex-14-mega-dropdown mega-dropdown fw-medium"
+                            aria-expanded="false" data-bs-toggle="mega-dropdown" data-trigger="hover">
+                            <span data-i18n="Pages">Pages</span>
+                        </a>
+                        <div class="dropdown-menu p-4">
+                            <div class="row gy-4">
+                                <div class="col-12 col-lg">
+                                    <div class="h6 d-flex align-items-center mb-2 mb-lg-3">
+                                        <div class="avatar avatar-sm flex-shrink-0 me-2">
+                                            <span class="avatar-initial rounded bg-label-primary"><i
+                                                    class='mdi mdi-view-grid-outline'></i></span>
+                                        </div>
+                                        <span class="ps-1">Other</span>
+                                    </div>
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="pricing-page.html">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                <span data-i18n="Pricing">Pricing</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="payment-page.html">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                <span data-i18n="Payment">Payment</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="checkout-page.html">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                <span data-i18n="Checkout">Checkout</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="help-center-landing.html">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                <span data-i18n="Help Center">Help Center</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-lg">
+                                    <div class="h6 d-flex align-items-center mb-2 mb-lg-3">
+                                        <div class="avatar avatar-sm flex-shrink-0 me-2">
+                                            <span class="avatar-initial rounded bg-label-primary"><i
+                                                    class='mdi mdi-lock-open-outline'></i></span>
+                                        </div>
+                                        <span class="ps-1">Auth Demo</span>
+                                    </div>
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-login-basic.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Login (Basic)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-login-cover.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Login (Cover)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-register-basic.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Register (Basic)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-register-cover.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Register (Cover)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-register-multisteps.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Register (Multi-steps)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-forgot-password-basic.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Forgot Password (Basic)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-forgot-password-cover.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Forgot Password (Cover)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-reset-password-basic.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Reset Password (Basic)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-reset-password-cover.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Reset Password (Cover)
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-lg">
+                                    <div class="h6 d-flex align-items-center mb-2 mb-lg-3">
+                                        <div class="avatar avatar-sm flex-shrink-0 me-2">
+                                            <span class="avatar-initial rounded bg-label-primary"><i
+                                                    class='mdi mdi-image-outline'></i></span>
+                                        </div>
+                                        <span class="ps-1">Other</span>
+                                    </div>
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/pages-misc-error.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Error
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/pages-misc-under-maintenance.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Under Maintenance
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/pages-misc-comingsoon.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Coming Soon
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/pages-misc-not-authorized.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Not Authorized
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-verify-email-basic.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Verify Email (Basic)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-verify-email-cover.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Verify Email (Cover)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-two-steps-basic.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Two Steps (Basic)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mega-dropdown-link d-flex align-items-center"
+                                                href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-two-steps-cover.html"
+                                                target="_blank">
+                                                <i class='mdi mdi-radiobox-blank mdi-14px me-2'></i>
+                                                Two Steps (Cover)
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 d-none d-lg-block">
+                                    <div class="bg-body nav-img-col p-2">
+                                        <img src="<?php echo e(asset('admin/assets/img/front-pages/misc/nav-item-col-img-light.png')); ?>"
+                                            class="img-fluid scaleX-n1-rtl w-100" alt="nav item col image"
+                                            data-app-light-img="front-pages/misc/nav-item-col-img-light.png')}}"
+                                            data-app-dark-img="front-pages/misc/nav-item-col-img-dark.html" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium"
+                            href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/index.html"
+                            target="_blank">Admin</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="landing-menu-overlay d-lg-none"></div>
+            <!-- Menu wrapper: End -->
+            <!-- Toolbar: Start -->
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                <!-- Style Switcher -->
+                <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                        data-bs-toggle="dropdown">
+                        <i class='mdi mdi-24px'></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                                <span class="align-middle"><i class='mdi mdi-weather-sunny me-2'></i>Light</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                                <span class="align-middle"><i class="mdi mdi-weather-night me-2"></i>Dark</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                                <span class="align-middle"><i class="mdi mdi-monitor me-2"></i>System</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- / Style Switcher-->
+
+
+                <!-- navbar button: Start -->
+                <li>
+                    <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-login-cover.html"
+                        class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4" target="_blank"><span
+                            class="tf-icons mdi mdi-account me-md-1"></span><span
+                            class="d-none d-md-block">Login/Register</span></a>
+                </li>
+                <!-- navbar button: End -->
             </ul>
-          </li>
-
-          <li class="dropdown"><a  style= "font-size:20px" href="#"><span><strong> للحجز والاستعلام </strong></span> <i class="bi bi-chevron-down"></i></a> 
-            <ul>
-              <li><a href="tel:01009614735" class="active " target = "_blank">01009614735</a></li>
-              <li><a href="tel:01092720810" class="active " target = "_blank">01092720810</a></li>
-              <li><a href="tel:01091561002" class="active " target = "_blank">01091561002</a></li>
- 
-            </ul>
-          </li>
-
-          <li><a  style= "font-size:20px" target="_blank" href="https://www.facebook.com/Teacher-Mohamed-Khairy-106005295067126/">تابعنا على الفيسبوك</a></li>
+            <!-- Toolbar: End -->
+        </div>
+    </nav>
+    <!-- Navbar: End -->
 
 
-          </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+    <!-- Sections:Start -->
 
+
+    <div data-bs-spy="scroll" class="scrollspy-example">
+        <!-- Hero: Start -->
+        <section id="landingHero" class="section-py landing-hero">
+            <div class="container">
+
+                <div class="position-relative hero-animation-img">
+                        <div class="hero-dashboard-img text-center">
+                            <img src="<?php echo e(asset('admin/assets/img/front-pages/landing-page/hero-dashboard-light.png')); ?>"
+                                alt="hero dashboard" class="animation-img" data-speed="2"
+                               />
+                        </div>
+                        <div class="position-absolute hero-elements-img">
+                            <img src="<?php echo e(asset('admin/assets/img/front-pages/landing-page/hero-elements-light.png')); ?>"
+                                alt="hero elements" class="animation-img" data-speed="4"
+                                 />
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <!-- Hero: End -->
+
+        <!-- Useful features: Start -->
+        <section id="landingFeatures" class="section-py landing-features">
+            <div class="container">
+
+
+                <div class="alert alert-primary alert-dismissible mb-0" role="alert">
+                    <h4 class="alert-heading d-flex align-items-center"><i class="mdi mdi-chat-alert-outline mdi-24px me-2"></i>For a watch</h4>
+                    <p class="mb-0">Bonbon sweet roll dragée lemon drops tart gummi bears fruitcake. Jujubes bonbon danish dragée
+                      oat cake
+                      cupcake macaroon. Sesame snaps pudding cotton candy.</p>
+
+                  </div>
+
+
+            </div>
+        </section>
+        <!-- Useful features: End -->
+
+        <!-- Real customers reviews: Start -->
+        <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
+            <div class="container">
+                <div class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
+                    <img src="<?php echo e(asset('admin/assets/img/front-pages/icons/section-tilte-icon.png')); ?>" alt="section title icon"
+                    class="me-2" />
+                    <h3 class="text-center mb-2"><span class="fw-bold">احدث المحاضرات</span></h3>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
+                <div class="swiper" id="swiper-reviews">
+                    <div class="swiper-wrapper">
+
+
+                        <div class="swiper-slide">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="<?php echo e(asset('admin/assets/img/elements/5.jpg')); ?>" alt="Card image cap" />
+
+                                <div
+                                    class="card-body text-body d-flex flex-column justify-content-between">
+
+                                    <h5 class="card-title">Card title that wraps to a new line</h5>
+
+                                    <p class="card-text">
+                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
+                                        building dashboard
+                                        sites on almost any project.”
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="<?php echo e(asset('admin/assets/img/elements/5.jpg')); ?>" alt="Card image cap" />
+
+                                <div
+                                    class="card-body text-body d-flex flex-column justify-content-between">
+
+                                    <h5 class="card-title">Card title that wraps to a new line</h5>
+
+                                    <p class="card-text">
+                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
+                                        building dashboard
+                                        sites on almost any project.”
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
+                <div class="swiper" id="swiper-reviewsa">
+                    <div class="swiper-wrapper">
+
+
+                        <div class="swiper-slide">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="<?php echo e(asset('admin/assets/img/elements/5.jpg')); ?>" alt="Card image cap" />
+
+                                <div
+                                    class="card-body text-body d-flex flex-column justify-content-between">
+
+                                    <h5 class="card-title">Card title that wraps to a new line</h5>
+
+                                    <p class="card-text">
+                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
+                                        building dashboard
+                                        sites on almost any project.”
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="<?php echo e(asset('admin/assets/img/elements/5.jpg')); ?>" alt="Card image cap" />
+
+                                <div
+                                    class="card-body text-body d-flex flex-column justify-content-between">
+
+                                    <h5 class="card-title">Card title that wraps to a new line</h5>
+
+                                    <p class="card-text">
+                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
+                                        building dashboard
+                                        sites on almost any project.”
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+
+        </section>
+        <!-- Real customers reviews: End -->
+
+
+
+
+
+
+        <!-- Fun facts: Start -->
+        <section id="landingFunFacts" class="section-py landing-fun-facts">
+            <div class="container">
+                <div class="row gx-0 gy-5 gx-sm-5">
+                    <div class="col-md-3 col-sm-6 text-center">
+                        <span class="badge badge-center rounded-pill bg-label-hover-primary fun-facts-icon mb-4"><i
+                                class="tf-icons mdi mdi-land-plots mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">137+</h2>
+                        <p class="fw-medium mb-0">Completed Sites</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 text-center">
+                        <span class="badge badge-center rounded-pill bg-label-hover-success fun-facts-icon mb-4"><i
+                                class="tf-icons mdi mdi-clock-outline mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">1,100+</h2>
+                        <p class="fw-medium mb-0">Working Hours</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 text-center">
+                        <span class="badge badge-center rounded-pill bg-label-hover-warning fun-facts-icon mb-4"><i
+                                class="tf-icons mdi mdi-emoticon-happy-outline mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">137+</h2>
+                        <p class="fw-medium mb-0">Happy Customers</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 text-center">
+                        <span class="badge badge-center rounded-pill bg-label-hover-info fun-facts-icon mb-4"><i
+                                class="tf-icons mdi mdi-medal-outline mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">23+</h2>
+                        <p class="fw-medium mb-0">Awards Winning</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Fun facts: End -->
+
+
+        <!-- CTA: Start -->
+        <section id="landingCTA" class="section-py border border-2 landing-cta p-lg-0 pb-0">
+            <div class="container">
+                <div class="row align-items-center gy-5 gy-lg-0">
+                    <div class="col-lg-6 text-center text-lg-start">
+                        <h6 class="h2 text-primary fw-bold mb-1">Ready to Get Started?</h6>
+                        <p class="fw-medium mb-4">Start your project with a 14-day free trial</p>
+                        <a href="payment-page.html" class="btn btn-primary">Get Started<i
+                                class="mdi mdi-arrow-right mdi-24px ms-3 scaleX-n1-rtl"></i></a>
+                    </div>
+                    <div class="col-lg-6 pt-lg-5">
+                        <img src="<?php echo e(asset('admin/assets/img/front-pages/landing-page/cta-dashboard.png')); ?>" alt="cta dashboard"
+                            class="img-fluid" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA: End -->
+
+        <!-- Contact Us: Start -->
+        <section id="landingContact" class="section-py bg-body landing-contact">
+            <div class="container bg-icon-left">
+                <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
+                    <img src="<?php echo e(asset('admin/assets/img/front-pages/icons/section-tilte-icon.png')); ?>" alt="section title icon"
+                        class="me-2" />
+                    <span class="text-uppercase">contact us</span>
+                </h6>
+                <h3 class="text-center mb-2"><span class="fw-bold">Lets work</span> together</h3>
+                <p class="text-center fw-medium mb-3 mb-md-5 pb-3">Any question or remark? just write us a message</p>
+                <div class="row gy-4">
+                    <div class="col-lg-5">
+                        <div class="card h-100">
+                            <div class="bg-primary rounded text-white card-body">
+                                <p class="fw-medium mb-1">Let’s contact with us</p>
+                                <p class="display-6 mb-4">Share your ideas or requirement with our experts.</p>
+                                <img src="<?php echo e(asset('admin/assets/img/front-pages/landing-page/let%c3%a2%c2%80%c2%99s-contact.html')); ?>"
+                                    alt="let’s contact" class="w-100 mb-2 pb-1" />
+                                <p class="mb-0">
+                                    Looking for more customisation, more features, and more anything? Don’t worry, We’ve
+                                    provide you with
+                                    an entire team of experienced professionals.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="mb-4">Share your ideas</h5>
+                                <form>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating form-floating-outline">
+                                                <input type="text" class="form-control"
+                                                    id="basic-default-fullname" placeholder="John Doe" />
+                                                <label for="basic-default-fullname">Full name</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating form-floating-outline">
+                                                <input type="email" class="form-control"
+                                                    id="basic-default-email" placeholder="johndoe99@gmail.com" />
+                                                <label for="basic-default-email">Email address</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-floating form-floating-outline">
+                                                <textarea class="form-control h-px-200" placeholder="Message" aria-label="Message" id="basic-default-message"></textarea>
+                                                <label for="basic-default-message">Message</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-3">Send inquiry</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact Us: End -->
     </div>
-  </header><!-- End Header -->
 
-  <!-- ======= Hero Section ======= -->
-  <section class="hero-section" id="hero">
+    <!-- / Sections:End -->
 
-   
 
-    <div class="wave">
-<svg width="100%" height="355px" viewBox="0 0 1920 355" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g id="Apple-TV" transform="translate(0.000000, -402.000000)" fill="#FFFFFF">
-            <path d="M0,439.134243 C175.04074,464.89273 327.944386,477.771974 458.710937,477.771974 C654.860765,477.771974 870.645295,442.632362 1205.9828,410.192501 C1429.54114,388.565926 1667.54687,411.092417 1920,477.771974 L1920,757 L1017.15166,757 L0,757 L0,439.134243 Z" id="Path"></path>
-          </g>
-        </g>
-      </svg>
 
-    </div>
-
-     <div class="container"> 
-      <div class="row align-items-center"> 
-          
-        <div class="col-12 hero-text-images">
-
-            
-          <div class="row"> 
-              
-
-      
-            <div class="col-lg-8  text-lg-start">
-          
-           
-                <h1 data-aos="fade-right">منصة الاستاذ محمد خيرى
-  <br><br>  <a href="/login" class="btn btn-outline-white" style="font-size:20px; text-align: right;">أضغط هنا لتسجيل الدخول</a></h1>
+    <!-- Footer: Start -->
+    <footer class="landing-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row gx-0 gy-4 g-md-5">
+                    <div class="col-lg-5">
+                        <a href="landing-page.html" class="app-brand-link mb-4">
+                            <span class="app-brand-logo demo me-2">
+                                <span style="color:#666cff;">
+                                    <svg width="268" height="150" viewBox="0 0 38 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M30.0944 2.22569C29.0511 0.444187 26.7508 -0.172113 24.9566 0.849138C23.1623 1.87039 22.5536 4.14247 23.5969 5.92397L30.5368 17.7743C31.5801 19.5558 33.8804 20.1721 35.6746 19.1509C37.4689 18.1296 38.0776 15.8575 37.0343 14.076L30.0944 2.22569Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M30.171 2.22569C29.1277 0.444187 26.8274 -0.172113 25.0332 0.849138C23.2389 1.87039 22.6302 4.14247 23.6735 5.92397L30.6134 17.7743C31.6567 19.5558 33.957 20.1721 35.7512 19.1509C37.5455 18.1296 38.1542 15.8575 37.1109 14.076L30.171 2.22569Z"
+                                            fill="url(#paint0_linear_2989_100980)" fill-opacity="0.4" />
+                                        <path
+                                            d="M22.9676 2.22569C24.0109 0.444187 26.3112 -0.172113 28.1054 0.849138C29.8996 1.87039 30.5084 4.14247 29.4651 5.92397L22.5251 17.7743C21.4818 19.5558 19.1816 20.1721 17.3873 19.1509C15.5931 18.1296 14.9843 15.8575 16.0276 14.076L22.9676 2.22569Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M14.9558 2.22569C13.9125 0.444187 11.6122 -0.172113 9.818 0.849138C8.02377 1.87039 7.41502 4.14247 8.45833 5.92397L15.3983 17.7743C16.4416 19.5558 18.7418 20.1721 20.5361 19.1509C22.3303 18.1296 22.9391 15.8575 21.8958 14.076L14.9558 2.22569Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M14.9558 2.22569C13.9125 0.444187 11.6122 -0.172113 9.818 0.849138C8.02377 1.87039 7.41502 4.14247 8.45833 5.92397L15.3983 17.7743C16.4416 19.5558 18.7418 20.1721 20.5361 19.1509C22.3303 18.1296 22.9391 15.8575 21.8958 14.076L14.9558 2.22569Z"
+                                            fill="url(#paint1_linear_2989_100980)" fill-opacity="0.4" />
+                                        <path
+                                            d="M7.82901 2.22569C8.87231 0.444187 11.1726 -0.172113 12.9668 0.849138C14.7611 1.87039 15.3698 4.14247 14.3265 5.92397L7.38656 17.7743C6.34325 19.5558 4.04298 20.1721 2.24875 19.1509C0.454514 18.1296 -0.154233 15.8575 0.88907 14.076L7.82901 2.22569Z"
+                                            fill="currentColor" />
+                                        <defs>
+                                            <linearGradient id="paint0_linear_2989_100980" x1="5.36642"
+                                                y1="0.849138" x2="10.532" y2="24.104"
+                                                gradientUnits="userSpaceOnUse">
+                                                <stop offset="0" stop-opacity="1" />
+                                                <stop offset="1" stop-opacity="0" />
+                                            </linearGradient>
+                                            <linearGradient id="paint1_linear_2989_100980" x1="5.19475"
+                                                y1="0.849139" x2="10.3357" y2="24.1155"
+                                                gradientUnits="userSpaceOnUse">
+                                                <stop offset="0" stop-opacity="1" />
+                                                <stop offset="1" stop-opacity="0" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="app-brand-text demo footer-link fw-bold">Materialize</span>
+                        </a>
+                        <p class="footer-text footer-logo-description mb-4">
+                            Most Powerful & Comprehensive 🤩 React NextJS Admin Template with Elegant Material Design &
+                            Unique
+                            Layouts.
+                        </p>
+                        <form>
+                            <div class="d-flex mt-2 gap-3">
+                                <div class="form-floating form-floating-outline w-px-250">
+                                    <input type="text" class="form-control bg-transparent text-white"
+                                        id="newsletter-1" placeholder="Your email" />
+                                    <label for="newsletter-1">Subscribe to newsletter</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <h6 class="footer-title mb-4">Demos</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">
+                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/"
+                                    target="_blank" class="footer-link">Vertical Layout</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/horizontal-menu-template/"
+                                    target="_blank" class="footer-link">Horizontal Layout</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template-bordered/"
+                                    target="_blank" class="footer-link">Bordered Layout</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template-semi-dark/"
+                                    target="_blank" class="footer-link">Semi Dark Layout</a>
+                            </li>
+                            <li>
+                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template-dark/"
+                                    target="_blank" class="footer-link">Dark Layout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <h6 class="footer-title mb-4">Pages</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">
+                                <a href="pricing-page.html" class="footer-link">Pricing</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="payment-page.html" class="footer-link">Payment<span
+                                        class="badge rounded-pill bg-primary ms-2">New</span></a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="checkout-page.html" class="footer-link">Checkout</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="help-center-landing.html" class="footer-link">Help Center</a>
+                            </li>
+                            <li>
+                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-login-cover.html"
+                                    target="_blank" class="footer-link">Login/Register</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-4">
+                        <h6 class="footer-title mb-4">Download our app</h6>
+                        <a href="javascript:void(0);" class="d-block footer-link mb-3 pb-2"><img
+                                src="<?php echo e(asset('admin/assets/img/front-pages/landing-page/apple-icon.png')); ?>"
+                                alt="apple icon" /></a>
+                        <a href="javascript:void(0);" class="d-block footer-link"><img
+                                src="<?php echo e(asset('admin/assets/img/front-pages/landing-page/google-play-icon.png')); ?>"
+                                alt="google play icon" /></a>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-4 iphone-wrap">
-              <img src="<?php echo e(asset('assets/images/phone_1.png')); ?>" alt="images" class="phone-1" data-aos="fade-right"> 
-               <img src="<?php echo e(asset('assets/images/phone_2.png')); ?>" alt="images" class="phone-2" data-aos="fade-right" data-aos-delay="200"> 
+        </div>
+        <div class="footer-bottom py-3">
+            <div
+                class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+                <div class="mb-2 mb-md-0">
+                    <span class="footer-text">©
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        , Made with <i class="tf-icons mdi mdi-heart text-danger"></i> by
+                    </span>
+                    <a href="https://pixinvent.com/" target="_blank"
+                        class="footer-link fw-medium footer-theme-link">Pixinvent</a>
+                </div>
+                <div>
+                    <a href="https://github.com/pixinvent" class="footer-link me-2" target="_blank"><i
+                            class="mdi mdi-github"></i></a>
+                    <a href="https://www.facebook.com/pixinvents/" class="footer-link me-2" target="_blank"><i
+                            class="mdi mdi-facebook"></i></a>
+                    <a href="https://twitter.com/pixinvents" class="footer-link me-2" target="_blank"><i
+                            class="mdi mdi-twitter"></i></a>
+                    <a href="https://www.instagram.com/pixinvents/" class="footer-link" target="_blank"><i
+                            class='mdi mdi-instagram'></i></a>
+                </div>
             </div>
-          </div>
         </div>
-       </div> 
-    </div>
-
-  </section><!-- End Hero -->
-
-  <main id="main">
-
-    <!-- ======= Home Section ======= -->
-    <section class="section">
-      <div class="container">
-
-        <div class="row justify-content-center text-center mb-5">
-          <div class="col-md-5" data-aos="fade-up">
-            <h2 class="section-heading">كيف تحصل على الامتياز مع الاستاذ محمد خيرى؟</h2>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="feature-1 text-center">
-              <div class="wrap-icon icon-1">
-                <i class="bi bi-brightness-high"></i>
-              </div>
-              <h3 class="mb-3" style="font-size:28px;">فكر</h3>
-              <p style="font-size:18px;">توفر لك المنصة العديد من الامتحانات لتدريبك على مستويات مختلفة من الاسئلة وانماط التفكير</p>
-            </div>
-          </div>
-
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="">
-            <div class="feature-1 text-center">
-              <div class="wrap-icon icon-1">
-                <i class="bi bi-people"></i>
-              </div>
-              <h3 class="mb-3" style="font-size:28px;">اسأل</h3>
-              <p style="font-size:18px;">تتيح لك المنصة القدرة على التواصل المستمر مع الاستاذ وطرح الاسئلة</p>
-            </div>
-          </div>
-          
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="feature-1 text-center">
-              <div class="wrap-icon icon-1">
-                <i class="bi bi-bar-chart"></i>
-              </div>
-              <h3 class="mb-3" style="font-size:28px;">تطور</h3>
-              <p style="font-size:18px;">تمكنك المنصة من متابعة اخطائك ونتائج امتحاناتك باستمرار</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-4 ms-auto order-2">
-            <h2 class="mb-4" style="text-align:right;">تطبيق هاتف للشرح</h2>
-            <p class="mb-4" style="text-align:right;">تطبيق كامل متكامل يمكن الطلاب من متابعة الشرح بجودة عالية وسهولة فى الاستخدام</p>
-            <p><a href="https://play.google.com/store/apps/details?id=com.apps.video_app" target="_blank" class="btn btn-primary" style="text-align:right;"> Google Play تحميل من </a></p>
-            <p><a href="https://drive.google.com/file/d/1pZG8pNpXBcR6XUFWoJxIaBMMIb74zFcK/view?usp=sharing" target="_blank" class="btn btn-primary" style="text-align:right;"> تحميل لهواتف شاومى وهواوى </a></p>
-          
-          </div>
-          <div class="col-md-6" data-aos="fade-right">
-            <img src="<?php echo e(asset('assets/images/undraw_svg_3.svg')); ?>" alt="images" class="img-fluid">
-          </div>
-        </div>
-      </div>
-    </section>
+    </footer>
+    <!-- Footer: End -->
 
 
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="<?php echo e(asset('admin/assets/vendor/libs/jquery/jquery.js')); ?>"></script>
+    <script src="<?php echo e(asset('admin/assets/vendor/libs/popper/popper.js')); ?>"></script>
+    <script src="<?php echo e(asset('admin/assets/vendor/js/bootstrap.js')); ?>"></script>
+    <script src="<?php echo e(asset('admin/assets/vendor/libs/node-waves/node-waves.js')); ?>"></script>
 
-    <section class="section">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-4 me-auto">
-            <h2 class="mb-4" style="text-align:right;" >موقع للامتحانات</h2>
-            <p class="mb-4" style="text-align:right;">يحتوى الموقع على العديد من الامتحانات التى تتيح للاستاذ متابعة الطالب متابعة دورية</p>
-            <p><a href="/login" class="btn btn-primary" style="text-align:right;">قم بتسجيل الدخول</a></p>
-          </div>
-          <div class="col-md-6" data-aos="fade-left">
-            <img src="<?php echo e(asset('assets/images/undraw_svg_2.svg')); ?>" alt="images" class="img-fluid">
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- endbuild -->
 
+    <!-- Vendors JS -->
+    <script src="<?php echo e(asset('admin/assets/vendor/libs/nouislider/nouislider.js')); ?>"></script>
+    <script src="<?php echo e(asset('admin/assets/vendor/libs/swiper/swiper.js')); ?>"></script>
 
-    <!-- ======= CTA Section ======= -->
-   
-  </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer class="footer" role="contentinfo">
-    <div class="container">
+    <!-- Main JS -->
+    <script src="<?php echo e(asset('admin/assets/js/front-main.js')); ?>"></script>
 
 
-      <div class="row justify-content-center text-center">
-        <div class="col-md-7">
-          <p class="copyright">Copyright Abdelrhman Mohamed Abdelfattah. All rights reserved</p>
-          <div class="credits">
-            
-            تم تصميم الموقع بواسطة <a href="https://www.facebook.com/abdo.mohamed.16144">عبدالرحمن محمد عبد الفتاح - اضغط هنا للوصول للصفحة الشخصية</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </footer>
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="<?php echo e(asset('assets/vendors/aos/aos.js')); ?>"></script>
-  <script src="<?php echo e(asset('assets/vendors/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
-  <script src="<?php echo e(asset('assets/vendors/php-email-form/validate.js')); ?>"></script>
-  <script src="<?php echo e(asset('assets/vendors/swiper/swiper-bundle.min.js')); ?>"></script>
-
-  <!-- Template Main JS File -->
-  <script src="<?php echo e(asset('assets/js/main.js')); ?>"></script>
+    <!-- Page JS -->
+    <script src="<?php echo e(asset('admin/assets/js/front-page-landing.js')); ?>"></script>
 
 </body>
 
-</html><?php /**PATH E:\Web-Development\Khairy\Khairy\resources\views/index.blade.php ENDPATH**/ ?>
+</html>
+
+<!-- beautify ignore:end -->
+<?php /**PATH E:\Web-Development\Khairy\Khairy\resources\views/index.blade.php ENDPATH**/ ?>

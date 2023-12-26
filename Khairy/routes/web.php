@@ -203,7 +203,7 @@ Route::post('admin/login', 'Admin\AdminAuth@checkAdminLogin')->name('save.admin.
 
 Route::group(['middleware' => ['auth:admin'],'prefix' => 'admin'], function() {
 
-    Route::get('/notify', 'Admin\studentsController@notify');
+    Route::get('/notify', 'Admin\studentsController@notify')->name('notify.u');
     Route::post('/notification/send', 'Admin\studentsController@sendNotification')->name('send.notification');
 
     Route::post('/notification/user', 'Admin\studentsController@userNotification')->name('user.notification');
