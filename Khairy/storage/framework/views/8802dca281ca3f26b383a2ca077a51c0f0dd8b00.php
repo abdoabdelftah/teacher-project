@@ -519,11 +519,63 @@
 
 
 
+        </section>
+        <!-- Real customers reviews: End -->
+
+
+
+
+
+
+        <!-- Fun facts: Start -->
+        <section id="landingFunFacts" class="section-py landing-fun-facts">
+            <div class="container">
+                <div class="row gx-0 gy-5 gx-sm-5">
+                    <div class="col-md-3 col-sm-6 text-center">
+                        <span class="badge badge-center rounded-pill bg-label-hover-primary fun-facts-icon mb-4"><i
+                                class="tf-icons mdi mdi-land-plots mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">137+</h2>
+                        <p class="fw-medium mb-0">Completed Sites</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 text-center">
+                        <span class="badge badge-center rounded-pill bg-label-hover-success fun-facts-icon mb-4"><i
+                                class="tf-icons mdi mdi-clock-outline mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">1,100+</h2>
+                        <p class="fw-medium mb-0">Working Hours</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 text-center">
+                        <span class="badge badge-center rounded-pill bg-label-hover-warning fun-facts-icon mb-4"><i
+                                class="tf-icons mdi mdi-emoticon-happy-outline mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">137+</h2>
+                        <p class="fw-medium mb-0">Happy Customers</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 text-center">
+                        <span class="badge badge-center rounded-pill bg-label-hover-info fun-facts-icon mb-4"><i
+                                class="tf-icons mdi mdi-medal-outline mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">23+</h2>
+                        <p class="fw-medium mb-0">Awards Winning</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Fun facts: End -->
+
+
+        <section id="landingReviews2" class="section-py bg-body landing-reviews pb-0">
+            <div class="container">
+                <div class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
+                    <img src="<?php echo e(asset('admin/assets/img/front-pages/icons/section-tilte-icon.png')); ?>" alt="section title icon"
+                    class="me-2" />
+                    <h3 class="text-center mb-2"><span class="fw-bold">الباقات</span></h3>
+                </div>
+
+            </div>
+
 
 
 
             <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
-                <div class="swiper" id="swiper-reviewsa">
+                <div class="swiper" id="swiper-reviews2">
                     <div class="swiper-wrapper">
 
 
@@ -572,47 +624,8 @@
             </div>
 
 
+
         </section>
-        <!-- Real customers reviews: End -->
-
-
-
-
-
-
-        <!-- Fun facts: Start -->
-        <section id="landingFunFacts" class="section-py landing-fun-facts">
-            <div class="container">
-                <div class="row gx-0 gy-5 gx-sm-5">
-                    <div class="col-md-3 col-sm-6 text-center">
-                        <span class="badge badge-center rounded-pill bg-label-hover-primary fun-facts-icon mb-4"><i
-                                class="tf-icons mdi mdi-land-plots mdi-36px"></i></span>
-                        <h2 class="fw-bold mb-1">137+</h2>
-                        <p class="fw-medium mb-0">Completed Sites</p>
-                    </div>
-                    <div class="col-md-3 col-sm-6 text-center">
-                        <span class="badge badge-center rounded-pill bg-label-hover-success fun-facts-icon mb-4"><i
-                                class="tf-icons mdi mdi-clock-outline mdi-36px"></i></span>
-                        <h2 class="fw-bold mb-1">1,100+</h2>
-                        <p class="fw-medium mb-0">Working Hours</p>
-                    </div>
-                    <div class="col-md-3 col-sm-6 text-center">
-                        <span class="badge badge-center rounded-pill bg-label-hover-warning fun-facts-icon mb-4"><i
-                                class="tf-icons mdi mdi-emoticon-happy-outline mdi-36px"></i></span>
-                        <h2 class="fw-bold mb-1">137+</h2>
-                        <p class="fw-medium mb-0">Happy Customers</p>
-                    </div>
-                    <div class="col-md-3 col-sm-6 text-center">
-                        <span class="badge badge-center rounded-pill bg-label-hover-info fun-facts-icon mb-4"><i
-                                class="tf-icons mdi mdi-medal-outline mdi-36px"></i></span>
-                        <h2 class="fw-bold mb-1">23+</h2>
-                        <p class="fw-medium mb-0">Awards Winning</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Fun facts: End -->
-
 
         <!-- CTA: Start -->
         <section id="landingCTA" class="section-py border border-2 landing-cta p-lg-0 pb-0">

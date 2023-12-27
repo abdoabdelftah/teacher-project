@@ -4,6 +4,7 @@
 
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 
 
@@ -19,6 +20,8 @@ use App\Models\Lessonsection;
 use App\Models\Studentexamanswer;
 use App\Models\Grade;
 use App\Models\GradeUser;
+use App\Models\Information;
+use App\Models\News;
 use App\Notifications\CustomNotification;
 use App\Notifications\SendAdminNotification;
 use Illuminate\Support\Facades\Hash;
@@ -34,42 +37,42 @@ class studentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $activeFilter = 0 , $gradeFilter = 0, $search = '')
+    public function index(Request $request, $activeFilter = 0, $gradeFilter = 0, $search = '')
     {
-        $search = $request->search ? $request->search : "" ;
+        $search = $request->search ? $request->search : "";
 
         $data = User::with('grade');
 
-        if($gradeFilter != 0){
-           $data->whereHas('grades', function($query) use ($gradeFilter){
-            $query->where('grade_id', $gradeFilter);
-        });
+        if ($gradeFilter != 0) {
+            $data->whereHas('grades', function ($query) use ($gradeFilter) {
+                $query->where('grade_id', $gradeFilter);
+            });
         }
 
-        if($activeFilter == 1){
-             $data->where('subscription_end_date', '>', Carbon::now());
+        if ($activeFilter == 1) {
+            $data->where('subscription_end_date', '>', Carbon::now());
         }
 
-        if($activeFilter == 2){
+        if ($activeFilter == 2) {
             $data->where('subscription_end_date', '<', Carbon::now());
-       }
+        }
 
-       if(isset($search) && !empty($search)) {
+        if (isset($search) && !empty($search)) {
 
             $data->where('name', 'like', '%' . $search . '%')->orWhere('phone_number', 'like', '%' . $search . '%');
         }
 
-       $data = $data->orderBy('id', 'desc')->paginate(10);
-    // Count of all users
-    $totalUsers = User::count();
+        $data = $data->orderBy('id', 'desc')->paginate(10);
+        // Count of all users
+        $totalUsers = User::count();
 
-    // Count of users with subscription_end_date > now
-    $activeUsers = User::where('subscription_end_date', '>', now())->count();
+        // Count of users with subscription_end_date > now
+        $activeUsers = User::where('subscription_end_date', '>', now())->count();
 
-    $grades = Grade::get();
+        $grades = Grade::get();
 
-    $plusMonth =  Carbon::now()->addMonth()->format('Y-m-d');
-    return view('admin.new.students', compact('data', 'totalUsers', 'activeUsers', 'grades', 'activeFilter', 'gradeFilter', 'search', 'plusMonth'));
+        $plusMonth =  Carbon::now()->addMonth()->format('Y-m-d');
+        return view('admin.new.students', compact('data', 'totalUsers', 'activeUsers', 'grades', 'activeFilter', 'gradeFilter', 'search', 'plusMonth'));
     }
 
 
@@ -86,14 +89,11 @@ class studentsController extends Controller
 
             'last_login_date' => '2020-1-1',
 
-            ]);
+        ]);
 
 
 
-            return redirect('admin/students')->with(['message' => ' تم التحديث بنجاح ']);
-
-
-
+        return redirect('admin/students')->with(['message' => ' تم التحديث بنجاح ']);
     }
 
 
@@ -106,23 +106,18 @@ class studentsController extends Controller
             return redirect()->back();
 
 
-            $subscription_end_date = $student->subscription_end_date != Null ? Carbon::create($student->subscription_end_date)->addMonth() : Carbon::now()->addMonth();
+        $subscription_end_date = $student->subscription_end_date != Null ? Carbon::create($student->subscription_end_date)->addMonth() : Carbon::now()->addMonth();
 
 
         $student->update([
 
             'subscription_end_date' => $subscription_end_date,
 
-            ]);
+        ]);
 
 
 
-            return redirect('admin/students')->with(['message' => ' تم التحديث بنجاح ']);
-
-
-
-
-
+        return redirect('admin/students')->with(['message' => ' تم التحديث بنجاح ']);
     }
 
 
@@ -137,37 +132,32 @@ class studentsController extends Controller
             return redirect()->back();
 
 
-           Studentexamanswer::where('student_id', $id)->forceDelete();
-            //$studentanswer->forceDelete();
+        Studentexamanswer::where('student_id', $id)->forceDelete();
+        //$studentanswer->forceDelete();
 
-           GradeUser::where('user_id', $id)->forceDelete();
-            //$degrade->forceDelete();
+        GradeUser::where('user_id', $id)->forceDelete();
+        //$degrade->forceDelete();
 
-            Forum::where('student_id', $id)->forceDelete();
-            //$forums->forceDelete();
-
-
-            Studentlessonsectionfollowup::where('student_id', $id)->forceDelete();
-            //$lessonfollow->forceDelete();
-
-           Unitexamsectionfollowup::where('student_id', $id)->forceDelete();
-            //$unitfollow->forceDelete();
+        Forum::where('student_id', $id)->forceDelete();
+        //$forums->forceDelete();
 
 
-            $student->forceDelete();
+        Studentlessonsectionfollowup::where('student_id', $id)->forceDelete();
+        //$lessonfollow->forceDelete();
 
-            return redirect('admin/students')->with(['message' => ' تم مسح الطالب بنجاح ']);
+        Unitexamsectionfollowup::where('student_id', $id)->forceDelete();
+        //$unitfollow->forceDelete();
 
 
+        $student->forceDelete();
 
-
-
+        return redirect('admin/students')->with(['message' => ' تم مسح الطالب بنجاح ']);
     }
 
 
 
 
-    public function lcheckanswers($student_id ,$lesson_section_id)
+    public function lcheckanswers($student_id, $lesson_section_id)
     {
 
 
@@ -176,21 +166,20 @@ class studentsController extends Controller
         $grades = Grade::with('units.lessons.lessonsections')->get();
 
 
-        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function($q) use ($student_id){
+        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function ($q) use ($student_id) {
             $q->where('student_id', $student_id);
         }])->get();
 
 
-    return view('admin.new.studentAnswer', compact('data', 'grades', 'lessonsection'));
-
+        return view('admin.new.studentAnswer', compact('data', 'grades', 'lessonsection'));
     }
 
 
-    public function ltextcheckanswers($student_id ,$lesson_section_id)
+    public function ltextcheckanswers($student_id, $lesson_section_id)
     {
 
 
-        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q) use ($student_id){
+        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function ($q) use ($student_id) {
             $q->where('student_id', $student_id);
         }])->first();
 
@@ -198,17 +187,17 @@ class studentsController extends Controller
         $grades = Grade::with('units.lessons.lessonsections')->get();
 
 
-        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function($q) use ($student_id){
+        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function ($q) use ($student_id) {
             $q->where('student_id', $student_id);
         }])->get();
 
-    return view('admin.new.studentTextAnswer', compact('data', 'grades', 'lessonsection'));
-
+        return view('admin.new.studentTextAnswer', compact('data', 'grades', 'lessonsection'));
     }
 
-    public function lpdfcheckanswers($student_id ,$lesson_section_id){
+    public function lpdfcheckanswers($student_id, $lesson_section_id)
+    {
 
-        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function($q) use ($student_id){
+        $lessonsection =  Lessonsection::where('id', $lesson_section_id)->with(['sectionFollowup' => function ($q) use ($student_id) {
             $q->where('student_id', $student_id);
         }])->first();
 
@@ -216,33 +205,29 @@ class studentsController extends Controller
         $grades = Grade::with('units.lessons.lessonsections')->get();
 
 
-        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function($q) use ($student_id){
+        $data = Exam::where('lesson_section_id', $lesson_section_id)->with(['studentexamanswers' => function ($q) use ($student_id) {
             $q->where('student_id', $student_id);
         }])->get();
 
 
         return view('admin.new.studentPdfAnswer', compact('data', 'grades', 'lessonsection'));
-
-
     }
 
 
 
-    public function ucheckanswers($student_id ,$unit_exam_section_id)
+    public function ucheckanswers($student_id, $unit_exam_section_id)
     {
 
-        $exam = Exam::where('unit_exam_section_id', $unit_exam_section_id) ->whereIn('id', function ($query)  use($unit_exam_section_id, $student_id) {
+        $exam = Exam::where('unit_exam_section_id', $unit_exam_section_id)->whereIn('id', function ($query)  use ($unit_exam_section_id, $student_id) {
             $query->select('exam_id')
                 ->from('studentexamanswers')->where('unit_exam_section_id', $unit_exam_section_id)->where('student_id', $student_id)->get();
-                //->where('lesson_section_id',1);
+            //->where('lesson_section_id',1);
         })->get();
 
-          $studentanswer = Studentexamanswer::where('unit_exam_section_id', $unit_exam_section_id)->where('student_id', $student_id)->get();
+        $studentanswer = Studentexamanswer::where('unit_exam_section_id', $unit_exam_section_id)->where('student_id', $student_id)->get();
 
 
-          return view('admin.ucheckanswers', compact('exam', 'studentanswer'));
-
-
+        return view('admin.ucheckanswers', compact('exam', 'studentanswer'));
     }
 
 
@@ -253,9 +238,9 @@ class studentsController extends Controller
      */
     public function search(Request $request)
     {
-        $data = User::with('grade')->where('name', 'LIKE', '%'. $request->search .'%')->orwhere('phone_number', 'LIKE', '%'. $request->search .'%')->paginate('20');
+        $data = User::with('grade')->where('name', 'LIKE', '%' . $request->search . '%')->orwhere('phone_number', 'LIKE', '%' . $request->search . '%')->paginate('20');
         //return $data;
-          return view('admin.students', compact('data'));
+        return view('admin.students', compact('data'));
     }
 
 
@@ -263,16 +248,16 @@ class studentsController extends Controller
     {
 
 
-     $grades = Grade::with('units.lessons.lessonsections')->get();
+        $grades = Grade::with('units.lessons.lessonsections')->get();
 
-     $student = User::find($id);
+        $student = User::find($id);
 
-     $content = Studentlessonsectionfollowup::whereHas('lessonsection' , function($q){
-         $q->where('section_type', '!=',5);
-     })->with('lessonsection:id,name,section_type', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('student_id', $id)->paginate(10);
+        $content = Studentlessonsectionfollowup::whereHas('lessonsection', function ($q) {
+            $q->where('section_type', '!=', 5);
+        })->with('lessonsection:id,name,section_type', 'studentanswer:lesson_section_id,points,student_id', 'exam:lesson_section_id,points')->where('student_id', $id)->paginate(10);
 
 
-     return view('admin.new.studentProgress', compact('grades', 'content', 'student'));
+        return view('admin.new.studentProgress', compact('grades', 'content', 'student'));
     }
 
 
@@ -284,13 +269,13 @@ class studentsController extends Controller
      */
     public function store(Request $request)
     {
-        $student = User::where('phone_number',$request->phone_number)->first();
+        $student = User::where('phone_number', $request->phone_number)->first();
         if ($student)
             return redirect()->back()->with(['message' => 'فشلت العملية. هذا الرقم قد تم استخدامه من قبل']);
 
         $password = Hash::make($request->password);
 
-       // $subscription_end_date = Carbon::now()->addMonth();
+        // $subscription_end_date = Carbon::now()->addMonth();
 
         User::create([
 
@@ -306,21 +291,20 @@ class studentsController extends Controller
 
         $requestgrade = count($request->grade_id);
         //echo $requestgrade;
-              //  foreach($requestgrade as $newgrade){
+        //  foreach($requestgrade as $newgrade){
 
-                for ($i = 0; $i < $requestgrade; $i++) {
-                $newgrade = $request->grade_id[$i];
-                GradeUser::create([
+        for ($i = 0; $i < $requestgrade; $i++) {
+            $newgrade = $request->grade_id[$i];
+            GradeUser::create([
 
 
-                    'grade_id' => $newgrade,
-                    'user_id' => $student_id,
+                'grade_id' => $newgrade,
+                'user_id' => $student_id,
 
-                ]);
+            ]);
+        }
 
-                }
-
-                return redirect('admin/students')->with(['message' => 'تم اضافة طالب جديد بنجاح']);
+        return redirect('admin/students')->with(['message' => 'تم اضافة طالب جديد بنجاح']);
     }
 
     /**
@@ -345,12 +329,10 @@ class studentsController extends Controller
     public function edit($id)
     {
         $data = User::with('grades')->find($id);
-      //return $data;
-      $grades = Grade::get();
+        //return $data;
+        $grades = Grade::get();
 
         return view('admin.new.editstudent', compact('data', 'grades'));
-
-
     }
 
     /**
@@ -368,59 +350,56 @@ class studentsController extends Controller
 
         //update data
 
-       // $student->update($request->all());
-       if(!empty($request->password)){
-        $password = Hash::make($request->password);
-       }
+        // $student->update($request->all());
+        if (!empty($request->password)) {
+            $password = Hash::make($request->password);
+        }
 
-       if(!empty($request->password)){
-        $student->update([
-            'password' => $password,
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'last_login_date' => $request->last_login_date,
-            'subscription_end_date' => $request->subscription_end_date,
-        ]);
-       }
+        if (!empty($request->password)) {
+            $student->update([
+                'password' => $password,
+                'name' => $request->name,
+                'phone_number' => $request->phone_number,
+                'last_login_date' => $request->last_login_date,
+                'subscription_end_date' => $request->subscription_end_date,
+            ]);
+        }
 
-       if(empty($request->password)){
-        $student->update([
+        if (empty($request->password)) {
+            $student->update([
 
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'last_login_date' => $request->last_login_date,
-          'subscription_end_date' => $request->subscription_end_date,
-        ]);
-       }
+                'name' => $request->name,
+                'phone_number' => $request->phone_number,
+                'last_login_date' => $request->last_login_date,
+                'subscription_end_date' => $request->subscription_end_date,
+            ]);
+        }
 
         //delete old grades
         $student_id = $request->id;
-        $hisgrades = GradeUser::where('user_id',$student_id);
+        $hisgrades = GradeUser::where('user_id', $student_id);
 
         $hisgrades->forceDelete();
 
         //insert new grades
-      //  echo $request->grade_id;
+        //  echo $request->grade_id;
         $requestgrade = count($request->grade_id);
-//echo $requestgrade;
-      //  foreach($requestgrade as $newgrade){
+        //echo $requestgrade;
+        //  foreach($requestgrade as $newgrade){
 
         for ($i = 0; $i < $requestgrade; $i++) {
-        $newgrade = $request->grade_id[$i];
-        GradeUser::create([
+            $newgrade = $request->grade_id[$i];
+            GradeUser::create([
 
 
-            'grade_id' => $newgrade,
-            'user_id' => $student_id,
+                'grade_id' => $newgrade,
+                'user_id' => $student_id,
 
-        ]);
-
+            ]);
         }
 
 
-       return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
-
-
+        return redirect()->back()->with(['message' => ' تم التحديث بنجاح ']);
     }
 
     public function unitanswer($unit_exam_section_id, $student_id)
@@ -433,7 +412,7 @@ class studentsController extends Controller
         $student_ex_answer = Studentexamanswer::where('unit_exam_section_id', $unit_exam_section_id)->where('student_id', $student_id)->delete();
 
 
-         $student_record->delete();
+        $student_record->delete();
 
 
         return redirect()->back();
@@ -480,7 +459,8 @@ class studentsController extends Controller
         return view('admin.new.notify', compact('grades'));
     }
 
-    public function sendNotification(Request $request){
+    public function sendNotification(Request $request)
+    {
 
         $request->validate([
             'grade_id' => 'required|exists:grades,id',
@@ -497,31 +477,54 @@ class studentsController extends Controller
 
         // You can add a success message or redirect the user
         return response()->json(['message' => 'Notification sent successfully']);
-
     }
 
 
     public function userNotification(Request $request)
-{
-    $request->validate([
-        'message' => 'required',
+    {
+        $request->validate([
+            'message' => 'required',
 
-        'student_id' => 'required|exists:users,id',
-    ]);
+            'student_id' => 'required|exists:users,id',
+        ]);
 
-    $user = User::find($request->input('student_id'));
+        $user = User::find($request->input('student_id'));
 
-    if ($user) {
-        $message = $request->input('message');
-        $link = $request->input('link');
+        if ($user) {
+            $message = $request->input('message');
+            $link = $request->input('link');
 
-        $user->notify(new SendAdminNotification($message, $link));
+            $user->notify(new SendAdminNotification($message, $link));
 
-        return response()->json(['message' => 'Notification sent successfully']);
-    } else {
-        return response()->json(['error' => 'User not found'], 404);
+            return response()->json(['message' => 'Notification sent successfully']);
+        } else {
+            return response()->json(['error' => 'User not found'], 404);
+        }
     }
-}
+
+    public function frontPage()
+    {
+        $data = News::all();
+
+        $information = Information::all();
+        $alerts = $data->where('type', 1);
+        $lectures = $data->where('type', 2);
+        $baqat = $data->where('type', 3);
+
+        return view('admin.new.front-page', compact('information', 'alerts', 'lectures', 'baqat') );
 
 
+    }
+
+    public function updateFrontPage(Request $request)
+    {
+    }
+
+    public function deleteFrontPage($id)
+    {
+
+        $data = News::find($id);
+        $data->delete();
+        return redirect()->back()->with(['message' => ' تم المسح بنجاح ']);
+    }
 }
