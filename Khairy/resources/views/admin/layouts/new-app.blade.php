@@ -145,8 +145,15 @@
 
       <li class="menu-item">
         <a href="{{route('notify.u')}}" class="menu-link">
-          <i class="menu-icon tf-icons mdi mdi-account-question-outline"></i>
+          <i class="menu-icon tf-icons mdi mdi-bell-alert-outline"></i>
           <div data-i18n="ارسال اشعار">ارسال اشعار</div>
+        </a>
+      </li>
+
+      <li class="menu-item">
+        <a href="{{route('front.page')}}" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-monitor-screenshot"></i>
+          <div data-i18n="تعديل الموقع">تعديل الموقع</div>
         </a>
       </li>
 

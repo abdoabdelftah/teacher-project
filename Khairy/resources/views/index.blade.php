@@ -561,6 +561,72 @@
         <!-- Fun facts: End -->
 
 
+        <section id="landingReviews2" class="section-py bg-body landing-reviews pb-0">
+            <div class="container">
+                <div class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
+                    <img src="{{ asset('admin/assets/img/front-pages/icons/section-tilte-icon.png')}}" alt="section title icon"
+                    class="me-2" />
+                    <h3 class="text-center mb-2"><span class="fw-bold">الباقات</span></h3>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
+                <div class="swiper" id="swiper-reviews2">
+                    <div class="swiper-wrapper">
+
+
+                        <div class="swiper-slide">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="{{asset('admin/assets/img/elements/5.jpg')}}" alt="Card image cap" />
+
+                                <div
+                                    class="card-body text-body d-flex flex-column justify-content-between">
+
+                                    <h5 class="card-title">Card title that wraps to a new line</h5>
+
+                                    <p class="card-text">
+                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
+                                        building dashboard
+                                        sites on almost any project.”
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="{{asset('admin/assets/img/elements/5.jpg')}}" alt="Card image cap" />
+
+                                <div
+                                    class="card-body text-body d-flex flex-column justify-content-between">
+
+                                    <h5 class="card-title">Card title that wraps to a new line</h5>
+
+                                    <p class="card-text">
+                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
+                                        building dashboard
+                                        sites on almost any project.”
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+
+
+        </section>
+
         <!-- CTA: Start -->
         <section id="landingCTA" class="section-py border border-2 landing-cta p-lg-0 pb-0">
             <div class="container">

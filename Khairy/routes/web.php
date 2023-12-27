@@ -203,6 +203,13 @@ Route::post('admin/login', 'Admin\AdminAuth@checkAdminLogin')->name('save.admin.
 
 Route::group(['middleware' => ['auth:admin'],'prefix' => 'admin'], function() {
 
+
+    Route::get('/front-page', 'Admin\studentsController@frontPage')->name('front.page');
+
+    Route::post('/front-page/update', 'Admin\studentsController@updateFrontPage')->name('updateFront.page');
+
+    Route::get('/front-page/delete/{id}', 'Admin\studentsController@deleteFrontPage')->name('deleteFront.page');
+
     Route::get('/notify', 'Admin\studentsController@notify')->name('notify.u');
     Route::post('/notification/send', 'Admin\studentsController@sendNotification')->name('send.notification');
 
