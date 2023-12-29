@@ -41,8 +41,27 @@
 
     <!-- Page CSS -->
 
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/pages/front-page-landing.css') }}" />
 
+    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/pages/front-page-landing.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+
+    .custom-btn {
+    padding: 10px 20px;
+    background-color: #666CFF;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.custom-btn:hover {
+    background-color: #0056b3;
+}
+
+
+</style>\
     <!-- Helpers -->
     <script src="{{ asset('admin/assets/vendor/js/helpers.js') }}"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
@@ -146,7 +165,7 @@
                 <!-- navbar button: Start -->
                 <li>
                     <a href="/admin/students"
-                        class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4" target="_blank"><span
+                        class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4" ><span
                             class="tf-icons mdi mdi-account me-md-1"></span><span
                             class="d-none d-md-block">الرجوع الى لوحة التحكم</span></a>
                 </li>
@@ -166,7 +185,33 @@
         <section id="landingHero" class="section-py landing-hero">
             <div class="container">
 
-                <div class="position-relative hero-animation-img">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <label > الصورة الرئيسية</label>
+                        <form method="POST" action="{{ route('updateInfoFront.page') }}" enctype="multipart/form-data">
+                            @csrf
+                        <div class="input-group">
+                           <input type="hidden" name="id" value="0">
+                            <input type="file" class="form-control" name="image" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                            <button class="btn btn-outline-primary" type="submit" id="inputGroupFileAddon04">حفظ</button>
+                        </div>
+                    </form>
+
+                        <label > الصورة اضافية فوق الصورة الرئيسية</label>
+                        <form method="POST" action="{{ route('updateInfoFront.page') }}" enctype="multipart/form-data">
+                            @csrf
+                        <div class="input-group">
+                            <input type="hidden" name="id" value="1">
+                            <input type="file" class="form-control" name="image" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                            <button class="btn btn-outline-primary" type="submit" id="inputGroupFileAddon04">حفظ</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+
+                    <div class="position-relative hero-animation-img">
                         <div class="hero-dashboard-img text-center">
                             <img src="{{ $information[0]->data}}"
                                 alt="hero dashboard" class="animation-img" data-speed="2"
@@ -188,7 +233,9 @@
         <section id="landingFeatures" class="section-py landing-features">
             <div class="container">
 
-
+                <button type="button" class="custom-btn" data-bs-toggle="modal" data-bs-target="#addAlertModal">اضافة اشعار</button>
+<br>
+<br>
                 @foreach ($alerts as $alert)
 
                 <div class="alert alert-primary alert-dismissible mb-0" role="alert">
@@ -217,51 +264,39 @@
 
             </div>
 
-
+           <center> <button type="button" class="custom-btn" data-bs-toggle="modal" data-bs-target="#addLectureModal">اضافة كورس</button>
+            <br>
+            <br></center>
 
 
             <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
                 <div class="swiper" id="swiper-reviews">
                     <div class="swiper-wrapper">
 
+                    @foreach ($lectures as $lecture)
 
                         <div class="swiper-slide">
+
                             <div class="card h-100">
-                                <img class="card-img-top" src="{{asset('admin/assets/img/elements/5.jpg')}}" alt="Card image cap" />
+                                <a href="/admin/front-page/delete/{{$lecture->id}}" class="btn-close"></a>
+                                <img class="card-img-top" src="{{$lecture->image}}" alt="Card image cap" />
 
                                 <div
                                     class="card-body text-body d-flex flex-column justify-content-between">
 
-                                    <h5 class="card-title">Card title that wraps to a new line</h5>
+                                    <h5 class="card-title">{{$lecture->title}}</h5>
 
                                     <p class="card-text">
-                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                        building dashboard
-                                        sites on almost any project.”
+                                        {{$lecture->content}}
                                     </p>
 
                                 </div>
                             </div>
                         </div>
 
-                        <div class="swiper-slide">
-                            <div class="card h-100">
-                                <img class="card-img-top" src="{{asset('admin/assets/img/elements/5.jpg')}}" alt="Card image cap" />
+                        @endforeach
 
-                                <div
-                                    class="card-body text-body d-flex flex-column justify-content-between">
 
-                                    <h5 class="card-title">Card title that wraps to a new line</h5>
-
-                                    <p class="card-text">
-                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                        building dashboard
-                                        sites on almost any project.”
-                                    </p>
-
-                                </div>
-                            </div>
-                        </div>
 
 
                     </div>
@@ -273,39 +308,33 @@
 
         </section>
         <!-- Real customers reviews: End -->
-
-
-
-
-
-
         <!-- Fun facts: Start -->
         <section id="landingFunFacts" class="section-py landing-fun-facts">
             <div class="container">
                 <div class="row gx-0 gy-5 gx-sm-5">
                     <div class="col-md-3 col-sm-6 text-center">
                         <span class="badge badge-center rounded-pill bg-label-hover-primary fun-facts-icon mb-4"><i
-                                class="tf-icons mdi mdi-land-plots mdi-36px"></i></span>
-                        <h2 class="fw-bold mb-1">137+</h2>
-                        <p class="fw-medium mb-0">Completed Sites</p>
+                                class="tf-icons mdi mdi-human-male-board mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">{{$lectures_count}}+</h2>
+                        <p class="fw-medium mb-0">محاضرة</p>
                     </div>
                     <div class="col-md-3 col-sm-6 text-center">
                         <span class="badge badge-center rounded-pill bg-label-hover-success fun-facts-icon mb-4"><i
-                                class="tf-icons mdi mdi-clock-outline mdi-36px"></i></span>
-                        <h2 class="fw-bold mb-1">1,100+</h2>
-                        <p class="fw-medium mb-0">Working Hours</p>
+                                class="tf-icons mdi mdi-book-open-page-variant-outline mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">{{$lessons_count}}+</h2>
+                        <p class="fw-medium mb-0">درس</p>
                     </div>
                     <div class="col-md-3 col-sm-6 text-center">
                         <span class="badge badge-center rounded-pill bg-label-hover-warning fun-facts-icon mb-4"><i
-                                class="tf-icons mdi mdi-emoticon-happy-outline mdi-36px"></i></span>
-                        <h2 class="fw-bold mb-1">137+</h2>
-                        <p class="fw-medium mb-0">Happy Customers</p>
+                                class="tf-icons mdi mdi-pencil-circle-outline mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">{{$exams_count}}+</h2>
+                        <p class="fw-medium mb-0">امتحان</p>
                     </div>
                     <div class="col-md-3 col-sm-6 text-center">
                         <span class="badge badge-center rounded-pill bg-label-hover-info fun-facts-icon mb-4"><i
-                                class="tf-icons mdi mdi-medal-outline mdi-36px"></i></span>
-                        <h2 class="fw-bold mb-1">23+</h2>
-                        <p class="fw-medium mb-0">Awards Winning</p>
+                                class="tf-icons mdi mdi-account mdi-36px"></i></span>
+                        <h2 class="fw-bold mb-1">1000+</h2>
+                        <p class="fw-medium mb-0">طالب</p>
                     </div>
                 </div>
             </div>
@@ -324,50 +353,38 @@
             </div>
 
 
-
+            <center> <button type="button" class="custom-btn" data-bs-toggle="modal" data-bs-target="#addBaqatModal">اضافة باقة</button>
+                <br>
+                <br></center>
 
             <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
                 <div class="swiper" id="swiper-reviews2">
                     <div class="swiper-wrapper">
 
 
+                        @foreach ($baqat as $baqa)
+
                         <div class="swiper-slide">
+
                             <div class="card h-100">
-                                <img class="card-img-top" src="{{asset('admin/assets/img/elements/5.jpg')}}" alt="Card image cap" />
+                                <a href="/admin/front-page/delete/{{$baqa->id}}" class="btn-close"></a>
+                                <img class="card-img-top" src="{{$baqa->image}}" alt="Card image cap" />
 
                                 <div
                                     class="card-body text-body d-flex flex-column justify-content-between">
 
-                                    <h5 class="card-title">Card title that wraps to a new line</h5>
+                                    <h5 class="card-title">{{$baqa->title}}</h5>
 
                                     <p class="card-text">
-                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                        building dashboard
-                                        sites on almost any project.”
+                                        {{$baqa->content}}
                                     </p>
 
                                 </div>
                             </div>
                         </div>
 
-                        <div class="swiper-slide">
-                            <div class="card h-100">
-                                <img class="card-img-top" src="{{asset('admin/assets/img/elements/5.jpg')}}" alt="Card image cap" />
+                        @endforeach
 
-                                <div
-                                    class="card-body text-body d-flex flex-column justify-content-between">
-
-                                    <h5 class="card-title">Card title that wraps to a new line</h5>
-
-                                    <p class="card-text">
-                                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                        building dashboard
-                                        sites on almost any project.”
-                                    </p>
-
-                                </div>
-                            </div>
-                        </div>
 
 
                     </div>
@@ -379,90 +396,7 @@
 
         </section>
 
-        <!-- CTA: Start -->
-        <section id="landingCTA" class="section-py border border-2 landing-cta p-lg-0 pb-0">
-            <div class="container">
-                <div class="row align-items-center gy-5 gy-lg-0">
-                    <div class="col-lg-6 text-center text-lg-start">
-                        <h6 class="h2 text-primary fw-bold mb-1">Ready to Get Started?</h6>
-                        <p class="fw-medium mb-4">Start your project with a 14-day free trial</p>
-                        <a href="payment-page.html" class="btn btn-primary">Get Started<i
-                                class="mdi mdi-arrow-right mdi-24px ms-3 scaleX-n1-rtl"></i></a>
-                    </div>
-                    <div class="col-lg-6 pt-lg-5">
-                        <img src="{{ asset('admin/assets/img/front-pages/landing-page/cta-dashboard.png')}}" alt="cta dashboard"
-                            class="img-fluid" />
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- CTA: End -->
 
-        <!-- Contact Us: Start -->
-        <section id="landingContact" class="section-py bg-body landing-contact">
-            <div class="container bg-icon-left">
-                <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
-                    <img src="{{ asset('admin/assets/img/front-pages/icons/section-tilte-icon.png')}}" alt="section title icon"
-                        class="me-2" />
-                    <span class="text-uppercase">contact us</span>
-                </h6>
-                <h3 class="text-center mb-2"><span class="fw-bold">Lets work</span> together</h3>
-                <p class="text-center fw-medium mb-3 mb-md-5 pb-3">Any question or remark? just write us a message</p>
-                <div class="row gy-4">
-                    <div class="col-lg-5">
-                        <div class="card h-100">
-                            <div class="bg-primary rounded text-white card-body">
-                                <p class="fw-medium mb-1">Let’s contact with us</p>
-                                <p class="display-6 mb-4">Share your ideas or requirement with our experts.</p>
-                                <img src="{{ asset('admin/assets/img/front-pages/landing-page/let%c3%a2%c2%80%c2%99s-contact.html')}}"
-                                    alt="let’s contact" class="w-100 mb-2 pb-1" />
-                                <p class="mb-0">
-                                    Looking for more customisation, more features, and more anything? Don’t worry, We’ve
-                                    provide you with
-                                    an entire team of experienced professionals.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="mb-4">Share your ideas</h5>
-                                <form>
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <div class="form-floating form-floating-outline">
-                                                <input type="text" class="form-control"
-                                                    id="basic-default-fullname" placeholder="John Doe" />
-                                                <label for="basic-default-fullname">Full name</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-floating form-floating-outline">
-                                                <input type="email" class="form-control"
-                                                    id="basic-default-email" placeholder="johndoe99@gmail.com" />
-                                                <label for="basic-default-email">Email address</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-floating form-floating-outline">
-                                                <textarea class="form-control h-px-200" placeholder="Message" aria-label="Message" id="basic-default-message"></textarea>
-                                                <label for="basic-default-message">Message</label>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <button type="submit" class="btn btn-primary mt-3">Send inquiry</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Contact Us: End -->
     </div>
 
     <!-- / Sections:End -->
@@ -515,79 +449,51 @@
                                     </svg>
                                 </span>
                             </span>
-                            <span class="app-brand-text demo footer-link fw-bold">Materialize</span>
-                        </a>
-                        <p class="footer-text footer-logo-description mb-4">
-                            Most Powerful & Comprehensive 🤩 React NextJS Admin Template with Elegant Material Design &
-                            Unique
-                            Layouts.
-                        </p>
-                        <form>
+                             </a>
+
+                             <form method="POST" action="{{ route('updateInfoFront.page') }}" enctype="multipart/form-data">
+                                @csrf
                             <div class="d-flex mt-2 gap-3">
                                 <div class="form-floating form-floating-outline w-px-250">
-                                    <input type="text" class="form-control bg-transparent text-white"
-                                        id="newsletter-1" placeholder="Your email" />
-                                    <label for="newsletter-1">Subscribe to newsletter</label>
+                                    <input type="hidden" name="id" value="2">
+                                    <input type="text" name = "data" class="form-control bg-transparent text-white"
+                                        id="newsletter-1" placeholder="Your email" value="{{$information[2]->data}}"/>
+                                    <label for="newsletter-1">رقم الهاتف</label>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Subscribe</button>
+                                <button type="submit" class="btn btn-primary">حفظ</button>
                             </div>
                         </form>
+
+                        <form method="POST" action="{{ route('updateInfoFront.page') }}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="id" value="3">
+                            <div class="d-flex mt-2 gap-3">
+                                <div class="form-floating form-floating-outline w-px-250">
+                                    <input type="text" name ="data" class="form-control bg-transparent text-white"
+                                        id="newsletter-1" placeholder="رابط الفيسبوك" value="{{$information[3]->data}}"/>
+                                    <label for="newsletter-1">رابط الفيسبوك</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">حفظ</button>
+                            </div>
+                        </form>
+
+
+
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-6">
-                        <h6 class="footer-title mb-4">Demos</h6>
+
                         <ul class="list-unstyled mb-0">
-                            <li class="mb-3">
-                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/"
-                                    target="_blank" class="footer-link">Vertical Layout</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/horizontal-menu-template/"
-                                    target="_blank" class="footer-link">Horizontal Layout</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template-bordered/"
-                                    target="_blank" class="footer-link">Bordered Layout</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template-semi-dark/"
-                                    target="_blank" class="footer-link">Semi Dark Layout</a>
-                            </li>
-                            <li>
-                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template-dark/"
-                                    target="_blank" class="footer-link">Dark Layout</a>
-                            </li>
+
                         </ul>
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-6">
-                        <h6 class="footer-title mb-4">Pages</h6>
+
                         <ul class="list-unstyled mb-0">
-                            <li class="mb-3">
-                                <a href="pricing-page.html" class="footer-link">Pricing</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="payment-page.html" class="footer-link">Payment<span
-                                        class="badge rounded-pill bg-primary ms-2">New</span></a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="checkout-page.html" class="footer-link">Checkout</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="help-center-landing.html" class="footer-link">Help Center</a>
-                            </li>
-                            <li>
-                                <a href="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/auth-login-cover.html"
-                                    target="_blank" class="footer-link">Login/Register</a>
-                            </li>
+
                         </ul>
                     </div>
                     <div class="col-lg-3 col-md-4">
-                        <h6 class="footer-title mb-4">Download our app</h6>
-                        <a href="javascript:void(0);" class="d-block footer-link mb-3 pb-2"><img
-                                src="{{ asset('admin/assets/img/front-pages/landing-page/apple-icon.png')}}"
-                                alt="apple icon" /></a>
-                        <a href="javascript:void(0);" class="d-block footer-link"><img
-                                src="{{ asset('admin/assets/img/front-pages/landing-page/google-play-icon.png')}}"
-                                alt="google play icon" /></a>
+
                     </div>
                 </div>
             </div>
@@ -600,26 +506,222 @@
                         <script>
                             document.write(new Date().getFullYear());
                         </script>
-                        , Made with <i class="tf-icons mdi mdi-heart text-danger"></i> by
+
                     </span>
-                    <a href="https://pixinvent.com/" target="_blank"
-                        class="footer-link fw-medium footer-theme-link">Pixinvent</a>
+
                 </div>
                 <div>
-                    <a href="https://github.com/pixinvent" class="footer-link me-2" target="_blank"><i
-                            class="mdi mdi-github"></i></a>
-                    <a href="https://www.facebook.com/pixinvents/" class="footer-link me-2" target="_blank"><i
-                            class="mdi mdi-facebook"></i></a>
-                    <a href="https://twitter.com/pixinvents" class="footer-link me-2" target="_blank"><i
-                            class="mdi mdi-twitter"></i></a>
-                    <a href="https://www.instagram.com/pixinvents/" class="footer-link" target="_blank"><i
-                            class='mdi mdi-instagram'></i></a>
+
                 </div>
             </div>
         </div>
     </footer>
     <!-- Footer: End -->
 
+
+
+    <!-- Modal -->
+<div class="modal fade"  id="addAlertModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="POST" action="{{ route('updateNewsFront.page') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="type" value ="1" >
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel1">اضافة اشعار</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+                  <input type="text" name="title" class="form-control" >
+
+                <label for="name">العنوان</label>
+              </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+
+                  <textarea name="content" class="form-control"  cols="30" rows="15"></textarea>
+
+                <label for="name">المختوى</label>
+              </div>
+            </div>
+        </div>
+
+
+
+
+
+
+          </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">الغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+
+      <!-- Modal -->
+<div class="modal fade"  id="addLectureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="POST" action="{{ route('updateNewsFront.page') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="type" value ="2" >
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel1">اضافة محاضرة</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+                  <input type="text" name="title" class="form-control" >
+
+                <label for="name">العنوان</label>
+              </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+
+                  <textarea name="content" class="form-control"  cols="30" rows="15"></textarea>
+
+                <label for="name">المختوى</label>
+              </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mb-4 mt-2">
+            <div class="form-floating form-floating-outline">
+
+
+                <div class="col-md">
+                    <div class="card mb-3">
+                      <div class="row g-0">
+
+                        <div class="col-md-12">
+                          <div class="card-body">
+                            <input class="form-control"  name = "image" type="file" id="formFile">
+
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+           </div>
+        </div>
+    </div>
+
+
+
+
+          </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">الغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+
+
+      <!-- Modal -->
+<div class="modal fade"  id="addBaqatModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="POST" action="{{ route('updateNewsFront.page') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="type" value ="3" >
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel1">اضافة باقة</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+                  <input type="text" name="title" class="form-control" >
+
+                <label for="name">العنوان</label>
+              </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col mb-4 mt-2">
+              <div class="form-floating form-floating-outline">
+
+                  <textarea name="content" class="form-control"  cols="30" rows="15"></textarea>
+
+                <label for="name">المختوى</label>
+              </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mb-4 mt-2">
+            <div class="form-floating form-floating-outline">
+
+
+                <div class="col-md">
+                    <div class="card mb-3">
+                      <div class="row g-0">
+
+                        <div class="col-md-12">
+                          <div class="card-body">
+                            <input class="form-control"  name = "image" type="file" id="formFile">
+
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+           </div>
+        </div>
+    </div>
+
+
+
+
+          </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">الغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
@@ -640,6 +742,19 @@
 
     <!-- Page JS -->
     <script src="{{ asset('admin/assets/js/front-page-landing.js')}}"></script>
+
+    @if(Session::has('message'))
+    <!-- Display toast when session has message -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        Toastify({
+            text: "{{ Session::get('message') }}",
+            duration: 3000,  // Display duration in milliseconds
+            gravity: "top",  // Position of the toast
+            close: true  // Show close button
+        }).showToast();
+    </script>
+@endif
 
 </body>
 

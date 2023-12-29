@@ -22,8 +22,13 @@ Route::get('/logout', function(){
     return redirect('/');
 });
 
-Route::view('/','index');
-Route::view('/ping','ping');
+
+Route::get('/','Student\gradesController@index')->name('index');
+
+
+
+Route::post('/send/complaint','Student\gradesController@sendComplaint')->name('send.complaint');
+
 
 require __DIR__.'/auth.php';
 
@@ -37,13 +42,8 @@ require __DIR__.'/auth.php';
 ->name('login');*/
 
 
-Route::get('/login', function () {
-    if(Auth::check()) {
-        return redirect()->route('dashboard');
-    }
 
-    return view('student.login');
-})->middleware('guest')->name('login');
+Route::get('/login', 'Student\StudentAuth@loginPage')->middleware('guest')->name('login');
 
 Route::post('/student/log', 'Student\StudentAuth@checkStudentLogin')->name('save.student.login');
 
@@ -198,6 +198,7 @@ Route::view('/admin/login','admin.login');
 
 Route::post('admin/login', 'Admin\AdminAuth@checkAdminLogin')->name('save.admin.login');
 
+
 //Route::post('login', [AdminAuth::class, 'checkAdminLogin'])->name('save.admin.login');
 
 
@@ -206,7 +207,14 @@ Route::group(['middleware' => ['auth:admin'],'prefix' => 'admin'], function() {
 
     Route::get('/front-page', 'Admin\studentsController@frontPage')->name('front.page');
 
-    Route::post('/front-page/update', 'Admin\studentsController@updateFrontPage')->name('updateFront.page');
+
+    Route::get('/guest/complaints', 'Admin\studentsController@guestComplaints')->name('guest.complaints');
+
+    Route::get('/guest/complaint/see/{id}', 'Admin\studentsController@assignAsSeen')->name('guest.complaint.see');
+
+    Route::post('/front-page/information/update', 'Admin\studentsController@updateInfoFrontPage')->name('updateInfoFront.page');
+
+    Route::post('/front-page/news/update', 'Admin\studentsController@updateNewsFrontPage')->name('updateNewsFront.page');
 
     Route::get('/front-page/delete/{id}', 'Admin\studentsController@deleteFrontPage')->name('deleteFront.page');
 

@@ -157,6 +157,15 @@
         </a>
       </li>
 
+
+
+      <li class="menu-item">
+        <a href="<?php echo e(route('guest.complaints')); ?>" class="menu-link">
+          <i class="menu-icon tf-icons mdi mdi-head-dots-horizontal-outline"></i>
+          <div data-i18n="الشكاوى والمقترحات">الشكاوى والمقترحات</div>
+        </a>
+      </li>
+
   </ul>
 
 
@@ -227,69 +236,26 @@
               </div>
               <div class="dropdown-shortcuts-list scrollable-container">
                 <div class="row row-bordered overflow-visible g-0">
+
                   <div class="dropdown-shortcuts-item col">
                     <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                      <i class="mdi mdi-calendar fs-4"></i>
+                      <i class="mdi mdi-account-question-outline fs-4"></i>
                     </span>
-                    <a href="app-calendar.html" class="stretched-link">Calendar</a>
-                    <small class="text-muted mb-0">Appointments</small>
+                    <a href="/admin/allforums" class="stretched-link">اسئلة الطلاب</a>
+
                   </div>
+
                   <div class="dropdown-shortcuts-item col">
                     <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                      <i class="mdi mdi-file-document-outline fs-4"></i>
+                      <i class="mdi mdi-head-dots-horizontal-outline fs-4"></i>
                     </span>
-                    <a href="app-invoice-list.html" class="stretched-link">Invoice App</a>
-                    <small class="text-muted mb-0">Manage Accounts</small>
+                    <a href="/admin/guest/complaints" class="stretched-link">الشكاوى والمقترحات</a>
+
                   </div>
+
+
                 </div>
-                <div class="row row-bordered overflow-visible g-0">
-                  <div class="dropdown-shortcuts-item col">
-                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                      <i class="mdi mdi-account-outline fs-4"></i>
-                    </span>
-                    <a href="app-user-list.html" class="stretched-link">User App</a>
-                    <small class="text-muted mb-0">Manage Users</small>
-                  </div>
-                  <div class="dropdown-shortcuts-item col">
-                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                      <i class="mdi mdi-shield-check-outline fs-4"></i>
-                    </span>
-                    <a href="app-access-roles.html" class="stretched-link">Role Management</a>
-                    <small class="text-muted mb-0">Permission</small>
-                  </div>
-                </div>
-                <div class="row row-bordered overflow-visible g-0">
-                  <div class="dropdown-shortcuts-item col">
-                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                      <i class="mdi mdi-chart-pie-outline fs-4"></i>
-                    </span>
-                    <a href="index-2.html" class="stretched-link">Dashboard</a>
-                    <small class="text-muted mb-0">Analytics</small>
-                  </div>
-                  <div class="dropdown-shortcuts-item col">
-                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                      <i class="mdi mdi-cog-outline fs-4"></i>
-                    </span>
-                    <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
-                    <small class="text-muted mb-0">Account Settings</small>
-                  </div>
-                </div>
-                <div class="row row-bordered overflow-visible g-0">
-                  <div class="dropdown-shortcuts-item col">
-                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                      <i class="mdi mdi-help-circle-outline fs-4"></i>
-                    </span>
-                    <a href="pages-faq.html" class="stretched-link">FAQs</a>
-                  <small class="text-muted mb-0">FAQs & Articles</small>
-                  </div>
-                  <div class="dropdown-shortcuts-item col">
-                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                      <i class="mdi mdi-dock-window fs-4"></i>
-                    </span>
-                    <a href="modal-examples.html" class="stretched-link">Modals</a>
-                    <small class="text-muted mb-0">Useful Popups</small>
-                  </div>
-                </div>
+
               </div>
             </div>
           </li>
@@ -312,8 +278,8 @@
               </li>
               <li class="dropdown-notifications-list scrollable-container">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
                     <?php $__currentLoopData = auth()->guard('admin')->user()->unreadNotifications->sortByDesc('created_at'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <li class="list-group-item list-group-item-action dropdown-notifications-item">
                     <div class="d-flex gap-2">
                       <div class="flex-shrink-0">
                         <div class="avatar me-1">
@@ -321,15 +287,15 @@
                         </div>
                       </div>
                       <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <a href="<?php echo e($notification->data['link']); ?>"><h6 class="mb-1 text-truncate"><?php echo e($notification->data['message']); ?></h6></a>
+                        <a href="<?php echo e($notification->data['link']); ?>"><h6 class="mb-1"><?php echo e($notification->data['message']); ?></h6></a>
                       </div>
                       <div class="flex-shrink-0 dropdown-notifications-actions">
                         <small class="text-muted"><?php echo e(\Carbon\Carbon::parse($notification->created_at)->diffForHumans()); ?></small>
                       </div>
                     </div>
 
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </ul>
               </li>
@@ -339,39 +305,13 @@
           <!--/ Notification -->
 
           <!-- User -->
-          <li class="nav-item navbar-dropdown dropdown-user dropdown">
-            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+          <li class="nav-item navbar-dropdown ">
+            <a class="nav-link " href="javascript:void(0);" data-bs-toggle="">
               <div class="avatar avatar-online">
                 <img src="<?php echo e(asset('assets/images/faces/face8.jpg')); ?>" alt class="w-px-40 h-auto rounded-circle">
               </div>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a class="dropdown-item" href="#">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0 me-3">
-                      <div class="avatar avatar-online">
-                        <img src="<?php echo e(asset('assets/images/faces/face8.jpg')); ?>" alt class="w-px-40 h-auto rounded-circle">
-                      </div>
-                    </div>
-                    <div class="flex-grow-1">
-                      <span class="fw-medium d-block">محمد خيرى</span>
-                      <small class="text-muted">ادمن</small>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <div class="dropdown-divider"></div>
-              </li>
 
-              <li>
-                <a class="dropdown-item" href="#" >
-                  <i class="mdi mdi-logout me-2"></i>
-                  <span class="align-middle">تسجيل الخروج</span>
-                </a>
-              </li>
-            </ul>
           </li>
           <!--/ User -->
 

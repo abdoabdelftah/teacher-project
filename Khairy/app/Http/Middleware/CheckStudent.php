@@ -38,27 +38,6 @@ class CheckStudent
         }
 
 
-
-        $date = Carbon::now()->subDay(7);
-
-        if($date > $user->last_login_date){
-
-
-            $user->remember_token = null;
-            $user->save();
-
-            Auth::guard('web')->logout();
-
-
-
-
-           return redirect('/login')->withErrors(['errors' => ' الرجاء اعادة تسجيل الدخول']);
-        }
-
-//       $now = Carbon::now();
-
-
-
         return $next($request);
        }
 }

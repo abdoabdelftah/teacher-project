@@ -184,8 +184,8 @@
               </li>
               <li class="dropdown-notifications-list scrollable-container">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
                     @foreach(auth()->user()->unreadNotifications->sortByDesc('created_at') as $notification)
+                    <li class="list-group-item list-group-item-action dropdown-notifications-item">
 
                     <div class="d-flex gap-2">
                       <div class="flex-shrink-0">
@@ -194,15 +194,15 @@
                         </div>
                       </div>
                       <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
-                        <a href="{{$notification->data['link']}}"><h6 class="mb-1 text-truncate">{{$notification->data['message']}}</h6></a>
+                        <a href="{{$notification->data['link']}}"><h6 class="mb-1">{{$notification->data['message']}}</h6></a>
                       </div>
                       <div class="flex-shrink-0 dropdown-notifications-actions">
                         <small class="text-muted">{{\Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</small>
                       </div>
                     </div>
 
-                    @endforeach
                 </li>
+                    @endforeach
 
                 </ul>
               </li>
@@ -212,40 +212,16 @@
           <!--/ Notification -->
 
           <!-- User -->
-          <li class="nav-item navbar-dropdown dropdown-user dropdown">
-            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+         <!-- User -->
+         <li class="nav-item navbar-dropdown ">
+            <a class="nav-link " href="javascript:void(0);" data-bs-toggle="">
               <div class="avatar avatar-online">
                 <img src="{{ asset('assets/images/faces/face8.jpg') }}" alt class="w-px-40 h-auto rounded-circle">
               </div>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a class="dropdown-item" href="#">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0 me-3">
-                      <div class="avatar avatar-online">
-                        <img src="{{ asset('assets/images/faces/face8.jpg') }}" alt class="w-px-40 h-auto rounded-circle">
-                      </div>
-                    </div>
-                    <div class="flex-grow-1">
-                      <span class="fw-medium d-block">محمد خيرى</span>
-                      <small class="text-muted">ادمن</small>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <div class="dropdown-divider"></div>
-              </li>
 
-              <li>
-                <a class="dropdown-item" href="#" >
-                  <i class="mdi mdi-logout me-2"></i>
-                  <span class="align-middle">تسجيل الخروج</span>
-                </a>
-              </li>
-            </ul>
           </li>
+          <!--/ User -->
           <!--/ User -->
 
 
