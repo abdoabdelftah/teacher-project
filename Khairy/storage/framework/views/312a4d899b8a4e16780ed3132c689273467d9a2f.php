@@ -4,7 +4,7 @@
 
     <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/jstree/jstree.css')); ?>" />
 
-    <link rel="stylesheet" href="<?php echo e(asset('admin/assets/vendor/libs/plyr/plyr.css')); ?>" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
 
 
@@ -73,10 +73,10 @@
                     <?php if($lecture->type == 3): ?>
                         <video class="w-100"
                             poster="<?php echo e($lecture->lessonsection->lesson->image ? $lecture->lessonsection->lesson->image : asset('admin/assets/img/pages/app-academy-tutor-1.png')); ?>"
-                            id="plyr-video-player">
+                            id="plyr-video-aplayer">
                             <source
                                 src="https://drive.google.com/uc?export=preview&id=<?php echo e($lecture->type == 3 ? $lecture->video_google_id : ''); ?>"
-                                type="video/mp4" data-plyr-config='{"quality": ["low", "medium", "high"]}' />
+                                type="video/mp4" />
                         </video>
                     <?php elseif($lecture->type == 2): ?>
                         <embed src="<?php echo e($lecture->content); ?>" type="application/pdf" width="100%" height="600px" />
@@ -100,9 +100,6 @@
 
     <script src="<?php echo e(asset('admin/assets/js/extended-ui-treeview.js')); ?>"></script>
 
-    <script src="<?php echo e(asset('admin/assets/vendor/libs/plyr/plyr.js')); ?>"></script>
-
-    <script src="<?php echo e(asset('admin/assets/js/extended-ui-media-player.js')); ?>"></script>
 
     <script>
         $(document).ready(function() {
@@ -126,16 +123,16 @@
 
                     });
 
-                    document.addEventListener('DOMContentLoaded', function() {
-                    // Initialize Plyr without quality options in the constructor
-                    const player = new Plyr('#plyr-video-player');
 
-                    // Add event listener for quality change
-                    player.on('qualitychange', event => {
-                        console.log('Quality changed to', event.detail.quality);
-                    });
-                });
     </script>
+
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+<script>
+    const player = new Plyr('#plyr-video-aplayer', {
+        settings: ['captions', 'quality', 'speed', 'loop'],
+        quality: { default: 576, options: [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240] }
+});
+</script>
 
     </body>
 

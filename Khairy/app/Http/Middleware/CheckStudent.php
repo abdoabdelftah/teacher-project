@@ -37,6 +37,15 @@ class CheckStudent
            return redirect('/login')->withErrors(['errors' => ' لقد تم ازالة حسابك بسبب عدم دفعك للاشتراك. يجب عليك التواصل مع الاستاذ']);
         }
 
+        if($user->subscription_end_date < Carbon::now()){
+
+            Auth::guard('web')->logout();
+
+            return redirect('/login')->withErrors(['errors' => ' تم انتهاء اشتراكك بالرجاء التواصل مع الاستاذ للتجديد']);
+
+
+        }
+
 
         return $next($request);
        }
