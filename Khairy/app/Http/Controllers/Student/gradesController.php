@@ -6,19 +6,22 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-
-
+use App\Models\Admin;
+use App\Models\Complaint;
 use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Grade;
 use App\Models\GradeUser;
+use App\Models\Information;
 use App\Models\Unit;
 use App\Models\Lecture;
 
 use App\Models\Unitexamsection;
 use App\Models\Lesson;
 use App\Models\Lessonsection;
+use App\Models\News;
+use App\Notifications\SendAdminNotification;
 use auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -33,6 +36,27 @@ class gradesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function index(){
+
+        $data = News::all();
+
+        $information = Information::all();
+
+        $alerts = $data->where('type', 1);
+        $lectures = $data->where('type', 2);
+        $baqat = $data->where('type', 3);
+
+        $lectures_count = Lecture::count();
+        $lessons_count = Lesson::count();
+        $exams_count = Lessonsection::where('section_type','!=', 5)->count();
+
+
+        return view('index', compact('information', 'alerts', 'lectures', 'baqat', 'lectures_count', 'lessons_count', 'exams_count') );
+
+
+     }
+
     public function grades()
     {
         $student = auth()->user();
@@ -251,6 +275,27 @@ class gradesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function sendComplaint(Request $request){
+
+
+        $complaint = new Complaint;
+        $complaint->name = $request->name;
+        $complaint->phone_number = $request->phone_number;
+        $complaint->message = $request->message;
+        $complaint->save();
+
+        $admin = Admin::find(1); // Assuming you have a column is_admin to identify admins
+
+        $sender = $request->name;
+        $message = "شكوى من" . $sender;
+        $link = "/admin/guest/complaints";  // You can customize the link as needed
+
+        $admin->notify(new SendAdminNotification($message, $link));
+
+        return redirect()->back()->with(['message' => 'تم الارسال بنجاح']);
+
     }
 
 

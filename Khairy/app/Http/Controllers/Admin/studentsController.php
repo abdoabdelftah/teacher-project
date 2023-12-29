@@ -6,8 +6,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
-
+use App\Models\Complaint;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -21,6 +20,8 @@ use App\Models\Studentexamanswer;
 use App\Models\Grade;
 use App\Models\GradeUser;
 use App\Models\Information;
+use App\Models\Lecture;
+use App\Models\Lesson;
 use App\Models\News;
 use App\Notifications\CustomNotification;
 use App\Notifications\SendAdminNotification;
@@ -29,9 +30,12 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use App\Traits\ImageTrait;
 
 class studentsController extends Controller
 {
+
+    use ImageTrait;
     /**
      * Display a listing of the resource.
      *
@@ -87,7 +91,7 @@ class studentsController extends Controller
 
         $student->update([
 
-            'last_login_date' => '2020-1-1',
+            'last_login_date' => '2028-1-1',
 
         ]);
 
@@ -507,17 +511,60 @@ class studentsController extends Controller
         $data = News::all();
 
         $information = Information::all();
+
         $alerts = $data->where('type', 1);
         $lectures = $data->where('type', 2);
         $baqat = $data->where('type', 3);
 
-        return view('admin.new.front-page', compact('information', 'alerts', 'lectures', 'baqat') );
+        $lectures_count = Lecture::count();
+        $lessons_count = Lesson::count();
+        $exams_count = Lessonsection::where('section_type','!=', 5)->count();
+
+
+        return view('admin.new.front-page', compact('information', 'alerts', 'lectures', 'baqat', 'lectures_count', 'lessons_count', 'exams_count') );
 
 
     }
 
-    public function updateFrontPage(Request $request)
+    public function updateInfoFrontPage(Request $request)
     {
+        $info = Information::find($request->id);
+
+
+        if ($request->has('image')) {
+
+            !empty($info->data) ? $this->deleteImage($info->data, 'main'): '';
+
+            $info->data = $this->saveImage($request->image, 'images/main');
+        }else{
+
+            $info->data = $request->data;
+        }
+
+        $info->save();
+
+        return redirect()->back()->with(['message' => ' تم الحفظ بنجاح ']);
+
+    }
+
+    public function updateNewsFrontPage(Request $request)
+    {
+        $news = new News;
+        $news->title = $request->title;
+        $news->content = $request->content;
+        $news->type = $request->type;
+
+        if ($request->has('image')) {
+
+            !empty($news->image) ? $this->deleteImage($news->image, 'main'): '';
+
+            $news->image = $this->saveImage($request->image, 'images/main');
+        }
+
+        $news->save();
+
+        return redirect()->back()->with(['message' => ' تم الحفظ بنجاح ']);
+
     }
 
     public function deleteFrontPage($id)
@@ -526,5 +573,23 @@ class studentsController extends Controller
         $data = News::find($id);
         $data->delete();
         return redirect()->back()->with(['message' => ' تم المسح بنجاح ']);
+    }
+
+    public function guestComplaints(){
+
+        $complaints = Complaint::where('seen', 0)->get();
+
+        return view('admin.new.complaints', compact('complaints'));
+
+    }
+
+    public function assignAsSeen($id){
+
+        $complaint = Complaint::find($id);
+        $complaint->seen = 1;
+        $complaint->save();
+
+        return redirect()->back()->with(['message'=> 'تم تحديث الحالة']);
+
     }
 }
