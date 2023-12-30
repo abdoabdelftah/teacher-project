@@ -33,6 +33,10 @@ class StudentAuth extends Controller
     public function checkStudentLogin(Request $request)
     {
 
+        if (Auth::guard('admin')->attempt(['phone_number' => $request->phone_number, 'password' => $request->password])) {
+
+            return redirect()->intended('/admin/students');
+        }else{
         $date = Carbon::now();
 
         $check = User::where('phone_number', $request->phone_number)->first();
@@ -61,6 +65,8 @@ class StudentAuth extends Controller
 
             return redirect()->back()->withErrors(['errors' => ' كود الدخول غير صحيح او كلمة المرور غير صحيحة']);
         }
+        }
+
     }
 
     public function test()

@@ -73,7 +73,7 @@
                             id="plyr-video-player">
                             <source
                                 src="https://drive.google.com/uc?export=preview&id={{ $lecture->type == 3 ? $lecture->video_google_id : '' }}"
-                                type="video/mp4" data-plyr-config='{"quality": ["low", "medium", "high"]}' />
+                                type="video/mp4" />
                         </video>
                     @elseif($lecture->type == 2)
                         <embed src="{{ $lecture->content }}" type="application/pdf" width="100%" height="600px" />
@@ -123,16 +123,9 @@
 
                     });
 
-                    document.addEventListener('DOMContentLoaded', function() {
-                    // Initialize Plyr without quality options in the constructor
-                    const player = new Plyr('#plyr-video-player');
 
-                    // Add event listener for quality change
-                    player.on('qualitychange', event => {
-                        console.log('Quality changed to', event.detail.quality);
-                    });
-                });
     </script>
+
 
     </body>
 
