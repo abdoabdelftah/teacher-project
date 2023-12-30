@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateForumsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('forums', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->text('head')->nullable();
+            $table->integer('question_type')->nullable();
+            $table->text('question')->nullable();
+            $table->integer('student_id')->nullable();
+            $table->string('student_name')->nullable();
+            $table->integer('lesson_id')->nullable();
+            $table->integer('is_closed')->default(0);
+            $table->integer('hide')->default(0);
+            $table->string('picture')->nullable();
+            $table->integer('admin_id')->nullable();
+            $table->dateTime('created_at')->nullable()->useCurrent();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('forums');
+    }
+}
